@@ -6,7 +6,8 @@
 - Scope: Phase 0 only. **Do not start application implementation.**
 - Sources: `docs/source/*.pdf` in your clone (checksums in `docs/source/CHECKSUMS.sha256`).
 - Registry: `docs/requirements/requirements.json`. Documents: `docs/README.md`.
-- PR numbers and CI results: in the promotion PR description.
+- Promotion pull request: [#8](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8). Merged into dev: #7. Probe (closed): #9.
+- CI: 21/21 on #7 and #8; see `docs/evidence/phase0/`.
 
 ## Review
 1. `python harness/verification/scd.py identity` must report `Demidoga`.

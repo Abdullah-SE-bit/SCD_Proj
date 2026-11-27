@@ -43,6 +43,25 @@ Branch protection and rejection probes: `docs/evidence/phase0/github-protection.
 [First workflow run](https://github.com/Abdullah-SE-bit/SCD_Proj/actions/runs/46063115027) on [PR 7](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/7): all 21 checks passed, including actionlint, the gitleaks
 history scan and kubeconform.
 
+## Pull requests
+- [#7](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/7) bootstrap → dev: 21/21, merged as `13b0df2`.
+- [#8](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8) dev → main: promotion, awaiting independent review and approval.
+- [#9](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/9) wrong-target probe: failed as expected, closed. See
+  `docs/evidence/phase0/ci-negative-tests.md`.
+
+## Harness cases and how each was verified
+| Case (Phase 0 instruction §28) | Local test | On GitHub |
+|---|---|---|
+| wrong identity, wrong repository | yes | - |
+| direct work on main or dev | yes | direct push rejected |
+| incorrect PR target | yes | #9 |
+| blocked task, duplicate claim | yes (real bare remote) | - |
+| unauthorised file change, protected specification | yes; observed live in session | - |
+| committing secrets | yes | gitleaks and push protection active, no secret pushed to test them |
+| invalid contract, missing acceptance, missing handoff | yes | - |
+| failing or skipped required checks | yes | #9 |
+| premature completion, application code in Phase 0 | yes | - |
+
 ## Not verified
 Jenkinsfile syntax and execution; NetworkPolicy enforcement; hooks in a freshly started session of the second
 clone; secondary review; promotion approval.

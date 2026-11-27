@@ -5,11 +5,12 @@
 1. One issue per task. `python harness/verification/scd.py claim P01.01`.
 2. `git switch -c feat/P01.01-short-name origin/dev`. Types: feat, fix, chore, docs, test, ci, refactor.
 3. Conventional commits (`feat(verdict): add duplicate gate`). No filler commits.
-4. PR into `dev` with the template. Peer reviews; all checks green; merge commit (squash and rebase are
-   disabled so both authors' history survives).
+4. PR into `dev` with the template. **No review.** When GitHub allows the merge (no conflicts, required checks
+   green), merge it with a merge commit. Never request changes on a pull request that can merge without conflicts;
+   post findings as a comment. Squash and rebase are disabled so both authors' history survives.
 5. After merge delete the task branch and release the claim (a human deletes `claim/<ID>`; hooks forbid it).
 6. Promotion: PR `dev → main`; the other collaborator reviews and approves; merge after green checks.
-7. `dev` requires up-to-date branches; `main` does not, to avoid a permanent sync loop. If GitHub reports
+7. `main` does not require up-to-date branches, to avoid a permanent sync loop. If GitHub reports
    `main` and `dev` diverged in content, open `main → dev`.
 
 ## Deliberate merge conflict (GIT-004, task P10.02)

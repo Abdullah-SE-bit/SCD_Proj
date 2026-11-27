@@ -16,6 +16,10 @@ objects marked `x-status: proposed`; the owning task fixes them by PR, updating 
 | critic (M12) | POST /check |
 | agentops (M13) | POST /trace; GET /runs/{id}/trace |
 
+## Authentication
+Only the public gateway requires a user token. Internal services accept in-cluster calls only, restricted by
+NetworkPolicy (see Architecture); their documents declare no user authentication.
+
 ## Health convention
 `/health`: 200 when the process is alive, no dependency checks. `/ready`: 200 only when it can serve now
 (database, vector store, model loaded as applicable), else 503.

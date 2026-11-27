@@ -24,11 +24,13 @@ flowchart LR
 
 "Not applicable" is printed with its reason; once applicable, missing code, tests, Dockerfile or baseline fails.
 Rules live in `harness/policies/project.json` (protected). No `continue-on-error`; no job is skipped by
-condition. Policy checks run with the base branch's checker so a PR cannot relax its own rules. The workflow
-file itself comes from the PR, so review on `main` is the final control.
+condition. Policy checks run with the base branch's checker, policy and task registry, and install nothing
+from the pull request. The workflow file itself comes from the PR, so human review is the final control.
 
 ## Jenkins
 `Jenkinsfile`: SCM polling every 2 minutes, nightly trigger. Without module images the build result is
-`NOT_BUILT` and nothing is deployed. Failure before deployment deploys nothing; failure after deployment starts
-`rollback.sh`. Credentials by id only (`registry`, `kubeconfig-test`). Smoke and evaluation scripts exit 1 until
+`NOT_BUILT` and nothing is deployed. Failure before deployment deploys nothing. A release is applied once; any
+failure after deployment starts (rollout, smoke test or evaluation) runs `rollback.sh`, which undoes only the
+Deployments that run changed. Manifests name images `REGISTRY/<module>:RELEASE`. The scripts were exercised
+against a fake `kubectl` only. Credentials by id only (`registry`, `kubeconfig-test`). Smoke and evaluation scripts exit 1 until
 implemented. Validation status: see the Phase 0 verification report.

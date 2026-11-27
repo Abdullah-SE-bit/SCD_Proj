@@ -19,6 +19,8 @@ sys.modules["scd"] = scd
 spec.loader.exec_module(scd)
 
 EMAIL = "tester@example.com"
+OURS = "https://github.com/Abdullah-SE-bit/SCD_Proj/"
+GH = "python harness/verification/scd.py gh -- "
 # Assembled at run time so the repository scan does not flag this file.
 FAKE_TOKEN = "gh" + "p_" + "A1b2" * 9
 
@@ -83,10 +85,13 @@ class Fixture(unittest.TestCase):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(json.dumps(data), encoding="utf-8")
 
-    def done(self, *ids):
+    def done(self, *ids, status="done"):
+        tasks = scd.tasks_by_id(self.repo)
         for tid in ids:
+            reviewer = self.policy["identities"][tasks[tid]["reviewer"]]["login"]
             self.write(f"{scd.STATUS_DIR}/{tid}.json",
-                       {"status": "done", "pr": "https://example.com/1", "evidence": ["https://example.com/e"]})
+                       {"status": status, "pr": OURS + "pull/1", "evidence": [OURS + "pull/1"],
+                        "reviewed_by": reviewer, "review": OURS + "pull/1#review"})
 
     def publish_dev(self, message="state"):
         sh(self.repo, "git", "add", "-A")
@@ -215,6 +220,7 @@ class PullRequests(Fixture):
         self.publish_dev()
         changed = ["k8s/a.yaml", "docs/handoff/Demidoga.md", "docs/submission/AIUsageLog.md"]
         self.assertEqual(self.problems("feat/P01.01-x", "Demidoga", changed), [])
+        self.done("P01.02")  # claiming another task's completion
         changed.append(f"{scd.STATUS_DIR}/P01.02.json")
         self.assertIn("another task", self.problems("feat/P01.01-x", "Demidoga", changed)[0])
 
@@ -323,6 +329,110 @@ class TasksAndClaims(Fixture):
         bad.write_text(json.dumps(data))
         with self.assertRaisesRegex(scd.Failure, "MAYBE"):
             scd.check_contract_tests(self.repo)
+
+
+class ReviewFindings(Fixture):
+    """One test per bypass the independent review of pull request 8 demonstrated."""
+
+    def with_env(self, **values):
+        old = os.environ.copy()
+        self.addCleanup(lambda: (os.environ.clear(), os.environ.update(old)))
+        os.environ.update(values)
+
+    def test_h1_branch_cannot_rewrite_the_rules_judging_it(self):
+        self.done("P00")
+        self.publish_dev()
+        self.branch("feat/P01.02-x")
+        data = self.read(scd.TASKS_PATH)
+        for task in data["tasks"]:
+            if task["id"] == "P01.02":
+                task.update(allowed_paths=["**"], depends_on=[], owner="secondary")
+        self.write(scd.TASKS_PATH, data)
+        found = " | ".join(scd.pr_task_problems(self.repo, self.policy, "feat/P01.02-x", "dev", "Demidoga",
+                                                 ["contracts/openapi/critic.json"]))
+        self.assertIn("belongs to Abdullah-SE-bit", found)
+        self.assertIn("outside P01.02 scope", found)
+        self.assertIn(scd.TASKS_PATH.split("/")[-1], str(self.policy["protected_paths"]))
+
+    def test_h2_bootstrap_name_gives_no_exemption(self):
+        name = self.policy["branches"]["bootstrap"]
+        self.assertTrue(scd.branch_problems(self.policy, "dev", name, True))
+        self.branch(name)
+        self.with_env(PR_BASE="dev", PR_HEAD=name, PR_AUTHOR="intruder")
+        with self.assertRaisesRegex(scd.Failure, "must look like"):
+            scd.check_task_policy(self.repo)
+
+    def test_h2_self_certification_is_rejected(self):
+        self.write(f"{scd.STATUS_DIR}/P00.01.json",
+                   {"status": "done", "pr": "https://example.invalid", "evidence": ["https://example.invalid"]})
+        found = " | ".join(scd.status_problems(self.repo))
+        for expected in ["pr must link", "not in this repository", "reviewed_by", "review link"]:
+            self.assertIn(expected, found)
+
+    def test_done_needs_the_human_label(self):
+        self.branch("chore/P00-gate")
+        self.done("P00.01")
+        sh(self.repo, "git", "add", "-A")
+        sh(self.repo, "git", "commit", "-qm", "certify")
+        self.with_env(PR_BASE="dev", PR_LABELS="")
+        with self.assertRaisesRegex(scd.Failure, "label from a human"):
+            scd.check_protected_files(self.repo)
+
+    def test_h3_bypasses_are_denied_or_asked(self):
+        self.branch("feat/P01.01-x")
+        for line in [GH + "api repos/O/R/pulls/8/reviews -f event=APPROVE",
+                     GH + "api -X PUT repos/O/R/pulls/8/merge",
+                     GH + "api graphql -f query='mutation { deleteBranchProtectionRule }'",
+                     GH + "pr edit 8 --add-label authorized-protected-change",
+                     GH + 'pr create --label "authorized-protected-change"']:
+            with self.subTest(line=line):
+                self.assertEqual(self.decide("Bash", command=line), "deny")
+        for line in [GH + 'pr review 8 --body "ok; done" --approve', GH + "pr review 8 -a",
+                     GH + "pr edit 8 --add-label task"]:
+            with self.subTest(line=line):
+                self.assertEqual(self.decide("PowerShell", command=line), "ask")
+        self.assertEqual(self.decide("Bash", command=GH + "api repos/O/R/branches/main/protection"), "allow")
+
+    def test_h3_wrapper_refuses_without_the_hook(self):
+        with self.assertRaisesRegex(scd.Failure, "API writes"):
+            scd.gh(self.repo, ["api", "-X", "PUT", "repos/O/R/pulls/8/merge"])
+
+    def test_h4_local_settings_and_shell_writes(self):
+        local = str(self.repo / ".claude/settings.local.json")
+        self.assertEqual(self.decide("Write", file_path=local, content="{}"), "deny")
+        for line in ["echo x > .claude/settings.local.json", "sed -i s/a/b/ harness/verification/scd.py",
+                     "echo x > .github/workflows/pr-checks.yml",
+                     "Set-Content harness\\policies\\project.json x", "rm -rf .claude/hooks"]:
+            with self.subTest(line=line):
+                self.assertEqual(self.decide("Bash", command=line), "deny")
+        self.assertEqual(self.decide("Bash", command="python harness/verification/scd.py check lint > out.txt"),
+                         "allow")
+        self.assertEqual(self.decide("mcp__serena__serena_repl", code="x"), "ask")
+
+    def test_m8_guard_gaps(self):
+        self.branch("feat/P01.01-x")
+        for line in ["git -c user.email=a@b.c commit -m x", "GIT_AUTHOR_EMAIL=a@b.c git commit -m x",
+                     "git switch dev && git commit -m x", "git push origin +feat/P01.01-x",
+                     "git push -uf origin feat/P01.01-x", 'git push origin "main"', "gh.exe pr list",
+                     "gh pr create # scd.py"]:
+            with self.subTest(line=line):
+                self.assertEqual(self.decide("Bash", command=line), "deny")
+        (self.repo / "config/README.md").parent.mkdir(exist_ok=True)
+        tracked = self.repo / "harness/coordination/message.schema.json"
+        tracked.write_text(FAKE_TOKEN)
+        self.assertEqual(self.decide("Bash", command="git commit -am x"), "deny")
+
+    def test_h6_review_states(self):
+        tasks = scd.tasks_by_id(self.repo)
+        self.assertEqual(scd.unmet_dependencies(tasks, "P00.04", {"P00.01": "in_review"}), [])
+        gate = scd.unmet_dependencies(tasks, "P00", {t: "in_review" for t in tasks})
+        self.assertIn("P00.01", gate)
+        self.assertTrue(scd.unmet_dependencies(tasks, "P01.01", {"P00": "in_review"}))
+        self.done("P00.02", status="in_review")
+        self.assertEqual(scd.done_tasks(self.repo), set())
+        self.assertTrue(scd.status_change_allowed(self.repo, tasks, "P00.01", f"{scd.STATUS_DIR}/P00.02.json"))
+        self.done("P00.02")
+        self.assertFalse(scd.status_change_allowed(self.repo, tasks, "P00.01", f"{scd.STATUS_DIR}/P00.02.json"))
 
 
 if __name__ == "__main__":

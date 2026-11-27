@@ -27,6 +27,10 @@
   "harness/verification/**",
   "harness/tests/**",
   ".claude/settings.json",
+  ".claude/settings.local.json",
+  "harness/task-registry/tasks.json",
+  "requirements-dev.txt",
+  "pyproject.toml",
   ".claude/hooks/**",
   ".github/workflows/**",
   ".github/CODEOWNERS"

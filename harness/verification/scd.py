@@ -84,21 +84,38 @@ def policy_for(root: Path, base: str | None = None) -> dict[str, Any]:
 
 # ---------------------------------------------------------------- tasks and phases
 
-def tasks_by_id(root: Path) -> dict[str, dict[str, Any]]:
+def tasks_by_id(root: Path, ref: str | None = None) -> dict[str, dict[str, Any]]:
+    """Tasks as the given ref defines them, so a branch cannot rewrite the rules it is judged by."""
+    if ref:
+        shown = run(["git", "show", f"{ref}:{TASKS_PATH}"], root)
+        if shown.returncode == 0:
+            return {t["id"]: t for t in json.loads(shown.stdout)["tasks"]}
     return {t["id"]: t for t in load(root, TASKS_PATH)["tasks"]}
 
 
-def done_tasks(root: Path, ref: str | None = None) -> set[str]:
+def task_states(root: Path, ref: str | None = None) -> dict[str, str]:
+    """task id -> status: 'in_review' (merged, awaiting the other contributor) or 'done' (reviewed)."""
     if ref:
-        listing = git(root, "ls-tree", "--name-only", ref, f"{STATUS_DIR}/")
-        names = [Path(p) for p in listing.splitlines()]
+        listing = git(root, "ls-tree", "--name-only", ref, f"{STATUS_DIR}/").splitlines()
+        texts = {Path(p).stem: git(root, "show", f"{ref}:{p}") for p in listing if p.endswith(".json")}
     else:
-        names = list((root / STATUS_DIR).glob("*.json"))
-    return {p.stem for p in names if p.suffix == ".json"}
+        texts = {p.stem: p.read_text(encoding="utf-8") for p in (root / STATUS_DIR).glob("*.json")}
+    return {tid: json.loads(text).get("status", "") for tid, text in texts.items()}
 
 
-def unmet_dependencies(tasks: dict[str, dict[str, Any]], task_id: str, done: set[str]) -> list[str]:
-    return [d for d in tasks[task_id]["depends_on"] if d not in done]
+def done_tasks(root: Path, ref: str | None = None) -> set[str]:
+    return {tid for tid, state in task_states(root, ref).items() if state == "done"}
+
+
+def unmet_dependencies(tasks: dict[str, dict[str, Any]], task_id: str, states: dict[str, str]) -> list[str]:
+    """A dependency must be reviewed; within one phase, merged work awaiting review also unblocks (never a gate)."""
+    def met(dep: str) -> bool:
+        if states.get(dep) == "done":
+            return True
+        return ("." in task_id and states.get(dep) == "in_review"
+                and tasks[dep]["phase"] == tasks[task_id]["phase"])
+
+    return [d for d in tasks[task_id]["depends_on"] if not met(d)]
 
 
 def application_files(policy: dict[str, Any], files: list[str]) -> list[str]:
@@ -229,34 +246,60 @@ def task_graph_problems(root: Path) -> list[str]:
 
 
 def status_problems(root: Path) -> list[str]:
-    tasks, done = tasks_by_id(root), done_tasks(root)
+    tasks, states = tasks_by_id(root), task_states(root)
+    policy = load(root, POLICY_PATH)
+    ours = f"https://github.com/{policy['repository']}/"
     problems = []
-    for tid in sorted(done):
+    for tid in sorted(states):
         if tid not in tasks:
             problems.append(f"status file for unknown task {tid}")
             continue
-        problems += [f"{tid} marked done but dependency {d} is not" for d in unmet_dependencies(tasks, tid, done)]
         record = load(root, f"{STATUS_DIR}/{tid}.json")
-        if record.get("status") != "done" or not record.get("evidence") or not record.get("pr"):
-            problems.append(f"{tid}: status needs status=done, a PR and evidence")
-        problems += [f"{tid}: evidence missing: {e}" for e in record.get("evidence", [])
-                     if not e.startswith("https://") and not (root / e).exists()]
+        problems += [f"{tid} marked {states[tid]} but dependency {d} is not met"
+                     for d in unmet_dependencies(tasks, tid, states)]
+        if states[tid] not in ("in_review", "done") or not record.get("evidence"):
+            problems.append(f"{tid}: status must be in_review or done, with evidence")
+        if not str(record.get("pr", "")).startswith(ours):
+            problems.append(f"{tid}: pr must link a pull request of this repository")
+        for item in record.get("evidence", []):
+            if item.startswith("https://"):
+                if not item.startswith(ours):
+                    problems.append(f"{tid}: evidence link is not in this repository: {item}")
+            elif not (root / item).exists():
+                problems.append(f"{tid}: evidence missing: {item}")
+        if states[tid] == "done":
+            owner = policy["identities"][tasks[tid]["owner"]]["login"]
+            logins = {i["login"] for i in policy["identities"].values()}
+            if record.get("reviewed_by") not in logins - {owner}:
+                problems.append(f"{tid}: done needs reviewed_by, the contributor who is not {owner}")
+            if not str(record.get("review", "")).startswith(ours):
+                problems.append(f"{tid}: done needs a review link")
     return problems
+
+
+def status_change_allowed(root: Path, tasks: dict[str, dict[str, Any]], tid: str, path: str) -> bool:
+    """Own status; withdrawing a claim of completion; or a phase gate recording its own phase."""
+    other = Path(path).stem
+    if other == tid or not (root / path).exists():
+        return True
+    if load(root, path).get("status") == "in_review":
+        return True
+    return "." not in tid and other in tasks and tasks[other]["phase"] == tasks[tid]["phase"]
 
 
 def pr_task_problems(root: Path, policy: dict[str, Any], head: str, base: str, author: str,
                      changed: list[str]) -> list[str]:
-    """Rules for one pull request into dev."""
+    """Rules for one pull request into dev, judged against the task registry of the base branch."""
     found = re.match(policy["branches"]["task_pattern"], head)
     if not found:
         return [f"branch '{head}' must look like feat/P01.01-short-name"]
     tid = found.group(2)
-    tasks = tasks_by_id(root)
+    tasks = tasks_by_id(root, f"origin/{base}")
     if tid not in tasks:
         return [f"unknown task {tid}"]
     task, identity = tasks[tid], policy["identities"][tasks[tid]["owner"]]
-    problems = [f"{tid} blocked: dependency {d} is not done on {base}"
-                for d in unmet_dependencies(tasks, tid, done_tasks(root, f"origin/{base}"))]
+    problems = [f"{tid} blocked: dependency {d} is not met on {base}"
+                for d in unmet_dependencies(tasks, tid, task_states(root, f"origin/{base}"))]
     if author and author != identity["login"]:
         problems.append(f"{tid} belongs to {identity['login']}, PR author is {author}")
     allowed = task["allowed_paths"] + policy["always_allowed_paths"]
@@ -266,7 +309,7 @@ def pr_task_problems(root: Path, policy: dict[str, Any], head: str, base: str, a
     if policy["ai_usage_log"] not in changed:
         problems.append(f"AI-usage log not updated: {policy['ai_usage_log']}")
     problems += [f"cannot mark another task done: {f}" for f in changed
-                 if f.startswith(STATUS_DIR + "/") and f != f"{STATUS_DIR}/{tid}.json"]
+                 if f.startswith(STATUS_DIR + "/") and not status_change_allowed(root, tasks, tid, f)]
     return problems
 
 
@@ -284,7 +327,10 @@ def check_task_policy(root: Path) -> str:
     if "P00" not in done_tasks(root, f"origin/{base}" if base else None):
         problems += [f"application implementation is not allowed in Phase 0: {f}"
                      for f in application_files(policy, repo_files(root))]
-    if base == "dev" and head != policy["branches"]["bootstrap"] and head != "main":
+    bootstrapping = (head == policy["branches"]["bootstrap"]
+                     and run(["git", "cat-file", "-e", f"origin/{base}:{POLICY_PATH}"], root).returncode != 0)
+    syncing = head == "main" and os.environ.get("PR_SAME_REPO", "true") == "true"
+    if base == "dev" and not bootstrapping and not syncing:
         problems += pr_task_problems(root, policy, head, base, os.environ.get("PR_AUTHOR", ""),
                                      changed_files(root, base))
     require(problems)
@@ -297,7 +343,7 @@ def branch_problems(policy: dict[str, Any], base: str, head: str, same_repo: boo
     if base == "dev":
         if head == "main" and same_repo:
             return []  # syncing main back into dev
-        if head == policy["branches"]["bootstrap"] or re.match(policy["branches"]["task_pattern"], head):
+        if re.match(policy["branches"]["task_pattern"], head):
             return []
         return [f"branch '{head}' must look like feat/P01.01-short-name"]
     return [f"pull requests must target dev (or main from dev), not '{base}'"]
@@ -341,6 +387,8 @@ def check_protected_files(root: Path) -> str:
             problems.append("source document checksums are immutable")
         touched = [f for f in changed if match_any(f, policy["protected_paths"])]
         touched += requirement_text_changes(root, base)
+        touched += [f for f in changed if f.startswith(STATUS_DIR + "/") and (root / f).exists()
+                    and load(root, f).get("status") == "done"]
         labels = os.environ.get("PR_LABELS", "").split(",")
         if touched and policy["protected_label"] not in labels:
             problems += [f"needs the '{policy['protected_label']}' label from a human: {f}" for f in touched]
@@ -574,15 +622,15 @@ def claim(root: Path, task_id: str) -> str:
     """Atomically create origin/claim/<task>; a second claim is rejected by git itself."""
     role, who = identity(root)
     git(root, "fetch", "-q", "origin")
-    tasks = tasks_by_id(root)
+    tasks = tasks_by_id(root, "origin/dev")
     if task_id not in tasks:
         raise Failure(f"unknown task {task_id}")
     if tasks[task_id]["owner"] != role:
         raise Failure(f"{task_id} is assigned to the {tasks[task_id]['owner']} contributor")
-    done = done_tasks(root, "origin/dev")
-    if task_id in done:
-        raise Failure(f"{task_id} is already done")
-    require([f"blocked by {d}" for d in unmet_dependencies(tasks, task_id, done)])
+    states = task_states(root, "origin/dev")
+    if task_id in states:
+        raise Failure(f"{task_id} is already {states[task_id]}")
+    require([f"blocked by {d}" for d in unmet_dependencies(tasks, task_id, states)])
     sha = git(root, "commit-tree", "origin/dev^{tree}", "-p", "origin/dev",
               "-m", f"claim {task_id} by {who['login']} {os.urandom(8).hex()}")
     ref = f"refs/heads/claim/{task_id}"
@@ -594,6 +642,9 @@ def claim(root: Path, task_id: str) -> str:
 
 def gh(root: Path, args: list[str]) -> int:
     """Run gh as this clone's contributor without touching gh's shared active account."""
+    decision, reason = command_decision(root, "scd.py gh -- " + " ".join(args))
+    if decision == "deny":
+        raise Failure(reason)
     _, who = identity(root)
     token = run(["gh", "auth", "token", "--hostname", "github.com", "--user", who["login"]]).stdout.strip()
     if not token:
@@ -603,43 +654,64 @@ def gh(root: Path, args: list[str]) -> int:
 
 # ---------------------------------------------------------------- Claude Code hooks
 
+SEGMENT = r"[^;&|\n]*"
+PUSH = rf"\bgit\b{SEGMENT}\bpush\b{SEGMENT}"
+API_WRITE = r"(-X\s*|--method[\s=]*)(POST|PUT|PATCH|DELETE)\b|\s(-f|-F|--field|--raw-field|--input)(\s|=)"
+# Matched case-insensitively against the command with quotes removed.
 DENY_COMMANDS = [
-    (r"\bgh\s+auth\s+(switch|login|logout|refresh|setup-git)\b", "shared gh login must not change"),
-    (r"\bgit\b[^;&|]*\bpush\b[^;&|]*(\s--force\b|\s-f\b|--force-with-lease|--mirror|--delete|\s:\S)",
+    (r"\bgh(\.exe)?\s+(pr|issue|api|release|label|workflow|run|repo|secret|ruleset)\b",
+     "use 'python harness/verification/scd.py gh -- ...' so gh runs as this clone's contributor"),
+    (r"\bgh(\.exe)?\s+auth\s+(switch|login|logout|refresh|setup-git)\b", "shared gh login must not change"),
+    (PUSH + r"(\s--force\b|\s-(?-i:[a-eg-z]*f[a-z]*)\b|--force-with-lease|--mirror|--delete|\s-d\b|\s:\S|\s\+\S)",
      "force push and remote deletion are forbidden"),
-    (r"\bgit\b[^;&|]*\bpush\b[^;&|]*(\s|:|\+)(refs/heads/)?(main|dev)(?![\w./-])", "never push to main or dev"),
+    (PUSH + r"(\s|:|\+)(refs/heads/)?(main|dev)(?![\w./-])", "never push to main or dev"),
     (r"--no-verify|--no-gpg-sign", "do not bypass verification"),
-    (r"\bgit\b[^;&|]*\bconfig\b[^;&|]*(user\.(name|email)\s+\S|credential\.|core\.hooksPath)",
+    (rf"\bgit\b{SEGMENT}\bconfig\b{SEGMENT}(user\.(name|email)\s+\S|credential\.|core\.hookspath)",
      "identity configuration is fixed"),
-    (r"\bgh\b[^;&|]*\bapi\b(?=[^;&|]*(protection|rulesets))(?=[^;&|]*(-X|--method|\s-f|\s-F|--input))",
-     "branch protection changes need a human"),
-    (r"\bpr\s+merge\b[^;&|]*--admin", "admin merge bypasses protection"),
+    (rf"\bgit\b{SEGMENT}\s-c\s*(user\.(name|email)|credential\.|core\.hookspath)|\bGIT_(AUTHOR|COMMITTER)_(NAME|EMAIL)\b",
+     "identity cannot be overridden per command"),
+    (r"\b(switch|checkout)\b" + SEGMENT + r"\s(main|dev)(?![\w./-])[\s\S]*\bgit\b" + SEGMENT + r"\bcommit\b",
+     "no direct commits on main or dev"),
+    (rf"\bgh\s+--\s+api\b[\s\S]*({API_WRITE})|\bgh\s+--\s+api\b[\s\S]*\bmutation\b",
+     "API writes (reviews, merges, labels, protection) are not available to sessions"),
+    (r"(--label|--add-label|\s-l\s|/labels)[\s\S]*authorized-protected-change|"
+     r"authorized-protected-change[\s\S]*(--label|--add-label|/labels)", "only a human adds the authorization label"),
+    (r"\bpr\s+merge\b[\s\S]*--admin", "admin merge bypasses protection"),
     (r"\brepo\s+(edit|delete|rename|archive)\b", "repository settings need a human"),
     (r"SCD_HARNESS_MAINTENANCE", "only a human may enable harness maintenance"),
+    (r"settings\.local\.json|disableAllHooks", "only a human may change local settings or hooks"),
 ]
+PROTECTED_WRITE = (
+    r"(>{1,2}|\btee\b|\bsed\b" + SEGMENT + r"\s-i|\b(Set|Add)-Content\b|\bOut-File\b|\b(Remove|Move|Copy)-Item\b|"
+    r"\b(rm|mv|cp)\b)" + SEGMENT +
+    r"(harness[/\\](verification|policies|tests|task-registry[/\\]tasks)|\.claude[/\\](settings|hooks)|"
+    r"\.github[/\\](workflows|CODEOWNERS)|requirements-dev\.txt|pyproject\.toml|docs[/\\]source[/\\])")
 ASK_COMMANDS = [
-    (r"\bpr\s+review\b[^;&|]*(--approve|\s-a\b)", "an approval is the account owner's genuine decision"),
+    (r"\bpr\s+review\b[\s\S]*(--approve\b|--request-changes\b|(?<!\S)-[ar](?!\S))",
+     "a review decision belongs to the account owner"),
     (r"\bpr\s+merge\b", "merging needs confirmation"),
+    (r"--add-label", "labels can carry authority"),
 ]
 
 
-def command_decision(root: Path, line: str) -> tuple[str, str]:
+def command_decision(root: Path, line: str, maintenance: bool = False) -> tuple[str, str]:
+    flat = re.sub(r"[\"'`]", "", line.replace("\\\n", " "))
     for pattern, reason in DENY_COMMANDS:
-        if re.search(pattern, line):
+        if re.search(pattern, flat, re.I):
             return "deny", reason
-    if re.search(r"\bgh\s+(pr|issue|api|release|label|workflow|run|repo|secret)\b", line) and "scd.py" not in line:
-        return "deny", "use 'python harness/verification/scd.py gh -- ...' so gh runs as this clone's contributor"
-    if re.search(r"\bgit\b[^;&|]*\bcommit\b", line):
+    if not maintenance and re.search(PROTECTED_WRITE, flat, re.I):
+        return "deny", "shell writes to protected files need maintenance mode, enabled by a human"
+    if re.search(rf"\bgit\b{SEGMENT}\bcommit\b", flat):
         branch = git(root, "branch", "--show-current")
         if branch in load(root, POLICY_PATH)["branches"]["protected"]:
             return "deny", f"no direct commits on {branch}"
         _, problems = identity_problems(root, load(root, POLICY_PATH))
         if problems:
             return "deny", "; ".join(problems)
-        if secrets_in(git(root, "diff", "--cached")):
-            return "deny", "staged changes look like they contain a secret"
+        if secrets_in(git(root, "diff", "--cached")) or secrets_in(git(root, "diff", "HEAD")):
+            return "deny", "changes look like they contain a secret"
     for pattern, reason in ASK_COMMANDS:
-        if re.search(pattern, line):
+        if re.search(pattern, flat, re.I):
             return "ask", reason
     return "allow", ""
 
@@ -665,7 +737,7 @@ def edit_decision(root: Path, path: str, content: str, maintenance: bool = False
         tid = found.group(2)
         if tid not in tasks:
             return "deny", f"branch names unknown task {tid}"
-        unmet = unmet_dependencies(tasks, tid, done_tasks(root))
+        unmet = unmet_dependencies(tasks, tid, task_states(root))
         if unmet:
             return "deny", f"{tid} is blocked by {', '.join(unmet)}"
         if not match_any(rel, tasks[tid]["allowed_paths"] + policy["always_allowed_paths"]):
@@ -676,10 +748,12 @@ def edit_decision(root: Path, path: str, content: str, maintenance: bool = False
 def hook_decision(root: Path, event: dict[str, Any], maintenance: bool = False) -> tuple[str, str]:
     tool, data = event.get("tool_name", ""), event.get("tool_input", {})
     if tool in ("Bash", "PowerShell"):
-        return command_decision(root, data.get("command", ""))
+        return command_decision(root, data.get("command", ""), maintenance)
     if tool in ("Edit", "Write", "MultiEdit", "NotebookEdit"):
         content = json.dumps([data.get(k) for k in ("content", "new_string", "edits", "new_source")])
         return edit_decision(root, data.get("file_path") or data.get("notebook_path", ""), content, maintenance)
+    if tool.startswith("mcp__") and re.search(r"repl|run_code|execute|shell", tool, re.I):
+        return "ask", "this tool runs code that the harness cannot inspect"
     return "allow", ""
 
 

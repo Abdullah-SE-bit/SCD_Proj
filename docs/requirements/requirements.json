@@ -1495,8 +1495,10 @@
    "acceptance": "Protection verified through GitHub API.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase0/github-protection.md"
+   ]
   },
   {
    "id": "M14-002",
@@ -2431,8 +2433,10 @@
    "acceptance": "Verified protection settings.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase0/github-protection.md"
+   ]
   },
   {
    "id": "GIT-002",

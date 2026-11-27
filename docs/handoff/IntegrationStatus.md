@@ -4,7 +4,7 @@
 |---|---|
 | main | protected; foundation commit only |
 | dev | protected; created from main |
-| Phase 0 PR to dev | not yet opened at time of writing |
+| Phase 0 PR to dev | https://github.com/Abdullah-SE-bit/SCD_Proj/pull/7 |
 | Promotion PR | not yet opened |
 | Application code | none |
 

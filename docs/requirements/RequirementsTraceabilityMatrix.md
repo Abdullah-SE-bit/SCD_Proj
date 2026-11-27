@@ -102,7 +102,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M13-004 | Description p4 | M13 | P08 | P08.04 | eval | none yet | unimplemented |
 | M13-005 | Description p4 | M13 | P08 | P08.04 | test | none yet | unimplemented |
 | M13-006 | Description p4 | M13 | P08 | P08.04 | demo | none yet | unimplemented |
-| M14-001 | Description p4 | M14 | P00 | P00.02 | inspection | none yet | unimplemented |
+| M14-001 | Description p4 | M14 | P00 | P00.02 | inspection | docs/evidence/phase0/github-protection.md | implemented |
 | M14-002 | Description p4 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
 | M14-003 | Description p4 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
 | M14-004 | Description p4 | M14 | P01 | P01.02 | inspection | none yet | unimplemented |
@@ -164,7 +164,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | API-012 | Guide p3 | M13 | P08 | P08.01 | contract | none yet | unimplemented |
 | REP-001 | Guide p3 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
 | REP-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | unimplemented |
-| GIT-001 | Guide p3 | M14 | P00 | P00.02, P00 | inspection | none yet | unimplemented |
+| GIT-001 | Guide p3 | M14 | P00 | P00.02, P00 | inspection | docs/evidence/phase0/github-protection.md | implemented |
 | GIT-002 | Guide p3 | M14 | P00 | P00.02 | git-history | none yet | unimplemented |
 | GIT-003 | Guide p3 | M14 | P10 | P10.02 | ci | none yet | unimplemented |
 | GIT-004 | Guide p3 | M14 | P10 | P10.02 | evidence | none yet | unimplemented |

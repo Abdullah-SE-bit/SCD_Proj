@@ -39,8 +39,9 @@ the denial.
 Design note: the harness takes effect in the session that creates it, with no bootstrap exemption.
 
 ## GitHub behaviour
-Branch protection and rejection probes: `docs/evidence/phase0/github-protection.md`. Workflow results: see the
-pull request checks.
+Branch protection and rejection probes: `docs/evidence/phase0/github-protection.md`.
+[First workflow run](https://github.com/Abdullah-SE-bit/SCD_Proj/actions/runs/46063115027) on [PR 7](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/7): all 21 checks passed, including actionlint, the gitleaks
+history scan and kubeconform.
 
 ## Not verified
 Jenkinsfile syntax and execution; NetworkPolicy enforcement; hooks in a freshly started session of the second

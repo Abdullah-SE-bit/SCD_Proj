@@ -125,7 +125,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | COL-003 | Desc p1 §1.3 | mandatory | Both members must be able to explain the whole system. | Viva preparation completed by both. | viva | unimplemented |
 | DOC-001 | Desc p1 §1.3 | mandatory | AI tools are allowed; students are responsible for every line and keep an AI-usage log of what AI wrote, what they changed and why. | AI-usage log is current and accurate. | inspection | unimplemented |
 | SEC-002 | Desc p1 §1.3 | mandatory | Never commit keys or passwords. | Secret scan passes on every PR. | ci | unimplemented |
-| M14-001 | Desc p4 §4 | mandatory | GitHub with protected main and pull requests. | Protection verified through GitHub API. | inspection | unimplemented |
+| M14-001 | Desc p4 §4 | mandatory | GitHub with protected main and pull requests. | Protection verified through GitHub API. | inspection | implemented |
 | M14-002 | Desc p4 §4 | mandatory | GitHub Actions on every pull request. | Workflow runs on each PR. | ci | unimplemented |
 | M14-003 | Desc p4 §4 | mandatory | Jenkins for delivery. | Jenkins deploys merged code. | demo | unimplemented |
 | M14-004 | Desc p4 §4 | mandatory | One Docker image per module. | Image list covers every module. | inspection | unimplemented |
@@ -144,7 +144,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | API-002 | Guide p2 §3 | mandatory | Every service exposes /health (process alive) and /ready (can serve now). | Both endpoints on every service. | test | unimplemented |
 | REP-001 | Guide p3 §4.1 | recommended | Repository layout: README, docs, services, jobs, rubrics, config, eval, k8s, workflows, Jenkinsfile, docker-compose.yml. | Layout present. | ci | unimplemented |
 | REP-002 | Guide p3 §4.1 | mandatory | Services may be grouped differently but each module is its own deployable unit with its own Dockerfile. | Dockerfile per module. | ci | unimplemented |
-| GIT-001 | Guide p3 §4.2 | mandatory | Create repository on day 1; protect main: no direct pushes, PRs only, required status checks, one review from the other member. | Verified protection settings. | inspection | unimplemented |
+| GIT-001 | Guide p3 §4.2 | mandatory | Create repository on day 1; protect main: no direct pushes, PRs only, required status checks, one review from the other member. | Verified protection settings. | inspection | implemented |
 | GIT-002 | Guide p3 §4.2 | mandatory | One issue per task linked to its PR; small single-purpose branches. | PRs link issues. | git-history | unimplemented |
 | GIT-003 | Guide p3 §4.2 | mandatory | Conventional commits. | Commit messages conform. | ci | unimplemented |
 | GIT-004 | Guide p3 §4.2 | mandatory | Create one deliberate merge conflict, resolve it in a PR and keep the screenshot. | PR and screenshot exist. | evidence | unimplemented |

@@ -2,7 +2,7 @@
 
 **Status: PHASE 0 PARTIALLY COMPLETE — BLOCKERS REQUIRE RESOLUTION** (2026-11-28)
 
-Remaining blocker at the time of the first commit: independent review and human approval of the promotion PR.
+Remaining blocker: the task `done` records and the Phase 0 gate.
 
 ## Local checks (Windows, Python 3.12)
 `scd.py all`: 20 of 20 passed.
@@ -74,9 +74,19 @@ All decisions were made on the `Demidoga` account in the secondary session with 
 statements above about 27 tests describe the first foundation; the harness has 41 tests after the fixes.
 Responses: [ReviewResponses](ReviewResponses.md).
 
+## Promotion
+#8 was approved at `b5d038a` ([review](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6094108280)) and merged into `main` as
+`08cb1c3`; the merged tree equals the approved head. `scd.py all` passed 20/20 and GitHub 21/21 on that head.
+The decision was given in the secondary session; the review text states it is AI-assisted.
+
+## Close-out defect
+Found during the #8 review and reproduced by `test_phase_can_be_closed_task_by_task`: P00.04 to P00.06 could
+not record `done`, which also blocked the gate. Fixed by allowing the generated implementation plan in every
+task pull request (`repo-structure` rejects hand edits to it).
+
 ## Not verified
-Jenkinsfile syntax and execution; NetworkPolicy enforcement; hooks in a freshly started session of the second
-clone; secondary review; promotion approval.
+Jenkinsfile syntax and execution; Docker builds and image scan; NetworkPolicy enforcement and rollback on a
+real cluster; a human line-by-line audit of the requirements.
 
 ## Application code
 None.

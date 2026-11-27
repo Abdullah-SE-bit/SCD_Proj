@@ -1,6 +1,6 @@
 # Handoff: secondary (Demidoga)
 
-- Current task: P00.06 independent review. Review finished; task **not recorded done** (see Open).
+- Current task: P00.06 independent review. Review finished; task **not recorded done** (see "To record `done`").
 - State (2026-11-28): [#8](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8)
   [approved](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6094108280) at `b5d038a` and merged
   into `main` as `08cb1c3` (merge commit, no admin override). `main` files equal the approved head.
@@ -24,25 +24,34 @@
 AI-usage log conflict resolved on that side. GitHub shows its approval of `f361fcb` as dismissed before the merge,
 and no later approval.
 
+## Close-out defect: fixed
+Recording `done` regenerates `ImplementationPlan.md`, which was outside the scope of the P00.04, P00.05 and P00.06
+branches, so those records and the gate could not pass. This corrected the #16 review, which tested only P00.02;
+the #15 reviews missed it. [#17](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/17) fixes it:
+[approved](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/17#pullrequestreview-6094241289) at `a71a8b6`, merged into
+`dev` as `6cb5e5c`. On that head and on a simulated closed Phase 0, `scd.py all` passed 20/20.
+
+## To record `done` (simulated end to end)
+- One pull request per task, opened by its owner, one at a time (parallel ones conflict), then the `P00` gate, which
+  needs P00.01-P00.06 already `done` on `dev`.
+- Each carries `status/<ID>.json` (`done`, `pr`, `evidence`, `reviewed_by` not the owner, `review`), the owner's
+  handoff, the AI-usage log, the regenerated plan and a human's `authorized-protected-change` label.
+- The checker only tests that `review` is a link into this repository: each must be a real review by `reviewed_by`.
+- P00.06 needs a review by `Abdullah-SE-bit` of this account's work. The one on #11 is dismissed.
+- Promote the gate record to `main` before any application code reaches `dev`, or that promotion fails.
+
 ## Open
-- **Phase 0 cannot be closed under the current rules (simulated).** Recording `done` regenerates
-  `ImplementationPlan.md`, which is outside the scope of the P00.04, P00.05 and P00.06 branches; leaving it stale
-  fails `repo-structure`; the `P00` gate needs its members already `done` on the base. P00.01-P00.03 can be
-  recorded. Adding that file to `always_allowed_paths` (protected change, human label) let the remaining records and
-  the gate pass in simulation. This corrects the #16 review, which tested only P00.02; the #15 reviews missed it.
-- `Primary.md` says #13 and #14 were approved before a log-only conflict resolution; only #14 had one.
-- `Phase0VerificationReport.md` still lists the secondary review and the second clone's hook check as unverified.
+- `DefinitionOfDone.md` still says a phase gate pull request sets `done`.
 - Low findings: [ReviewResponses](ReviewResponses.md).
 - During the #12 review a rollback test wrongly called the real `kubectl` (`rollout undo` and `scale` for
   `model-server`, context `minikube`). Every call failed to connect; nothing changed. The test was rerun with a
   fake `kubectl` and no reachable cluster.
 
 ## Next
-- Primary: fix the close-out path, then the status records and the `P00` gate.
-- To record P00.06 `done`: its own branch, after that fix, with `reviewed_by` the other contributor, a review link
-  and a human's `authorized-protected-change` label.
-- No application work until the `P00` status record is on `dev`.
+- The primary reviews the pull request carrying this record; that review can serve as the P00.06 `review` link.
+- Then the task records and the `P00` gate, then a promotion into `main`.
+- No application work until the `P00` status record is on `dev` and promoted.
 
 ## Messages
-- Processed: `20261128-primary-001` to `20261128-primary-008`.
-- Sent: `20261128-secondary-001` to `20261128-secondary-009`.
+- Processed: `20261128-primary-001` to `20261128-primary-009`.
+- Sent: `20261128-secondary-001` to `20261128-secondary-010`.

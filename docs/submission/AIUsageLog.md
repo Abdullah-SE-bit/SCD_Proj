@@ -18,5 +18,7 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | Return P00.01-P00.05 to `in_review`, update records, answer low findings | pending human review | finding H6 |
 | 2026-11-28 | Claude Code | P00.06: review fix pull requests #12-#16, post findings, submit each decision, record the rounds | no content changes by a human; Asad decided each outcome after being shown Claude's recommendation | independent second-session review of the fixes; analysis and review text written by AI |
 | 2026-11-28 | Claude Code | P00.06: second review of #8, submit the approval, merge into `main`, record the result | no content changes by a human; Asad decided "approve and merge" after being shown Claude's recommendation | promotion of Phase 0; analysis, review text and merge performed by AI on that decision |
+| 2026-11-28 | Claude Code | Fix the Phase 0 close-out defect and update records after the merge into main | owner approved the fix; no edits by humans | tasks P00.04 to P00.06 could not be recorded done |
+| 2026-11-28 | Claude Code | P00.06: review the close-out fix #17, simulate the close-out, submit the approval, update this record | no content changes by a human; Asad decided "approve" after being shown Claude's recommendation | check that Phase 0 can be recorded done; analysis and review text written by AI |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

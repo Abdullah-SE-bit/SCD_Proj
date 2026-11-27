@@ -316,6 +316,29 @@ class TasksAndClaims(Fixture):
         with self.assertRaisesRegex(scd.Failure, "already claimed"):
             scd.claim(other, "P01.01")
 
+    def test_phase_can_be_closed_task_by_task(self):
+        """Recording each task done regenerates the plan; every such pull request, and the gate, must pass."""
+        tasks = scd.tasks_by_id(self.repo)
+        members = [f"P00.0{n}" for n in range(1, 7)]
+        self.done(*members, status="in_review")
+        scd.render(self.repo)
+        self.publish_dev("all in review")
+        for tid in [*members, "P00"]:
+            with self.subTest(task=tid):
+                owner = self.policy["identities"][tasks[tid]["owner"]]
+                self.done(tid)
+                stale = scd.render(self.repo, write=False)
+                scd.render(self.repo)
+                self.assertIn("docs/planning/ImplementationPlan.md", stale)
+                changed = [f"{scd.STATUS_DIR}/{tid}.json", *stale, owner["handoff"], self.policy["ai_usage_log"]]
+                # the fixture lacks the other generated documents; only the plan depends on task status
+                changed = [f for f in changed if f == "docs/planning/ImplementationPlan.md" or f not in stale]
+                self.assertEqual(scd.pr_task_problems(self.repo, self.policy, f"docs/{tid}-record", "dev",
+                                                      owner["login"], changed), [])
+                self.publish_dev(f"{tid} done")
+        self.assertEqual(scd.status_problems(self.repo), [])
+        self.assertIn("P00", scd.done_tasks(self.repo))
+
     def test_invalid_contract(self):
         try:
             import jsonschema  # noqa: F401

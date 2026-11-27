@@ -573,6 +573,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Alive but cannot serve now"
           }
         }
       }

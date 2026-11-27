@@ -5,7 +5,11 @@ Automatic and human-only actions: [HumanInterventionPolicy](../planning/HumanInt
 Protected files are listed in `harness/policies/project.json`. A human starts Claude with
 `SCD_HARNESS_MAINTENANCE=1` to edit them locally and adds the `authorized-protected-change` label to the PR.
 
+**What the guard checks:** commands from any tool that takes a command, file edits including MCP write tools,
+and the real arguments of `scd.py gh`, which allow-lists subcommands and read-only API calls.
+
 **Limits, stated plainly**
+- The authorization label stays on a pull request after new commits.
 - Hooks match command text. A determined or confused agent can evade a pattern (for example a script that runs
   git). They are guard rails, not a security boundary.
 - Both GitHub tokens are in one Windows user's keyring. Either session could technically act as either account.

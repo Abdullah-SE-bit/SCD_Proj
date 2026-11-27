@@ -29,6 +29,7 @@ Source wording is never rewritten; these are interpretations. Status of every en
 | AMB-23 | Rounding and boundary comparisons | No | No |
 | AMB-24 | Worked example sensitivity and `flipped: 3` | Yes | Yes (D-07) |
 | AMB-25 | Branch model | No | Yes (D-11) |
+| AMB-26 | Which dimensions the score floor applies to | Yes | Yes (D-07) |
 
 ## AMB-01 Six dimensions, four scorers
 - **Sources:** D p3 M9: four scorers (Demand and Pain; Competition and Differentiation; Feasibility; Risk). D p4 5.1: six dimensions. D p2 U6: six scores.
@@ -61,7 +62,7 @@ Source wording is never rewritten; these are interpretations. Status of every en
 - **Status:** open.
 
 ## AMB-04 Hosted model versus single internet exit
-- **Sources:** D p3 M10 hosted fallback; G p4 hosted labelling and comparison; D p2/p7 only M5 reaches the internet.
+- **Sources:** D p3 M10 hosted fallback; G p4 hosted labelling and comparison; D p2 (architecture figure and caption) only M5 reaches the internet.
 - **Why unclear:** Calling a hosted model needs egress from M3/M8/M10.
 - **Interpretations:** (a) route model calls through M5; (b) allow egress for a second, model-gateway pod; (c) M5 exposes a dedicated proxy endpoint.
 - **Consequences:** (b) contradicts 'only M5'.
@@ -278,4 +279,14 @@ Source wording is never rewritten; these are interpretations. Status of every en
 - **Recommendation:** Keep dev; require a peer review comment on every task PR as policy, one approval enforced on main.
 - **Support:** Satisfies both.
 - **Instructor clarification:** No. **Human approval:** Yes (D-11).
+- **Status:** open.
+
+## AMB-26 Which dimensions the score floor applies to
+- **Sources:** D p5 Fig.4: "Score >= T_go and no dimension below floor?". D p5 5.3: "no score below the floor on the first five dimensions".
+- **Why unclear:** the figure covers all six; the text excludes learning and portfolio value.
+- **Interpretations:** (a) first five (text); (b) all six (figure).
+- **Consequences:** under (b) a low learning score turns a GO into PIVOT.
+- **Recommendation:** (a), as in `config/verdict.defaults.json`.
+- **Support:** the text is the detailed rule and names the dimensions.
+- **Instructor clarification:** Yes. **Human approval:** Yes (D-07).
 - **Status:** open.

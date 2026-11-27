@@ -13,7 +13,8 @@ Two Claude Code sessions, one per contributor, each in its own clone. Phase 0 (f
 7. Claim: `python harness/verification/scd.py claim <ID>`; branch `type/<ID>-name` from `origin/dev`.
 8. Stay in the task's file scope; follow `contracts/`.
 9. Test: the task's commands, then `python harness/verification/scd.py all`.
-10. Update docs, `docs/submission/AIUsageLog.md`, your handoff, and the status file with evidence.
+10. Update docs, `docs/submission/AIUsageLog.md`, your handoff, and the status file (`in_review`) with evidence.
+    Only after the other contributor's review is it recorded `done`, by a gate or follow-up PR a human labels.
 11. PR into `dev` with the template: `python harness/verification/scd.py gh -- pr create --base dev`.
 12. Notify the reviewer (`docs/agentic/CrossSessionProtocol.md`) and save state before ending.
 

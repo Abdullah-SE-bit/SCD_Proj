@@ -9,5 +9,12 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | Phase 0: requirements, architecture, plan, harness, CI, documents (this foundation) | pending human review | all content AI-generated from the two course PDFs and the Phase 0 instruction |
 | 2026-11-28 | Claude Code | After the owner enabled maintenance mode: fix four harness defects, run CI, open pull requests, record negative tests | owner enabled maintenance mode; content unchanged by humans | harness identity check blocked all commits |
 | 2026-11-28 | Claude Code | P00.06: review #8 (both PDFs against the registry, harness, CI, protection, secrets), post findings, submit the decision, record the review | no content changes by a human; Asad decided "request changes" after being shown a summary of the findings | independent second-session review; analysis and review text written by AI |
+| 2026-11-28 | Claude Code | Fix review findings H1-H4, H6 and M8 (harness bypasses) with tests | owner chose to fix High and Medium findings and authorised protected edits; no edits by humans | independent review of PR 8 |
+| 2026-11-28 | Claude Code | Fix review findings H5 and M9 (workflow trust, rollback) | owner chose to fix High and Medium findings; no edits by humans | independent review of PR 8 |
+| 2026-11-28 | Claude Code | Fix review findings H7, M1, M2, M6, M7 (registry, ambiguities, phase order) | owner chose to fix High and Medium findings; no edits by humans | independent review of PR 8 |
+| 2026-11-28 | Claude Code | Fix review findings M3, M4, M5, M10 (contracts and their documents) | owner chose to fix High and Medium findings; no edits by humans | independent review of PR 8 |
+| 2026-11-28 | Claude Code | Second fix round on #12 (rollback, script modes) and #15 (argument parsing, other tools, status files, shell writes) | owner added the authorization label; no edits by humans | change requests on #12 and #15 |
+| 2026-11-28 | Claude Code | Third fix round on #15 (wrapped approval and merge commands ask again) | none | change request on #15 |
+| 2026-11-28 | Claude Code | Return P00.01-P00.05 to `in_review`, update records, answer low findings | pending human review | finding H6 |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

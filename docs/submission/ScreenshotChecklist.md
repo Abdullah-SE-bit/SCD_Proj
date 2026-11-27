@@ -21,8 +21,8 @@ Each needs a one-line caption. Capture only real results; store under `docs/evid
 | ui-challenge.png | Challenge | P05.04 | no |
 | ui-v2.png | What-if version 2 | P05.04 | no |
 | ui-insufficient.png | INSUFFICIENT EVIDENCE | P05.04 | no |
-| trace.png | A trace | P08.01 | no |
-| dashboard.png | Dashboard | P08.04 | no |
-| drift.png | Drift report | P08.04 | no |
+| trace.png | A trace | P05.05 | no |
+| dashboard.png | Dashboard | P08.02 | no |
+| drift.png | Drift report | P08.02 | no |
 | retrieval.png | Retrieval result | P04.05 | no |
 | ft-compare.png | Fine-tuning comparison | P06.04 | no |

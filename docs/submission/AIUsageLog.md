@@ -22,5 +22,6 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | P00.06: review the close-out fix #17, simulate the close-out, submit the approval, update this record | no content changes by a human; Asad decided "approve" after being shown Claude's recommendation | check that Phase 0 can be recorded done; analysis and review text written by AI |
 | 2026-11-28 | Claude Code | Change the harness and rules: review only into main, merge conflict-free dev pull requests, never request changes on them | rule set by the owner; no edits by humans | review loop on dev was blocking progress |
 | 2026-11-28 | Claude Code | Record the new merge and review rules in the documents (A-06, A-07) | rule set by the owner; no edits by humans | review loop on dev was blocking progress |
+| 2026-11-28 | Claude Code | Restore the human label on completion records; record the Phase 0 tasks and gate | owner added labels and set the merge rules; no content edits by humans | close Phase 0 |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

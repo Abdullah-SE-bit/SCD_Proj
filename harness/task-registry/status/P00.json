@@ -1,0 +1,10 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8",
+ "evidence": [
+  "docs/handoff/Phase0VerificationReport.md",
+  "docs/evidence/phase0/github-protection.md",
+  "https://github.com/Abdullah-SE-bit/SCD_Proj/commit/08cb1c31a89c9f05dc0a6cde2c7831ff1931c5aa",
+  "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6094108280"
+ ]
+}

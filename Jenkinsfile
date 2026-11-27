@@ -57,7 +57,6 @@ pipeline {
         withCredentials([file(credentialsId: 'kubeconfig-test', variable: 'KUBECONFIG')]) {
           sh './scripts/smoke_test.sh "$NAMESPACE"'
         }
-        script { env.SMOKE_PASSED = 'true' }
       }
     }
     stage('Nightly evaluation') {
@@ -74,12 +73,12 @@ pipeline {
   post {
     failure {
       script {
-        if (env.DEPLOY_STARTED == 'true' && env.SMOKE_PASSED != 'true') {
-          // failed during or after deployment: block promotion and roll back
+        if (env.DEPLOY_STARTED == 'true') {
+          // failed during deployment, smoke test or evaluation: block promotion and undo this run's changes
           withCredentials([file(credentialsId: 'kubeconfig-test', variable: 'KUBECONFIG')]) {
             sh './scripts/ci/rollback.sh "$NAMESPACE"'
           }
-          echo 'Deployment failed its checks; rolled back. Nothing promoted.'
+          echo 'Checks failed after deployment started; changes of this run were rolled back. Nothing promoted.'
         } else {
           echo 'Pipeline failed before deployment; nothing was deployed.'
         }

@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Node / TypeScript
+node_modules/
+dist/
+build/
+coverage/
+.coverage
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Local tool state
+CLAUDE.local.md
+.claude/settings.local.json
+.playwright-mcp/

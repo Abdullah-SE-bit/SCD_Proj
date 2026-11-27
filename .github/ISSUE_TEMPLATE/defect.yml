@@ -1,0 +1,12 @@
+name: Defect
+description: A bug or a review finding
+labels: [defect]
+body:
+  - type: textarea
+    id: observed
+    attributes: { label: Observed behaviour and how to reproduce }
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: Expected behaviour and requirement ID }
+    validations: { required: true }

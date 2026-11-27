@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Idea card (M6)",
+  "description": "Source: Guide 2.1. Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "problem": {
+      "type": "string"
+    },
+    "customer": {
+      "type": "string"
+    },
+    "niche_tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "stage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "funding_usd": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^https?://"
+    },
+    "published_at": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "fetched_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "summary",
+    "problem",
+    "customer",
+    "niche_tags",
+    "stage",
+    "funding_usd",
+    "source",
+    "url",
+    "published_at",
+    "fetched_at",
+    "text"
+  ]
+}

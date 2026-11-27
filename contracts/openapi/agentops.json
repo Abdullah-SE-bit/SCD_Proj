@@ -1,0 +1,107 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "M13 AgenticOps",
+    "version": "0.1.0",
+    "description": "Proposed contract from Guide section 3. Not implemented."
+  },
+  "paths": {
+    "/trace": {
+      "post": {
+        "summary": "Write a trace record",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "x-status": "proposed: fields not specified by the course documents"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../schemas/trace-record.schema.json"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/runs/{id}/trace": {
+      "get": {
+        "summary": "Read a run trace",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../schemas/trace-record.schema.json"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Process alive",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "x-status": "proposed: fields not specified by the course documents"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "summary": "Can serve now, dependencies reachable",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "x-status": "proposed: fields not specified by the course documents"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Alive but cannot serve now"
+          }
+        }
+      }
+    }
+  }
+}

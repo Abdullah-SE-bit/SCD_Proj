@@ -1,0 +1,19 @@
+name: Task
+description: One issue per task, linked to its pull request
+title: "P00.00: "
+labels: [task]
+body:
+  - type: input
+    id: task
+    attributes: { label: Task ID, description: From harness/task-registry/tasks.json }
+    validations: { required: true }
+  - type: textarea
+    id: acceptance
+    attributes: { label: Acceptance criteria }
+    validations: { required: true }
+  - type: textarea
+    id: dependencies
+    attributes: { label: Dependencies and blockers }
+  - type: textarea
+    id: evidence
+    attributes: { label: Evidence required }

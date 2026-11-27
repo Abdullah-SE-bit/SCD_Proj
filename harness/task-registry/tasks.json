@@ -1,0 +1,2056 @@
+{
+ "schema_version": 1,
+ "phases": [
+  {
+   "id": "P00",
+   "title": "Foundation and development harness",
+   "demonstration": "Protected branches, green Phase 0 checks, reviewed promotion PR."
+  },
+  {
+   "id": "P01",
+   "title": "Walking skeleton on Kubernetes (fixtures only)",
+   "demonstration": "Browser submits an idea and sees a fixture verdict card served end to end from the cluster."
+  },
+  {
+   "id": "P02",
+   "title": "Accounts, profile, history and cache",
+   "demonstration": "Register, log in, edit profile, see idea history."
+  },
+  {
+   "id": "P03",
+   "title": "Deterministic Verdict Engine",
+   "demonstration": "POST scores to the engine and get gates, verdict, stability and what-if."
+  },
+  {
+   "id": "P04",
+   "title": "Data collection and knowledge base",
+   "demonstration": "Search 1,500+ real cards with citations and measured retrieval quality."
+  },
+  {
+   "id": "P05",
+   "title": "Validate workflow with scorers and guardrails",
+   "demonstration": "Validate a real idea with live progress and evidence-linked card. Traces, replay and budget stops are visible."
+  },
+  {
+   "id": "P06",
+   "title": "Fine-tuned scoring model",
+   "demonstration": "Comparison table of base, tuned and hosted models; scoring served locally."
+  },
+  {
+   "id": "P07",
+   "title": "Niche analysis and Discover workflow",
+   "demonstration": "Discover returns ranked gap-based ideas with cards."
+  },
+  {
+   "id": "P08",
+   "title": "AgenticOps evaluation, drift and dashboard",
+   "demonstration": "Behaviour tests pass; evaluation Job, dashboard and drift report shown."
+  },
+  {
+   "id": "P09",
+   "title": "Verdict tuning on human labels",
+   "demonstration": "Before and after confusion matrices."
+  },
+  {
+   "id": "P10",
+   "title": "Hardening, demonstrations and submission",
+   "demonstration": "Rollout, rollback, NetworkPolicy test, report and screenshots."
+  }
+ ],
+ "tasks": [
+  {
+   "id": "P00.01",
+   "phase": 0,
+   "title": "Ingest documents and build requirements registry",
+   "description": "Audit both PDFs; extract traceable requirements and ambiguities.",
+   "requirements": [
+    "DDR-001",
+    "IFC-001"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "docs/**",
+    "harness/**"
+   ],
+   "deliverables": "Registry, audit, ambiguity list",
+   "acceptance": "Every mandatory statement recorded with page and section",
+   "tests": "requirements-registry check",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "DocumentIngestionAudit.md",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P00.02",
+   "phase": 0,
+   "title": "Protect branches and set up GitHub workflow",
+   "description": "Protect main and dev, PR and issue templates, merge policy.",
+   "requirements": [
+    "M14-001",
+    "GIT-001",
+    "GIT-002",
+    "CIC-006"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    ".github/**",
+    "docs/**"
+   ],
+   "deliverables": "Protection settings and templates",
+   "acceptance": "Protection verified by API; direct push rejected",
+   "tests": "branch probes",
+   "verification_commands": [
+    "python harness/verification/scd.py repo-structure"
+   ],
+   "evidence": "docs/evidence/phase0/",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P00.03",
+   "phase": 0,
+   "title": "Architecture, contracts and plan",
+   "description": "MVP, architecture, schemas, OpenAPI, task plan.",
+   "requirements": [
+    "IFC-002",
+    "API-001",
+    "SCH-001",
+    "SCH-002",
+    "SCH-003",
+    "SCH-004",
+    "SCH-005",
+    "SCH-006"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P00.01"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "docs/**",
+    "contracts/**",
+    "config/**",
+    "rubrics/**",
+    "eval/**"
+   ],
+   "deliverables": "Specifications and contracts",
+   "acceptance": "Contracts validate against guide examples",
+   "tests": "contract-tests",
+   "verification_commands": [
+    "python harness/verification/scd.py check contract-tests"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P00.04",
+   "phase": 0,
+   "title": "Development harness",
+   "description": "Skills, subagents, rules, hooks, verification scripts and tests.",
+   "requirements": [
+    "DOC-001",
+    "SEC-002",
+    "LOG-001"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P00.01"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    ".claude/**",
+    "harness/**",
+    "CLAUDE.md",
+    "AGENTS.md"
+   ],
+   "deliverables": "Harness with negative tests",
+   "acceptance": "Negative tests detect each forbidden action",
+   "tests": "harness-tests",
+   "verification_commands": [
+    "python -m unittest discover -s harness/tests"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P00.05",
+   "phase": 0,
+   "title": "CI, Jenkins, Docker and Kubernetes foundation",
+   "description": "Required check workflow, Jenkinsfile, manifests scaffold.",
+   "requirements": [
+    "M14-002",
+    "CIC-005",
+    "SET-003",
+    "REP-001",
+    "NET-001"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P00.04"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    ".github/**",
+    "k8s/**",
+    "Jenkinsfile",
+    "docker-compose.yml",
+    ".env.example",
+    "scripts/**"
+   ],
+   "deliverables": "CI workflow and scaffolds",
+   "acceptance": "All Phase 0 checks green on the PR",
+   "tests": "ci-gate",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P00.06",
+   "phase": 0,
+   "title": "Independent review of foundation",
+   "description": "Secondary contributor audits PDFs against registry, reviews harness and approves promotion.",
+   "requirements": [
+    "COL-002"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P00.02",
+    "P00.03",
+    "P00.05"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "docs/handoff/**",
+    "docs/evidence/**"
+   ],
+   "deliverables": "Review report",
+   "acceptance": "Human collaborator approval on promotion PR",
+   "tests": "review checklist",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "PR review",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P00",
+   "phase": 0,
+   "title": "Phase 0 gate",
+   "description": "All Phase 0 tasks verified and merged into main.",
+   "requirements": [
+    "GIT-001"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P00.01",
+    "P00.02",
+    "P00.03",
+    "P00.04",
+    "P00.05",
+    "P00.06"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Protected branches, green Phase 0 checks, reviewed promotion PR.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "merge commit",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P01.01",
+   "phase": 1,
+   "title": "Cluster with enforced NetworkPolicy",
+   "description": "kind plus Calico, namespace, default-deny and M5 egress.",
+   "requirements": [
+    "SET-001",
+    "NET-001",
+    "NET-002",
+    "K8S-001",
+    "K8S-010"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P00"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "k8s/**",
+    "scripts/**",
+    "docs/**"
+   ],
+   "deliverables": "Cluster script and policies",
+   "acceptance": "Egress blocked for non-M5, allowed for M5",
+   "tests": "egress test",
+   "verification_commands": [
+    "scripts/netpol_test.sh"
+   ],
+   "evidence": "test output",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P01.02",
+   "phase": 1,
+   "title": "Service skeleton and images",
+   "description": "One minimal service per module with /health and /ready, multi-stage non-root Dockerfile, pinned deps.",
+   "requirements": [
+    "API-002",
+    "REP-002",
+    "M14-004",
+    "DKR-001",
+    "DKR-002",
+    "GEN-006"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P00"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/**",
+    "jobs/**",
+    "tests/**",
+    "requirements*.txt",
+    ".dockerignore"
+   ],
+   "deliverables": "Images for every module",
+   "acceptance": "Every image builds, runs non-root, answers probes",
+   "tests": "probe tests",
+   "verification_commands": [
+    "python harness/verification/scd.py check backend-unit-tests",
+    "python harness/verification/scd.py check docker-build"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P01.03",
+   "phase": 1,
+   "title": "Thin UI and gateway path",
+   "description": "UI to gateway to orchestrator to fixture verdict, API address at runtime.",
+   "requirements": [
+    "ARC-001",
+    "M01-002",
+    "CMN-005",
+    "CMN-008"
+   ],
+   "module": "M1",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P00"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/ui/**",
+    "services/gateway/**",
+    "tests/**"
+   ],
+   "deliverables": "Walking UI",
+   "acceptance": "Card clearly labelled FIXTURE DATA",
+   "tests": "component tests",
+   "verification_commands": [
+    "npm --prefix services/ui test"
+   ],
+   "evidence": "screenshot",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P01.04",
+   "phase": 1,
+   "title": "Deploy skeleton to cluster",
+   "description": "Deployments, Services, Ingress, probes, rolling update, compose for dev.",
+   "requirements": [
+    "K8S-002",
+    "K8S-007",
+    "K8S-008",
+    "SET-002",
+    "SET-004"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P01.01",
+    "P01.02",
+    "P01.03"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "k8s/**",
+    "docker-compose.yml",
+    "README.md",
+    "scripts/**"
+   ],
+   "deliverables": "Running skeleton",
+   "acceptance": "All pods ready; README steps work",
+   "tests": "smoke test",
+   "verification_commands": [
+    "scripts/smoke_test.sh"
+   ],
+   "evidence": "kubectl get pods",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P01.05",
+   "phase": 1,
+   "title": "Jenkins delivery of skeleton",
+   "description": "Jenkins in container, SCM polling, build, push, deploy, smoke, rollback.",
+   "requirements": [
+    "M14-003",
+    "JNK-001",
+    "JNK-002",
+    "JNK-003",
+    "JNK-004",
+    "DKR-003",
+    "CIC-001"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P01.04"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "Jenkinsfile",
+    "scripts/**",
+    "docs/**"
+   ],
+   "deliverables": "Working pipeline",
+   "acceptance": "Green and deliberately failing run; rollback shown",
+   "tests": "pipeline run",
+   "verification_commands": [
+    "scripts/smoke_test.sh"
+   ],
+   "evidence": "Jenkins screenshots",
+   "needs": [
+    "human",
+    "credentials"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P01",
+   "phase": 1,
+   "title": "Phase 1 gate",
+   "description": "All Phase 1 tasks merged and demonstrated.",
+   "requirements": [
+    "CMN-008"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P00",
+    "P01.01",
+    "P01.02",
+    "P01.03",
+    "P01.04",
+    "P01.05"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Browser submits an idea and sees a fixture verdict card served end to end from the cluster.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P02.01",
+   "phase": 2,
+   "title": "Migrations and repositories",
+   "description": "Postgres schema and layered M2 backend.",
+   "requirements": [
+    "M02-001",
+    "M02-002",
+    "M02-005",
+    "DBS-001"
+   ],
+   "module": "M2",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P01"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/profile/**",
+    "contracts/database/**",
+    "tests/**"
+   ],
+   "deliverables": "Migrations and repositories",
+   "acceptance": "Fresh DB migrates; repositories tested",
+   "tests": "integration",
+   "verification_commands": [
+    "python harness/verification/scd.py check backend-unit-tests"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P02.02",
+   "phase": 2,
+   "title": "Authentication, rate limits and validation",
+   "description": "Register, login, profile endpoints at the gateway.",
+   "requirements": [
+    "M01-003",
+    "API-003",
+    "SCH-002",
+    "SEC-001"
+   ],
+   "module": "M1",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P02.01"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/gateway/**",
+    "services/profile/**",
+    "tests/**"
+   ],
+   "deliverables": "Auth and profile",
+   "acceptance": "Invalid, unauthenticated, over-limit rejected",
+   "tests": "security tests",
+   "verification_commands": [
+    "python harness/verification/scd.py check backend-unit-tests"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P02.03",
+   "phase": 2,
+   "title": "History, versions, comparison and cache",
+   "description": "Idea versions, compare, Redis cache keyed by profile, rubric, engine and snapshot versions.",
+   "requirements": [
+    "USR-009",
+    "M02-003",
+    "M02-004",
+    "CMN-002",
+    "API-006",
+    "DBS-003"
+   ],
+   "module": "M2",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P02.01"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/profile/**",
+    "services/gateway/**",
+    "tests/**"
+   ],
+   "deliverables": "History and cache",
+   "acceptance": "Version change misses cache; hit visible",
+   "tests": "unit",
+   "verification_commands": [
+    "python harness/verification/scd.py check backend-unit-tests"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P02.04",
+   "phase": 2,
+   "title": "Profile and history screens",
+   "description": "Profile editor, history, comparison with component tests.",
+   "requirements": [
+    "M01-001",
+    "M01-004"
+   ],
+   "module": "M1",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P02.02",
+    "P02.03"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/ui/**",
+    "tests/**"
+   ],
+   "deliverables": "Screens",
+   "acceptance": "Component tests cover states",
+   "tests": "component",
+   "verification_commands": [
+    "npm --prefix services/ui test"
+   ],
+   "evidence": "screenshots",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P02",
+   "phase": 2,
+   "title": "Phase 2 gate",
+   "description": "All Phase 2 tasks merged and demonstrated.",
+   "requirements": [
+    "IFC-002"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P01",
+    "P02.01",
+    "P02.02",
+    "P02.03",
+    "P02.04"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Register, log in, edit profile, see idea history.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P03.01",
+   "phase": 3,
+   "title": "Gates, score, thresholds and confidence",
+   "description": "Pure functions with config from ConfigMap.",
+   "requirements": [
+    "M11-001",
+    "M11-002",
+    "M11-003",
+    "GAT-001",
+    "GAT-002",
+    "GAT-003",
+    "GAT-004",
+    "GAT-005",
+    "FLW-001",
+    "SCR-001",
+    "SCR-002",
+    "SCR-003",
+    "SCR-004",
+    "SCR-005",
+    "SCR-006",
+    "SCH-005",
+    "API-010",
+    "VER-001",
+    "CMN-003"
+   ],
+   "module": "M11",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P01"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/verdict/**",
+    "config/**",
+    "tests/**",
+    "k8s/**"
+   ],
+   "deliverables": "Engine core",
+   "acceptance": "Every gate and threshold edge tested; worked example 70.5",
+   "tests": "verdict unit tests",
+   "verification_commands": [
+    "pytest services/verdict -q"
+   ],
+   "evidence": "CI run",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P03.02",
+   "phase": 3,
+   "title": "Challenge, sensitivity and what-if",
+   "description": "Adjustments, 14-run sensitivity, smallest change search.",
+   "requirements": [
+    "M11-004",
+    "SCR-007",
+    "SCR-008",
+    "SCR-009",
+    "SCR-010",
+    "SCR-011",
+    "USR-011"
+   ],
+   "module": "M11",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P03.01"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/verdict/**",
+    "tests/**"
+   ],
+   "deliverables": "Stability features",
+   "acceptance": "Worked example numbers reproduced",
+   "tests": "verdict unit tests",
+   "verification_commands": [
+    "pytest services/verdict -q"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P03.03",
+   "phase": 3,
+   "title": "Rubrics for six dimensions",
+   "description": "Versioned rubric files with anchors and worked examples; students review content.",
+   "requirements": [
+    "RUB-001",
+    "DIM-001",
+    "DIM-002",
+    "VER-002"
+   ],
+   "module": "M9",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P01"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "rubrics/**",
+    "contracts/schemas/**"
+   ],
+   "deliverables": "Six rubrics",
+   "acceptance": "Each anchor 0-5 has an example; both students reviewed",
+   "tests": "contract",
+   "verification_commands": [
+    "python harness/verification/scd.py check contract-tests"
+   ],
+   "evidence": "review record",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P03",
+   "phase": 3,
+   "title": "Phase 3 gate",
+   "description": "All Phase 3 tasks merged and demonstrated.",
+   "requirements": [
+    "CIC-002"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P01",
+    "P03.01",
+    "P03.02",
+    "P03.03"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "POST scores to the engine and get gates, verdict, stability and what-if.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P04.01",
+   "phase": 4,
+   "title": "Tool layer",
+   "description": "Allow-list, robots.txt, rate limit, cache, sanitiser, egress.",
+   "requirements": [
+    "M05-001",
+    "M05-002",
+    "M05-003",
+    "API-007",
+    "DAT-001",
+    "ETH-001",
+    "ETH-002",
+    "ARC-007",
+    "NET-003"
+   ],
+   "module": "M5",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P01"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/tools/**",
+    "k8s/**",
+    "tests/**",
+    "config/**"
+   ],
+   "deliverables": "M5",
+   "acceptance": "Poisoned page neutralised; egress test recorded",
+   "tests": "security",
+   "verification_commands": [
+    "pytest services/tools -q",
+    "scripts/netpol_test.sh"
+   ],
+   "evidence": "evidence",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P04.02",
+   "phase": 4,
+   "title": "Scouts for three sources",
+   "description": "Connectors, CronJob and on-demand, failure handling.",
+   "requirements": [
+    "M04-001",
+    "M04-002",
+    "M04-003",
+    "K8S-003"
+   ],
+   "module": "M4",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P04.01"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/scouts/**",
+    "jobs/ingestion/**",
+    "k8s/**",
+    "tests/**"
+   ],
+   "deliverables": "Scouts",
+   "acceptance": "Three sources fetched via M5 only",
+   "tests": "integration",
+   "verification_commands": [
+    "pytest services/scouts -q"
+   ],
+   "evidence": "logs",
+   "needs": [
+    "credentials"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P04.03",
+   "phase": 4,
+   "title": "Ingestion pipeline and 1,500 cards",
+   "description": "Dedupe, chunk, embed, index, snapshot.",
+   "requirements": [
+    "M6I-001",
+    "M6I-002",
+    "M6I-003",
+    "ETH-003",
+    "ETH-006",
+    "SCH-001",
+    "DBS-002"
+   ],
+   "module": "M6i",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P04.02"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "jobs/ingestion/**",
+    "services/kb/**",
+    "tests/**",
+    "docs/**"
+   ],
+   "deliverables": "Cards and snapshot",
+   "acceptance": ">=1500 cards, re-run adds none",
+   "tests": "integration",
+   "verification_commands": [
+    "pytest jobs/ingestion -q"
+   ],
+   "evidence": "counts report",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P04.04",
+   "phase": 4,
+   "title": "Hybrid retrieval and reranking",
+   "description": "Search API with filters, citations, freshness.",
+   "requirements": [
+    "M06-001",
+    "M06-002",
+    "M06-003",
+    "M06-004",
+    "M06-005",
+    "API-008",
+    "SCH-003",
+    "ARC-003",
+    "ETH-004"
+   ],
+   "module": "M6",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P04.03"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/kb/**",
+    "tests/**"
+   ],
+   "deliverables": "M6 search",
+   "acceptance": "Filters and ids tested",
+   "tests": "integration",
+   "verification_commands": [
+    "pytest services/kb -q"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P04.05",
+   "phase": 4,
+   "title": "Retrieval evaluation and CI gate",
+   "description": "Students hand-write 20+ queries with relevant cards; baseline stored.",
+   "requirements": [
+    "M06-006",
+    "CIC-003",
+    "CMN-006"
+   ],
+   "module": "M6",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P04.04"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "eval/retrieval/**",
+    "harness/**",
+    ".github/**"
+   ],
+   "deliverables": "Queries, baseline, gate",
+   "acceptance": "Seeded regression fails",
+   "tests": "eval",
+   "verification_commands": [
+    "pytest eval/retrieval -q"
+   ],
+   "evidence": "results json",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P04",
+   "phase": 4,
+   "title": "Phase 4 gate",
+   "description": "All Phase 4 tasks merged and demonstrated.",
+   "requirements": [
+    "M6I-003"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P03",
+    "P04.01",
+    "P04.02",
+    "P04.03",
+    "P04.04",
+    "P04.05"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Search 1,500+ real cards with citations and measured retrieval quality.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P05.01",
+   "phase": 5,
+   "title": "Feature computation and four scorers",
+   "description": "Parallel scorers, schemas, abstention; hosted model behind interface.",
+   "requirements": [
+    "M09-001",
+    "M09-002",
+    "M09-003",
+    "M09-004",
+    "VAL-003",
+    "VAL-004",
+    "DIM-003",
+    "SCH-004",
+    "API-009"
+   ],
+   "module": "M9",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P04"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/validators/**",
+    "services/scorer/**",
+    "rubrics/**",
+    "tests/**"
+   ],
+   "deliverables": "Scorers",
+   "acceptance": "Evidence-free score abstains",
+   "tests": "unit",
+   "verification_commands": [
+    "pytest services/validators -q"
+   ],
+   "evidence": "CI run",
+   "needs": [
+    "credentials"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P05.02",
+   "phase": 5,
+   "title": "Validate state machine",
+   "description": "Intake, clarify, evidence, scorers, verdict, challenge, stability, card; retries, budgets, approval.",
+   "requirements": [
+    "M03-001",
+    "M03-002",
+    "M03-003",
+    "M03-004",
+    "M03-005",
+    "VAL-001",
+    "VAL-002",
+    "VAL-005",
+    "VAL-006",
+    "USR-004",
+    "USR-005",
+    "ARC-002",
+    "ARC-004",
+    "CMN-001"
+   ],
+   "module": "M3",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P04",
+    "P05.05",
+    "P05.06"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/orchestrator/**",
+    "tests/**"
+   ],
+   "deliverables": "Orchestrator",
+   "acceptance": "State transitions and budget pause tested",
+   "tests": "unit",
+   "verification_commands": [
+    "pytest services/orchestrator -q"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P05.03",
+   "phase": 5,
+   "title": "Critic and guardrails",
+   "description": "Claim check, injection defence, input rail, challenge handling.",
+   "requirements": [
+    "M12-001",
+    "M12-002",
+    "M12-003",
+    "M12-004",
+    "API-011",
+    "USR-008",
+    "ETH-005",
+    "CMN-004"
+   ],
+   "module": "M12",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P04"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/critic/**",
+    "tests/**"
+   ],
+   "deliverables": "M12",
+   "acceptance": "Unsupported claims removed",
+   "tests": "security",
+   "verification_commands": [
+    "pytest services/critic -q"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P05.04",
+   "phase": 5,
+   "title": "Run APIs, live progress and verdict card",
+   "description": "SSE stream, approvals, card, insufficient evidence view.",
+   "requirements": [
+    "USR-003",
+    "USR-006",
+    "USR-010",
+    "GEN-003",
+    "API-004",
+    "API-005",
+    "USR-007"
+   ],
+   "module": "M1",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P05.02",
+    "P05.01",
+    "P05.03"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/gateway/**",
+    "services/ui/**",
+    "tests/**"
+   ],
+   "deliverables": "Interactive Validate",
+   "acceptance": "All card elements and live spend shown",
+   "tests": "component and e2e",
+   "verification_commands": [
+    "npm --prefix services/ui test"
+   ],
+   "evidence": "screenshots",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P05.05",
+   "phase": 5,
+   "title": "Tracing and replay",
+   "description": "Trace APIs, JSON lines, replay.",
+   "requirements": [
+    "M13-001",
+    "OPS-001",
+    "OPS-002",
+    "API-012",
+    "SCH-006",
+    "ARC-006",
+    "K8S-009"
+   ],
+   "module": "M13",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P04"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/agentops/**",
+    "services/**",
+    "tests/**"
+   ],
+   "deliverables": "Tracing",
+   "acceptance": "Replay reproduces decisions",
+   "tests": "behaviour",
+   "verification_commands": [
+    "pytest services/agentops -q"
+   ],
+   "evidence": "trace",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P05.06",
+   "phase": 5,
+   "title": "Budgets and registry",
+   "description": "Caps for tokens, pages, steps, cost; prompt and rubric registry.",
+   "requirements": [
+    "M13-002",
+    "M13-003",
+    "OPS-003",
+    "OPS-004"
+   ],
+   "module": "M13",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P05.05"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/agentops/**",
+    "services/orchestrator/**",
+    "services/tools/**",
+    "config/**",
+    "tests/**"
+   ],
+   "deliverables": "Budgets",
+   "acceptance": "Each cap tested",
+   "tests": "unit",
+   "verification_commands": [
+    "pytest services/agentops -q"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P05",
+   "phase": 5,
+   "title": "Phase 5 gate",
+   "description": "All Phase 5 tasks merged and demonstrated.",
+   "requirements": [
+    "VAL-006"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P04",
+    "P05.01",
+    "P05.02",
+    "P05.03",
+    "P05.04",
+    "P05.05",
+    "P05.06"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Validate a real idea with live progress and evidence-linked card.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P06.01",
+   "phase": 6,
+   "title": "Build and hand-check dataset",
+   "description": "300+ train examples plus 60+ hand-checked evaluation examples, split by idea.",
+   "requirements": [
+    "FT-001",
+    "FT-002",
+    "FT-003",
+    "FT-004",
+    "M10-002",
+    "M10-003"
+   ],
+   "module": "M10t",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P04",
+    "P03"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "jobs/finetune/**",
+    "eval/scoring/**",
+    "tests/**"
+   ],
+   "deliverables": "Dataset with annotator marks",
+   "acceptance": "No idea in both splits; students checked labels",
+   "tests": "leakage test",
+   "verification_commands": [
+    "pytest jobs/finetune -q"
+   ],
+   "evidence": "coverage matrix",
+   "needs": [
+    "human",
+    "credentials"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P06.02",
+   "phase": 6,
+   "title": "Train, merge and quantise",
+   "description": "QLoRA on free GPU; record settings and loss.",
+   "requirements": [
+    "M10-001",
+    "FT-005",
+    "FT-006",
+    "FT-011",
+    "M10T-001",
+    "ARC-005"
+   ],
+   "module": "M10t",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P06.01"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "jobs/finetune/**",
+    "docs/**"
+   ],
+   "deliverables": "Model artefact",
+   "acceptance": "Reproducible documented commands",
+   "tests": "script checks",
+   "verification_commands": [
+    "pytest jobs/finetune -q"
+   ],
+   "evidence": "loss curve",
+   "needs": [
+    "human",
+    "gpu"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P06.03",
+   "phase": 6,
+   "title": "Serve model with fallback",
+   "description": "Own container, schema validation, retry once, hosted fallback.",
+   "requirements": [
+    "FT-007",
+    "FT-008",
+    "M10-004"
+   ],
+   "module": "M10",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P06.02"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/scorer/**",
+    "k8s/**",
+    "tests/**"
+   ],
+   "deliverables": "Model server",
+   "acceptance": "Fallback logged",
+   "tests": "behaviour",
+   "verification_commands": [
+    "pytest services/scorer -q"
+   ],
+   "evidence": "kubectl top",
+   "needs": [
+    "credentials"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P06.04",
+   "phase": 6,
+   "title": "Model comparison",
+   "description": "Base, tuned, hosted on hand-checked set with all metrics and a failure case.",
+   "requirements": [
+    "FT-009",
+    "FT-010",
+    "M10-005"
+   ],
+   "module": "M10t",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P06.03"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "jobs/evaluation/**",
+    "eval/scoring/**",
+    "docs/**"
+   ],
+   "deliverables": "Comparison table",
+   "acceptance": "All metrics measured",
+   "tests": "eval",
+   "verification_commands": [
+    "pytest jobs/evaluation -q"
+   ],
+   "evidence": "results json",
+   "needs": [
+    "credentials"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P06",
+   "phase": 6,
+   "title": "Phase 6 gate",
+   "description": "All Phase 6 tasks merged and demonstrated.",
+   "requirements": [
+    "K8S-005"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P05",
+    "P06.01",
+    "P06.02",
+    "P06.03",
+    "P06.04"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Comparison table of base, tuned and hosted models; scoring served locally.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P07.01",
+   "phase": 7,
+   "title": "Niche and trend analyst",
+   "description": "Clustering, naming, monthly series, rising/flat/saturated, gaps.",
+   "requirements": [
+    "M07-001",
+    "M07-002",
+    "GEN-001"
+   ],
+   "module": "M7",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P04"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/analyst/**",
+    "tests/**"
+   ],
+   "deliverables": "M7",
+   "acceptance": "Series and gaps produced",
+   "tests": "unit",
+   "verification_commands": [
+    "pytest services/analyst -q"
+   ],
+   "evidence": "niche map",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P07.02",
+   "phase": 7,
+   "title": "Idea generator debate",
+   "description": "Ideator, Gap Analyst, Skeptic, 3 rounds max.",
+   "requirements": [
+    "M08-001",
+    "M08-002",
+    "DSC-001",
+    "DSC-002",
+    "DSC-003",
+    "CMN-007"
+   ],
+   "module": "M8",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P07.01",
+    "P05"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "services/ideation/**",
+    "tests/**"
+   ],
+   "deliverables": "M8",
+   "acceptance": "Round cap and citations tested",
+   "tests": "behaviour",
+   "verification_commands": [
+    "pytest services/ideation -q"
+   ],
+   "evidence": "trace",
+   "needs": [
+    "credentials"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P07.03",
+   "phase": 7,
+   "title": "Discover workflow and results screen",
+   "description": "Survivors validated and ranked.",
+   "requirements": [
+    "DSC-004",
+    "USR-002",
+    "GEN-002",
+    "USR-001"
+   ],
+   "module": "M3",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P07.02"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/orchestrator/**",
+    "services/ui/**",
+    "tests/**"
+   ],
+   "deliverables": "Discover",
+   "acceptance": "Ranked cards with reasons",
+   "tests": "e2e",
+   "verification_commands": [
+    "pytest services/orchestrator -q"
+   ],
+   "evidence": "screenshot",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P07",
+   "phase": 7,
+   "title": "Phase 7 gate",
+   "description": "All Phase 7 tasks merged and demonstrated.",
+   "requirements": [
+    "USR-011"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P06",
+    "P07.01",
+    "P07.02",
+    "P07.03"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Discover returns ranked gap-based ideas with cards.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P08.01",
+   "phase": 8,
+   "title": "Behaviour tests",
+   "description": "Recorded responses: invalid JSON, timeout, empty source, poisoned page.",
+   "requirements": [
+    "OPS-009"
+   ],
+   "module": "M13",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P05"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "eval/agent-behaviour/**",
+    "tests/**"
+   ],
+   "deliverables": "Replay tests",
+   "acceptance": "Four cases pass without live model",
+   "tests": "behaviour",
+   "verification_commands": [
+    "pytest eval/agent-behaviour -q"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P08.02",
+   "phase": 8,
+   "title": "Evaluation harness, drift and dashboard",
+   "description": "Harness as Job, drift reports, dashboard metrics.",
+   "requirements": [
+    "M13-004",
+    "M13-005",
+    "M13-006",
+    "OPS-005",
+    "OPS-006",
+    "OPS-007",
+    "OPS-008"
+   ],
+   "module": "M13",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P05.05",
+    "P09.01"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "jobs/evaluation/**",
+    "services/agentops/**",
+    "services/ui/**",
+    "k8s/**",
+    "Jenkinsfile"
+   ],
+   "deliverables": "Harness and dashboard",
+   "acceptance": "Job and nightly run shown",
+   "tests": "eval",
+   "verification_commands": [
+    "pytest jobs/evaluation -q"
+   ],
+   "evidence": "screenshots",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P08",
+   "phase": 8,
+   "title": "Phase 8 gate",
+   "description": "All Phase 8 tasks merged and demonstrated.",
+   "requirements": [
+    "OPS-009"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P07",
+    "P08.01",
+    "P08.02"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Replay a run, view dashboard and drift report.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P09.01",
+   "phase": 9,
+   "title": "Human labelled verdict set",
+   "description": "Both students label independently, resolve differences, record annotators.",
+   "requirements": [
+    "TUN-001",
+    "TUN-002"
+   ],
+   "module": "M11",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P03"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "eval/verdict/**",
+    "docs/**"
+   ],
+   "deliverables": "Labelled set",
+   "acceptance": "Both annotators recorded; no AI-authored labels",
+   "tests": "schema",
+   "verification_commands": [
+    "python harness/verification/scd.py check contract-tests"
+   ],
+   "evidence": "annotation log",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P09.02",
+   "phase": 9,
+   "title": "Baseline, tuning and final matrices",
+   "description": "Confusion matrix before and after; separate false-GO error.",
+   "requirements": [
+    "TUN-003",
+    "TUN-004",
+    "TUN-005"
+   ],
+   "module": "M11",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P08",
+    "P09.01"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "eval/verdict/**",
+    "config/**",
+    "k8s/**",
+    "docs/**"
+   ],
+   "deliverables": "Matrices",
+   "acceptance": "Measured from real runs",
+   "tests": "eval",
+   "verification_commands": [
+    "pytest jobs/evaluation -q"
+   ],
+   "evidence": "matrices",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P09",
+   "phase": 9,
+   "title": "Phase 9 gate",
+   "description": "All Phase 9 tasks merged and demonstrated.",
+   "requirements": [
+    "OPS-005"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P08",
+    "P09.01",
+    "P09.02"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Gate record",
+   "acceptance": "Before and after confusion matrices.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "demo log",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P10.01",
+   "phase": 10,
+   "title": "Resource measurement, autoscaling and platform demos",
+   "description": "kubectl top measurements, HPA, rollout, rollback, pods.",
+   "requirements": [
+    "K8S-004",
+    "K8S-006",
+    "M14-005",
+    "M11-003",
+    "SUB-006"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P09"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "k8s/**",
+    "docs/**",
+    "scripts/**"
+   ],
+   "deliverables": "Measured limits",
+   "acceptance": "Limits traceable to measurements",
+   "tests": "load test",
+   "verification_commands": [
+    "scripts/smoke_test.sh"
+   ],
+   "evidence": "screenshots",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P10.02",
+   "phase": 10,
+   "title": "Merge-conflict exercise",
+   "description": "Two branches edit the same lines; resolve in a PR.",
+   "requirements": [
+    "GIT-004",
+    "GIT-003",
+    "SUB-005"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P09"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**"
+   ],
+   "deliverables": "Conflict PR",
+   "acceptance": "PR and screenshot",
+   "tests": "manual",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "screenshot",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P10.03",
+   "phase": 10,
+   "title": "Report, screenshots and decision records",
+   "description": "10-page report, evidence register, 3+ DDRs, security pass.",
+   "requirements": [
+    "SUB-001",
+    "SUB-002",
+    "SUB-003",
+    "SUB-004",
+    "SUB-007",
+    "SUB-008",
+    "SUB-009",
+    "DDR-001",
+    "CIC-004",
+    "SEC-002",
+    "SET-003"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P10.01",
+    "P10.02"
+   ],
+   "complexity": "L",
+   "points": 5,
+   "allowed_paths": [
+    "docs/**",
+    "README.md"
+   ],
+   "deliverables": "Submission package",
+   "acceptance": "Every checklist row has evidence",
+   "tests": "release check",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "report PDF",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P10.04",
+   "phase": 10,
+   "title": "Contribution table, access check and viva",
+   "description": "Truthful table, signatures, both can explain system.",
+   "requirements": [
+    "SUB-010",
+    "LOG-002",
+    "COL-001",
+    "COL-002",
+    "COL-003",
+    "SUB-002"
+   ],
+   "module": "M14",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P10.03"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**"
+   ],
+   "deliverables": "Signed table",
+   "acceptance": "Signed by both students",
+   "tests": "manual",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "signed PDF",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P10",
+   "phase": 10,
+   "title": "Phase 10 gate",
+   "description": "Submission verified.",
+   "requirements": [
+    "SUB-001",
+    "GEN-004",
+    "GEN-005"
+   ],
+   "module": "M14",
+   "owner": "secondary",
+   "reviewer": "primary",
+   "depends_on": [
+    "P09",
+    "P10.01",
+    "P10.02",
+    "P10.03",
+    "P10.04"
+   ],
+   "complexity": "S",
+   "points": 1,
+   "allowed_paths": [
+    "docs/**",
+    "harness/task-registry/status/**"
+   ],
+   "deliverables": "Release record",
+   "acceptance": "Rollout, rollback, NetworkPolicy test, report and screenshots.",
+   "tests": "all checks",
+   "verification_commands": [
+    "python harness/verification/scd.py all"
+   ],
+   "evidence": "submission receipt",
+   "needs": [
+    "human"
+   ],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  }
+ ]
+}

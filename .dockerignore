@@ -1,0 +1,11 @@
+**/.git
+**/__pycache__
+**/.venv
+**/node_modules
+**/.env
+**/.env.*
+docs/
+.claude/
+harness/
+*.gguf
+*.safetensors

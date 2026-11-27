@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "Score the idea on demand_pain using rubric demand_pain@v3. Reply with JSON only."
+    },
+    {
+      "role": "user",
+      "content": "IDEA: ... EVIDENCE: [card_8f21#c2] ..."
+    }
+  ]
+}

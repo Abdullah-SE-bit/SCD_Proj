@@ -20,3 +20,23 @@ coverage/
 CLAUDE.local.md
 .claude/settings.local.json
 .playwright-mcp/
+
+# Course documents stay local: this repository is public (decision D-01)
+docs/source/*.pdf
+
+# Tool output
+graphify-out/
+.ruff_cache/
+.mypy_cache/
+.serena/cache/
+
+# Credentials
+kubeconfig
+*.kubeconfig
+*.pem
+*.key
+
+# Model weights and large artefacts (Guide 6.2)
+*.gguf
+*.safetensors
+models/

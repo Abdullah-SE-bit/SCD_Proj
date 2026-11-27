@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Dimension score (M9 using M10)",
+  "description": "Source: Guide 2.2; Description M9: without evidence a scorer abstains instead of emitting this record. Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "dimension": {
+      "enum": [
+        "demand_pain",
+        "competition",
+        "differentiation",
+        "feasibility",
+        "risk",
+        "learning"
+      ]
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9_]+#c[0-9]+$"
+      },
+      "minItems": 1
+    },
+    "features": {
+      "type": "object"
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rubric_version": {
+      "type": "string",
+      "pattern": "^[a-z_]+@v[0-9]+$"
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "dimension",
+    "score",
+    "confidence",
+    "evidence_ids",
+    "features",
+    "reason",
+    "rubric_version",
+    "model"
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "M6 knowledge base",
+    "version": "0.1.0",
+    "description": "Proposed contract from Guide section 3. Not implemented."
+  },
+  "paths": {
+    "/search": {
+      "post": {
+        "summary": "Query with filters; ranked evidence items",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "../schemas/evidence-item.schema.json"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "query"
+                ],
+                "description": "Query with filters (Guide section 3); filter by date, source and niche (Description section 4, M6). Property names are proposed.",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "filters": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "date_from": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "date_to": {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      "source": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "niche": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Process alive",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "x-status": "proposed: fields not specified by the course documents"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "summary": "Can serve now, dependencies reachable",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "x-status": "proposed: fields not specified by the course documents"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Alive but cannot serve now"
+          }
+        }
+      }
+    }
+  }
+}

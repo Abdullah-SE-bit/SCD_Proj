@@ -406,6 +406,17 @@ class ReviewFindings(Fixture):
         for expected in ["pr must link", "not in this repository"]:
             self.assertIn(expected, found)
 
+    def test_done_needs_the_human_label(self):
+        self.branch("docs/P00-gate")
+        self.done("P00.01")
+        sh(self.repo, "git", "add", "-A")
+        sh(self.repo, "git", "commit", "-qm", "complete")
+        self.with_env(PR_BASE="dev", PR_LABELS="")
+        with self.assertRaisesRegex(scd.Failure, "label from a human"):
+            scd.check_protected_files(self.repo)
+        os.environ["PR_LABELS"] = self.policy["protected_label"]
+        scd.check_protected_files(self.repo)
+
     def test_h3_bypasses_are_denied_or_asked(self):
         self.branch("feat/P01.01-x")
         for line in [GH + "api repos/O/R/pulls/8/reviews -f event=APPROVE",

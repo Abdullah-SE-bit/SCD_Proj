@@ -387,6 +387,9 @@ def check_protected_files(root: Path) -> str:
             problems.append("source document checksums are immutable")
         touched = [f for f in changed if match_any(f, policy["protected_paths"])]
         touched += requirement_text_changes(root, base)
+        # not a review: marking work complete stays a human's authorisation
+        touched += [f for f in changed if f.startswith(STATUS_DIR + "/") and (root / f).exists()
+                    and load(root, f).get("status") == "done"]
         labels = os.environ.get("PR_LABELS", "").split(",")
         if touched and policy["protected_label"] not in labels:
             problems += [f"needs the '{policy['protected_label']}' label from a human: {f}" for f in touched]

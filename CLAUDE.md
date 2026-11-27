@@ -15,6 +15,7 @@ Two Claude Code sessions, one per contributor, each in its own clone. Phase 0 (f
 9. Test: the task's commands, then `python harness/verification/scd.py all`.
 10. Update docs, `docs/submission/AIUsageLog.md`, your handoff, and the status file (`done`) with evidence.
     A task is `done` once merged with its checks passing; a phase gate PR may record its whole phase.
+    A PR that records `done` needs the human's `authorized-protected-change` label.
 11. PR into `dev` with the template: `python harness/verification/scd.py gh -- pr create --base dev`.
     Merge it yourself once checks pass.
 12. Tell the other session what merged (`docs/agentic/CrossSessionProtocol.md`) and save state before ending.

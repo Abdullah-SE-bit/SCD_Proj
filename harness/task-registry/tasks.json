@@ -29,7 +29,7 @@
   {
    "id": "P05",
    "title": "Validate workflow with scorers and guardrails",
-   "demonstration": "Validate a real idea with live progress and evidence-linked card."
+   "demonstration": "Validate a real idea with live progress and evidence-linked card. Traces, replay and budget stops are visible."
   },
   {
    "id": "P06",
@@ -43,8 +43,8 @@
   },
   {
    "id": "P08",
-   "title": "AgenticOps",
-   "demonstration": "Replay a run, view dashboard and drift report."
+   "title": "AgenticOps evaluation, drift and dashboard",
+   "demonstration": "Behaviour tests pass; evaluation Job, dashboard and drift report shown."
   },
   {
    "id": "P09",
@@ -493,7 +493,7 @@
    "title": "Phase 1 gate",
    "description": "All Phase 1 tasks merged and demonstrated.",
    "requirements": [
-    "GEN-005"
+    "CMN-008"
    ],
    "module": "M14",
    "owner": "primary",
@@ -562,7 +562,6 @@
    "title": "Authentication, rate limits and validation",
    "description": "Register, login, profile endpoints at the gateway.",
    "requirements": [
-    "USR-001",
     "M01-003",
     "API-003",
     "SCH-002",
@@ -1044,7 +1043,7 @@
    "title": "Phase 4 gate",
    "description": "All Phase 4 tasks merged and demonstrated.",
    "requirements": [
-    "GEN-001"
+    "M6I-003"
    ],
    "module": "M14",
    "owner": "secondary",
@@ -1140,7 +1139,9 @@
    "owner": "primary",
    "reviewer": "secondary",
    "depends_on": [
-    "P04"
+    "P04",
+    "P05.05",
+    "P05.06"
    ],
    "complexity": "L",
    "points": 5,
@@ -1235,12 +1236,85 @@
    "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
   },
   {
+   "id": "P05.05",
+   "phase": 5,
+   "title": "Tracing and replay",
+   "description": "Trace APIs, JSON lines, replay.",
+   "requirements": [
+    "M13-001",
+    "OPS-001",
+    "OPS-002",
+    "API-012",
+    "SCH-006",
+    "ARC-006",
+    "K8S-009"
+   ],
+   "module": "M13",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P04"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/agentops/**",
+    "services/**",
+    "tests/**"
+   ],
+   "deliverables": "Tracing",
+   "acceptance": "Replay reproduces decisions",
+   "tests": "behaviour",
+   "verification_commands": [
+    "pytest services/agentops -q"
+   ],
+   "evidence": "trace",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
+   "id": "P05.06",
+   "phase": 5,
+   "title": "Budgets and registry",
+   "description": "Caps for tokens, pages, steps, cost; prompt and rubric registry.",
+   "requirements": [
+    "M13-002",
+    "M13-003",
+    "OPS-003",
+    "OPS-004"
+   ],
+   "module": "M13",
+   "owner": "primary",
+   "reviewer": "secondary",
+   "depends_on": [
+    "P05.05"
+   ],
+   "complexity": "M",
+   "points": 3,
+   "allowed_paths": [
+    "services/agentops/**",
+    "services/orchestrator/**",
+    "services/tools/**",
+    "config/**",
+    "tests/**"
+   ],
+   "deliverables": "Budgets",
+   "acceptance": "Each cap tested",
+   "tests": "unit",
+   "verification_commands": [
+    "pytest services/agentops -q"
+   ],
+   "evidence": "CI run",
+   "needs": [],
+   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
+  },
+  {
    "id": "P05",
    "phase": 5,
    "title": "Phase 5 gate",
    "description": "All Phase 5 tasks merged and demonstrated.",
    "requirements": [
-    "GEN-004"
+    "VAL-006"
    ],
    "module": "M14",
    "owner": "primary",
@@ -1250,7 +1324,9 @@
     "P05.01",
     "P05.02",
     "P05.03",
-    "P05.04"
+    "P05.04",
+    "P05.05",
+    "P05.06"
    ],
    "complexity": "S",
    "points": 1,
@@ -1457,7 +1533,8 @@
    "description": "Clustering, naming, monthly series, rising/flat/saturated, gaps.",
    "requirements": [
     "M07-001",
-    "M07-002"
+    "M07-002",
+    "GEN-001"
    ],
    "module": "M7",
    "owner": "secondary",
@@ -1527,7 +1604,8 @@
    "requirements": [
     "DSC-004",
     "USR-002",
-    "GEN-002"
+    "GEN-002",
+    "USR-001"
    ],
    "module": "M3",
    "owner": "secondary",
@@ -1588,79 +1666,6 @@
   {
    "id": "P08.01",
    "phase": 8,
-   "title": "Tracing and replay",
-   "description": "Trace APIs, JSON lines, replay.",
-   "requirements": [
-    "M13-001",
-    "OPS-001",
-    "OPS-002",
-    "API-012",
-    "SCH-006",
-    "ARC-006",
-    "K8S-009"
-   ],
-   "module": "M13",
-   "owner": "primary",
-   "reviewer": "secondary",
-   "depends_on": [
-    "P05"
-   ],
-   "complexity": "M",
-   "points": 3,
-   "allowed_paths": [
-    "services/agentops/**",
-    "services/**",
-    "tests/**"
-   ],
-   "deliverables": "Tracing",
-   "acceptance": "Replay reproduces decisions",
-   "tests": "behaviour",
-   "verification_commands": [
-    "pytest services/agentops -q"
-   ],
-   "evidence": "trace",
-   "needs": [],
-   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
-  },
-  {
-   "id": "P08.02",
-   "phase": 8,
-   "title": "Budgets and registry",
-   "description": "Caps for tokens, pages, steps, cost; prompt and rubric registry.",
-   "requirements": [
-    "M13-002",
-    "M13-003",
-    "OPS-003",
-    "OPS-004"
-   ],
-   "module": "M13",
-   "owner": "primary",
-   "reviewer": "secondary",
-   "depends_on": [
-    "P08.01"
-   ],
-   "complexity": "M",
-   "points": 3,
-   "allowed_paths": [
-    "services/agentops/**",
-    "services/orchestrator/**",
-    "services/tools/**",
-    "config/**",
-    "tests/**"
-   ],
-   "deliverables": "Budgets",
-   "acceptance": "Each cap tested",
-   "tests": "unit",
-   "verification_commands": [
-    "pytest services/agentops -q"
-   ],
-   "evidence": "CI run",
-   "needs": [],
-   "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
-  },
-  {
-   "id": "P08.03",
-   "phase": 8,
    "title": "Behaviour tests",
    "description": "Recorded responses: invalid JSON, timeout, empty source, poisoned page.",
    "requirements": [
@@ -1689,7 +1694,7 @@
    "definition_of_done": "Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present."
   },
   {
-   "id": "P08.04",
+   "id": "P08.02",
    "phase": 8,
    "title": "Evaluation harness, drift and dashboard",
    "description": "Harness as Job, drift reports, dashboard metrics.",
@@ -1706,7 +1711,7 @@
    "owner": "secondary",
    "reviewer": "primary",
    "depends_on": [
-    "P08.01",
+    "P05.05",
     "P09.01"
    ],
    "complexity": "L",
@@ -1734,7 +1739,7 @@
    "title": "Phase 8 gate",
    "description": "All Phase 8 tasks merged and demonstrated.",
    "requirements": [
-    "GEN-004"
+    "OPS-009"
    ],
    "module": "M14",
    "owner": "secondary",
@@ -1742,9 +1747,7 @@
    "depends_on": [
     "P07",
     "P08.01",
-    "P08.02",
-    "P08.03",
-    "P08.04"
+    "P08.02"
    ],
    "complexity": "S",
    "points": 1,
@@ -2017,7 +2020,9 @@
    "title": "Phase 10 gate",
    "description": "Submission verified.",
    "requirements": [
-    "SUB-001"
+    "SUB-001",
+    "GEN-004",
+    "GEN-005"
    ],
    "module": "M14",
    "owner": "secondary",

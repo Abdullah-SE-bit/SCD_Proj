@@ -32,7 +32,6 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| GEN-001 | Desc p1 §1.1 | mandatory | The system collects startup ideas, products and niches from public sources (YC directory, Hacker News, GitHub, Product Hunt or Reddit) and organises them into a map of niches and trends. | Niche map with trend series is built from collected public-source cards. | e2e | unimplemented |
 | USR-004 | Desc p2 §2 U4 | mandatory | U4: Approve or decline an expensive deep search. Done when the system states the cost and waits before going over budget. | Run pauses with stated cost; approve and decline both work. | e2e | unimplemented |
 | USR-005 | Desc p2 §2 U5 | mandatory | U5: Submit own idea (Validate) and answer clarifying questions. Done when only questions that change the result are asked, then a verdict card is shown. | Only result-changing questions are asked; card appears. | e2e | unimplemented |
 | DSC-004 | Desc p3 §3.1 Fig.2 | mandatory | Survivors go through the Validate workflow (M9 to M11); result is ranked ideas with verdict cards. | Each ranked idea has a card produced by Validate. | e2e | unimplemented |
@@ -87,6 +86,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
+| GEN-001 | Desc p1 §1.1 | mandatory | The system collects startup ideas, products and niches from public sources (YC directory, Hacker News, GitHub, Product Hunt or Reddit) and organises them into a map of niches and trends. | Niche map with trend series is built from collected public-source cards. | e2e | unimplemented |
 | VAL-004 | Desc p3 §3.2 Fig.3 | mandatory | Features are numbers computed in code from the evidence. | Features are deterministic functions of retrieved data. | unit | unimplemented |
 | M07-001 | Desc p4 §4 | mandatory | Cluster cards into niches and find rising, flat and saturated niches and gaps. | Niches labelled rising/flat/saturated with gaps. | test | unimplemented |
 | M07-002 | Desc p4 §4 | mandatory | Named niches, monthly time series, and a list of gaps that feeds M8 and M9. | Outputs consumed by M8 and M9. | integration | unimplemented |
@@ -114,7 +114,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | M09-004 | Desc p4 §4 | mandatory | Every score cites evidence ids, otherwise the scorer abstains. | Score without evidence is rejected as abstention. | unit | unimplemented |
 | VER-002 | Desc p4 §5 | mandatory | Every score carries evidence ids and uses a versioned rubric. | Schema requires both. | contract | unimplemented |
 | DIM-001 | Desc p4 §5.1 | mandatory | Each of six dimensions is scored 0 to 5 (higher is better for the student) with confidence 0 to 1 and evidence ids. | Schema bounds enforced. | contract | unimplemented |
-| DIM-002 | Desc p4 §5.1 | mandatory | Dimensions: demand and pain; competition; differentiation; feasibility for this student; risk; learning and portfolio value, with the stated meaning of 5. | All six produced with rubric anchors. | inspection | unimplemented |
+| DIM-002 | Desc p4 §5.1 | mandatory | The six dimensions and what a score of 5 means: demand and pain: many independent sources show the same strong, recurring problem; competition: few or weak direct competitors, so there is room to enter; differentiation: a clear gap that existing products do not address; feasibility for this student: fits the student's hours, skills and compute with margin; risk: no legal, privacy, safety or platform-dependency concern; learning and portfolio value: teaches skills the student wants and shows well on a CV. | All six produced; each rubric's anchor 5 matches the stated meaning. | inspection | unimplemented |
 | DIM-003 | Desc p4 §5.1 | mandatory | Each score combines computed features with the fine-tuned model's judgment under a versioned rubric. | Score record has features, model and rubric version. | test | unimplemented |
 | SCH-004 | Guide p2 §2.2 | mandatory | Dimension score schema with dimension, score, confidence, evidence_ids, features, reason, rubric_version, model. | Schema contains all fields. | contract | unimplemented |
 
@@ -163,10 +163,10 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | SCR-005 | Desc p5 §5.3 | mandatory | Starting values T_go 70, T_no 50, floor 1.5, to be tuned. | Defaults in config. | unit | unimplemented |
 | SCR-006 | Desc p5 §5.3 | mandatory | Confidence = 0.7 x mean dimension confidence + 0.3 x min(1, sources/5); below 0.5 gives INSUFFICIENT EVIDENCE (abstain). | Formula and 0.5 edge tested. | unit | unimplemented |
 | SCR-007 | Desc p5 §5.3 | mandatory | Challenge: each accepted evidence-backed objection lowers the matching score by 0.5 (at most 1.0) and its confidence by 0.1; unsupported objections discarded. | Adjustment and cap tests. | unit | unimplemented |
-| SCR-008 | Desc p5 §5.3 | mandatory | Sensitivity: recompute with each weight moved up and down by 20 percent (difference shared among others) and the least confident score moved by one point. | Run enumeration tested. | unit | unimplemented |
+| SCR-008 | Desc p5 §5.3 | mandatory | Sensitivity: recompute the verdict with each weight moved up and down by 20 percent (the difference shared among the others; the worked example shares it in proportion) and the least confident score moved by one point. | Run enumeration tested. | unit | unimplemented |
 | SCR-009 | Desc p5 §5.3 | mandatory | If any sensitivity run changes the verdict, the card says BORDERLINE and shows what flips it. | Flip listed on card. | unit | unimplemented |
 | SCR-010 | Desc p5 §5.3 | mandatory | What would make this GO: find the smallest change that changes the verdict; applying it re-runs scorers and engine and creates a new version. | New version created after apply. | e2e | unimplemented |
-| SCR-011 | Desc p6 §5.4 | mandatory | Worked example: Portfolio weights and scores give 352.5/5 = 70.5; lowering Feasibility weight to 20 gives about 69.9 (GO, BORDERLINE); Competition 2.0 to 3.0 gives 73.5 and about 73.1. | Fixtures reproduce all four numbers. | unit | unimplemented |
+| SCR-011 | Desc p6 §5.4 | mandatory | Worked example: Portfolio weights 15/15/15/25/10/20 with scores Demand 3.5, Competition 2.0, Differentiation 3.0, Feasibility 4.0, Risk 3.5, Learning 4.5 and all gates passing give 352.5/5 = 70.5 (GO); lowering the Feasibility weight from 25 to 20, sharing 5 points in proportion, gives about 69.9, so the verdict flips to PIVOT and the card says GO, BORDERLINE; raising Competition from 2.0 to 3.0 gives 73.5, and about 73.1 under the same weight change, which the document calls a stable GO (see AMB-24). | Fixtures with the stated inputs reproduce the four numbers and the stated flip. | unit | unimplemented |
 | SCH-005 | Guide p2 §2.3 | mandatory | Verdict schema with idea_id, version, run_id, verdict, stability, score, confidence, gates, weights, thresholds, scores, weakest_dimension, what_would_make_go, sensitivity, versions. | Schema contains all fields. | contract | unimplemented |
 | API-010 | Guide p3 §3 | mandatory | M11 POST /verdict and /whatif take six scores, profile, config and return verdict JSON. | Contract test. | contract | unimplemented |
 | TUN-001 | Guide p7 §10 | mandatory | Human labelled set of ideas with profiles and human verdicts incl. clear GO, clear NO-GO, borderline and thin-evidence cases; note who labelled what (ideally independently then resolved). | Dataset with annotators exists. | inspection | unimplemented |
@@ -182,7 +182,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | USR-008 | Desc p2 §2 U8 | mandatory | U8: Press Challenge on a claim; the critic re-checks it against its evidence and defends or removes it. | Challenged claim is defended or removed with reason. | e2e | unimplemented |
 | M12-001 | Desc p4 §4 | mandatory | M12 stops unsupported claims and manipulation with claim check against evidence. | Unsupported claim rejected. | test | unimplemented |
 | M12-004 | Desc p4 §4 | mandatory | Approval required above budget. | Over-budget action waits for approval. | test | unimplemented |
-| API-011 | Guide p3 §3 | mandatory | M12 POST /check returns supported or not per claim with evidence ids. | Contract test. | contract | unimplemented |
+| API-011 | Guide p3 §3 | mandatory | M12 POST /check takes claims with evidence ids and returns, per claim, whether it is supported. | Contract test. | contract | unimplemented |
 
 ## M13
 

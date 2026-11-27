@@ -473,6 +473,18 @@ class ReviewFindings(Fixture):
         with self.assertRaisesRegex(scd.Failure, "API writes"):
             scd.gh(self.repo, ["api", "repos/O/R/pulls/8/merge", "-iXPUT"])
 
+    def test_wrapped_and_quoted_decisions_still_ask(self):
+        script = "python harness/verification/scd.py "
+        for line in [script + '"gh" -- pr review 8 --approve', script + "'gh' -- pr review 8 --approve",
+                     script + "g\\h -- pr review 8 --approve", f'bash -c "{GH}pr review 8 --approve"',
+                     f"pwsh -Command '{GH}pr merge 8'", f'eval "{GH}pr review 8 -a"',
+                     f'bash -c "{GH}pr review 8 -ab ok"', f'sh -c "{GH}pr -R O/R merge 8"',
+                     f'bash -c "{GH}pr review 8 --request-changes"']:
+            with self.subTest(line=line):
+                self.assertEqual(self.decide("Bash", command=line), "ask")
+        self.assertEqual(self.decide("Bash", command="git log --author=Asad --oneline"), "allow")
+        self.assertEqual(self.decide("PowerShell", command="Rename-Item .claude/hooks/guard.py x.py"), "deny")
+
     def test_other_tools_are_checked(self):
         self.branch("feat/P01.01-x")
         line = GH + "pr review 8 --approve; git push origin main"

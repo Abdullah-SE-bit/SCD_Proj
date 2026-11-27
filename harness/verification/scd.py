@@ -744,7 +744,7 @@ def gh_decision(policy: dict[str, Any], args: list[str]) -> tuple[str, str]:
 
 def wrapper_calls(line: str) -> list[list[str]]:
     """Argument lists of every literal 'scd.py gh --' call in a shell command line."""
-    if not re.search(r"scd\.py[\"']?\s+gh\b", line):
+    if not re.search(r"scd\.py[\"']?\s+[\"']?gh\b", line):
         return []
     quote, text = "", []
     for char in line.replace("\\\n", " ").replace("\\", "/"):
@@ -785,7 +785,7 @@ DENY_COMMANDS = [
     (rf"\bgit\b{SEGMENT}\bconfig\b{SEGMENT}(user\.(name|email)\s+\S|credential\.|core\.hookspath)",
      "identity configuration is fixed"),
     (rf"\bgit\b{SEGMENT}\s(-c\s*|--config-env[=\s])(user\.(name|email)|credential\.|core\.hookspath)|"
-     rf"\bgit\b{SEGMENT}\s--author\b|\bGIT_(AUTHOR|COMMITTER)_(NAME|EMAIL)\b",
+     rf"\bgit\b{SEGMENT}\bcommit\b{SEGMENT}\s--author\b|\bGIT_(AUTHOR|COMMITTER)_(NAME|EMAIL)\b",
      "identity cannot be overridden per command"),
     (r"\b(switch|checkout)\b" + SEGMENT + r"\s(main|dev)(?![\w./-])[\s\S]*\bgit\b" + SEGMENT + r"\bcommit\b",
      "no direct commits on main or dev"),
@@ -799,12 +799,16 @@ PROTECTED = (r"(harness[/\\](verification|policies|tests|task-registry[/\\]tasks
 PROTECTED_WRITE = (
     r">{1,2}\s*[^\s;&|]*" + PROTECTED + "|"
     r"(\btee\b|\bsed\b" + SEGMENT + r"(\s-i|--in-place)|\b(Set|Add)-Content\b|\bOut-File\b|\bNew-Item\b|"
-    r"\b(Remove|Move|Copy)-Item\b|WriteAll(Text|Lines|Bytes)|\b(rm|mv|cp)\b|\b(curl|wget)\b" + SEGMENT + r"\s-[oO]\b|"
+    r"\b(Remove|Move|Copy|Rename)-Item\b|WriteAll(Text|Lines|Bytes)|\b(rm|mv|cp)\b|"
+    r"\b(curl|wget)\b" + SEGMENT + r"\s-[oO]\b|"
     r"\bgit\b" + SEGMENT + r"\b(restore|checkout)\b)" + SEGMENT + PROTECTED + "|"
     r"\bcd\s+[^\s;&|]*(harness|\.claude|\.github)[^\n]*(\bsed\b[^\n]*(\s-i|--in-place)|>{1,2}\s*\w|\btee\b|\b(rm|mv|cp)\b)")
+# Matched on the quote-stripped text as well as parsed arguments, so wrappers (bash -c, eval, quoting) still ask.
+PR = r"\bpr\b(\s+(-R|--repo)[\s=]*\S+)*\s+"
 ASK_COMMANDS = [
-    # fallback for calls made through a shell variable, which the parser below cannot see
-    (r"\$\S*[\s\S]*\bpr\b(\s+(-R|--repo)[\s=]*\S+)*\s+(review|merge)\b", "review and merge decisions are the owner's"),
+    (PR + r"review\b[\s\S]*(--approve\b|--request-changes\b|(?<!\S)-(?!-)[a-z]*[ar][a-z]*(?!\S))",
+     "a review decision belongs to the account owner"),
+    (PR + r"merge\b", "merging needs confirmation"),
 ]
 
 

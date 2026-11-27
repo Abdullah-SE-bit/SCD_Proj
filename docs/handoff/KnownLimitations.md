@@ -3,14 +3,17 @@
 1. Application: nothing is implemented.
 2. Course PDFs are not in the public repository (D-01); a fresh clone needs them copied in.
 3. Assignment 1, referenced by M2, was not supplied.
-4. Requirements extraction is not yet independently audited (P00.06).
+4. The independent review was AI-assisted; no human has audited the requirements line by line.
 5. NetworkPolicy manifests are schema-valid but enforcement is untested; no cluster was created.
-6. Jenkinsfile has never run on a Jenkins server (see the verification report for syntax validation).
+6. Jenkinsfile syntax and execution are unverified; delivery scripts were tested only with a fake `kubectl`.
 7. docker-compose.yml is an explicit empty placeholder.
-8. Hooks are text-pattern guard rails; both tokens share one OS user (PermissionPolicy).
-9. Hooks of this harness load in new sessions after each user trusts them; verified by running the hook program,
-   not yet inside a fresh interactive session.
-10. `dev` needs no approval (D-11).
-11. The repository is public; commit email addresses are visible.
-12. Roll numbers, signatures, annotations and credentials are outstanding.
-13. Security-guidance commit review and Serena analysis are unverified.
+8. Hooks are text-pattern guard rails: interpreters can write files, variable-built subcommands can avoid the
+   prompt, and bypass-permissions mode may skip prompts. Both tokens share one OS user (PermissionPolicy).
+9. The authorization label stays on a pull request when new commits are pushed.
+10. Rollback does not restore ConfigMaps or replica counts.
+11. `dev` needs no approval (D-11); review there is policy.
+12. The repository is public; commit email addresses and their hashes are visible.
+13. Roll numbers, signatures, annotations and credentials are outstanding.
+14. Security-guidance commit review and Serena analysis are unverified.
+
+Open low review findings: [ReviewResponses](ReviewResponses.md).

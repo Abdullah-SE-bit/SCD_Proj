@@ -10,7 +10,7 @@ Demonstrable result: Protected branches, green Phase 0 checks, reviewed promotio
 
 Audit both PDFs; extract traceable requirements and ambiguities.
 
-- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status done
+- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status not done
 - Depends on: nothing
 - Requirements: DDR-001, IFC-001
 - File scope: `docs/**`, `harness/**`
@@ -26,7 +26,7 @@ Audit both PDFs; extract traceable requirements and ambiguities.
 
 Protect main and dev, PR and issue templates, merge policy.
 
-- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status done
+- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status not done
 - Depends on: nothing
 - Requirements: M14-001, GIT-001, GIT-002, CIC-006
 - File scope: `.github/**`, `docs/**`
@@ -42,7 +42,7 @@ Protect main and dev, PR and issue templates, merge policy.
 
 MVP, architecture, schemas, OpenAPI, task plan.
 
-- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status done
+- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status not done
 - Depends on: P00.01
 - Requirements: IFC-002, API-001, SCH-001, SCH-002, SCH-003, SCH-004, SCH-005, SCH-006
 - File scope: `docs/**`, `contracts/**`, `config/**`, `rubrics/**`, `eval/**`
@@ -58,7 +58,7 @@ MVP, architecture, schemas, OpenAPI, task plan.
 
 Skills, subagents, rules, hooks, verification scripts and tests.
 
-- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status done
+- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status not done
 - Depends on: P00.01
 - Requirements: DOC-001, SEC-002, LOG-001
 - File scope: `.claude/**`, `harness/**`, `CLAUDE.md`, `AGENTS.md`
@@ -74,7 +74,7 @@ Skills, subagents, rules, hooks, verification scripts and tests.
 
 Required check workflow, Jenkinsfile, manifests scaffold.
 
-- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status done
+- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status not done
 - Depends on: P00.04
 - Requirements: M14-002, CIC-005, SET-003, REP-001, NET-001
 - File scope: `.github/**`, `k8s/**`, `Jenkinsfile`, `docker-compose.yml`, `.env.example`, `scripts/**`

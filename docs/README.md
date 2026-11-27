@@ -10,7 +10,7 @@
 | Agentic | [harness](agentic/AgentHarness.md), [skills](agentic/SkillsInventory.md), [MCP](agentic/MCPInventory.md), [plugins](agentic/PluginInventory.md), [subagents](agentic/SubagentRegistry.md), [permissions](agentic/PermissionPolicy.md), [cross-session](agentic/CrossSessionProtocol.md), [recovery](agentic/FailureRecovery.md) |
 | DevOps | [git](devops/GitWorkflow.md), [protection](devops/BranchProtection.md), [CI/CD](devops/CICDArchitecture.md), [environment](environment/EnvironmentSetup.md) |
 | Academic | [AI log](submission/AIUsageLog.md), [contribution](submission/ContributionTable.md), [DDR template](decisions/DesignDecisionRecordTemplate.md), [checklist](submission/SubmissionChecklist.md), [screenshots](submission/ScreenshotChecklist.md), [report](submission/ReportOutline.md), [annotation](submission/HumanAnnotationPlan.md) |
-| Phase 0 | [verification](handoff/Phase0VerificationReport.md), [environment report](environment/EnvironmentVerificationReport.md), [handoff](handoff/Phase0Handoff.md), [limitations](handoff/KnownLimitations.md) |
+| Phase 0 | [verification](handoff/Phase0VerificationReport.md), [environment report](environment/EnvironmentVerificationReport.md), [handoff](handoff/Phase0Handoff.md), [limitations](handoff/KnownLimitations.md), [review responses](handoff/ReviewResponses.md) |
 
 Consolidated: DockerStrategy and KubernetesStrategy into DeploymentArchitecture; ExternalServices into
 CostAndDependencies.

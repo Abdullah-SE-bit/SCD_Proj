@@ -27,16 +27,31 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "x-status": "proposed: fields not specified by the course documents"
+                "properties": {
+                  "rubric": {
+                    "$ref": "../schemas/rubric.schema.json"
+                  },
+                  "idea": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "../schemas/evidence-item.schema.json"
+                    }
+                  }
+                },
+                "required": [
+                  "rubric",
+                  "idea",
+                  "evidence"
+                ],
+                "description": "Inputs documented in Guide section 3: rubric, idea, evidence; property names are proposed."
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ]
+        }
       }
     },
     "/health": {
@@ -71,16 +86,11 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Alive but cannot serve now"
           }
         }
-      }
-    }
-  },
-  "components": {
-    "securitySchemes": {
-      "bearer": {
-        "type": "http",
-        "scheme": "bearer"
       }
     }
   }

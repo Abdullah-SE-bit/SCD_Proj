@@ -4,10 +4,12 @@
 # release is one revision. Deployments this run changed are listed in $CHANGED_FILE for rollback.sh.
 set -eu
 registry=$1 tag=$2 ns=$3
-changed=${CHANGED_FILE:-.deployed}
+changed=${CHANGED_FILE:-${TMPDIR:-/tmp}/scd-deployed-$ns}
 before=$(mktemp) rendered=$(mktemp)
+# Compare pod templates: only a template change creates a revision that "rollout undo" can reverse. Other
+# changes (replica counts, ConfigMaps) are not rolled back by this pipeline.
 state() {
-  kubectl -n "$ns" get deploy -o jsonpath='{range .items[*]}{.metadata.name} {.metadata.generation}{"\n"}{end}' | sort
+  kubectl -n "$ns" get deploy -o jsonpath='{range .items[*]}{.metadata.name} {.spec.template}{"\n"}{end}' | sort
 }
 : > "$changed"
 kubectl kustomize k8s | sed "s#\(image: *$registry/[^:]*\):RELEASE#\1:$tag#" > "$rendered"

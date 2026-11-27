@@ -27,16 +27,31 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "x-status": "proposed: fields not specified by the course documents"
+                "properties": {
+                  "scores": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "../schemas/dimension-score.schema.json"
+                    },
+                    "maxItems": 6
+                  },
+                  "profile": {
+                    "$ref": "../schemas/student-profile.schema.json"
+                  },
+                  "config": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "scores",
+                  "profile",
+                  "config"
+                ],
+                "description": "Inputs documented in Guide section 3: six scores, profile, config (an abstaining scorer sends no record, AMB-09); property names are proposed."
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ]
+        }
       }
     },
     "/whatif": {
@@ -60,16 +75,31 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "x-status": "proposed: fields not specified by the course documents"
+                "properties": {
+                  "scores": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "../schemas/dimension-score.schema.json"
+                    },
+                    "maxItems": 6
+                  },
+                  "profile": {
+                    "$ref": "../schemas/student-profile.schema.json"
+                  },
+                  "config": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "scores",
+                  "profile",
+                  "config"
+                ],
+                "description": "Inputs documented in Guide section 3: six scores, profile, config (an abstaining scorer sends no record, AMB-09); property names are proposed."
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ]
+        }
       }
     },
     "/health": {
@@ -104,16 +134,11 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Alive but cannot serve now"
           }
         }
-      }
-    }
-  },
-  "components": {
-    "securitySchemes": {
-      "bearer": {
-        "type": "http",
-        "scheme": "bearer"
       }
     }
   }

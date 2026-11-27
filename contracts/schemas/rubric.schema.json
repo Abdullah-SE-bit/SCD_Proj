@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Rubric file, one per dimension",
-  "description": "Source: Guide section 10: an anchor for every score 0-5 and at least one worked example per level. Listed fields are the documented minimum (Guide section 1).",
+  "description": "Source: Guide section 10: an anchor for every score 0-5 and at least one worked example per level. Listed fields are the documented minimum (Guide section 1). YAML integer anchor keys are converted to strings before validation.",
   "type": "object",
   "properties": {
     "dimension": {
@@ -67,11 +67,19 @@
       }
     },
     "output_schema": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ]
     },
     "examples": {
       "type": "array",

@@ -1,0 +1,22 @@
+{
+  "item_id": "v001",
+  "idea": "...",
+  "profile": {
+    "user_id": "u_12",
+    "skills": [
+      "python",
+      "react"
+    ],
+    "hours_per_week": 10,
+    "weeks_available": 12,
+    "team_size": 2,
+    "compute": "laptop",
+    "goal": "portfolio",
+    "interests": [
+      "education"
+    ]
+  },
+  "case_type": "borderline",
+  "labels": [],
+  "resolved_verdict": "PIVOT"
+}

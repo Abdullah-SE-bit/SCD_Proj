@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence item (M6)",
+  "description": "Source: Guide 2.2. Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "evidence_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_]+#c[0-9]+$"
+    },
+    "card_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "quote": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^https?://"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "evidence_id",
+    "card_id",
+    "quote",
+    "source",
+    "url",
+    "retrieved_at"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Student profile (M2)",
+  "description": "Source: Guide 2.1. Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "hours_per_week": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 168
+    },
+    "weeks_available": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "team_size": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "compute": {
+      "enum": [
+        "laptop",
+        "free_gpu",
+        "paid"
+      ]
+    },
+    "goal": {
+      "enum": [
+        "startup",
+        "portfolio",
+        "course_project"
+      ]
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "user_id",
+    "skills",
+    "hours_per_week",
+    "weeks_available",
+    "team_size",
+    "compute",
+    "goal",
+    "interests"
+  ]
+}

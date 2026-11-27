@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Human verdict label: tuning and measuring only, never training",
+  "description": "Source: Guide section 10 (record shape proposed). Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "idea": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile": {
+      "$ref": "student-profile.schema.json"
+    },
+    "case_type": {
+      "enum": [
+        "clear_go",
+        "clear_no_go",
+        "borderline",
+        "thin_evidence"
+      ]
+    },
+    "labels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "annotator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "verdict": {
+            "enum": [
+              "GO",
+              "PIVOT",
+              "NO-GO",
+              "INSUFFICIENT_EVIDENCE"
+            ]
+          },
+          "at": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "annotator",
+          "verdict",
+          "at"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "resolved_verdict": {
+      "enum": [
+        "GO",
+        "PIVOT",
+        "NO-GO",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    }
+  },
+  "required": [
+    "item_id",
+    "idea",
+    "profile",
+    "case_type",
+    "labels",
+    "resolved_verdict"
+  ]
+}

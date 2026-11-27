@@ -1,0 +1,81 @@
+{
+  "dimension": "demand_pain",
+  "version": 3,
+  "scale": "0-5",
+  "anchors": {
+    "0": "schema example only, level 0",
+    "1": "schema example only, level 1",
+    "2": "schema example only, level 2",
+    "3": "schema example only, level 3",
+    "4": "schema example only, level 4",
+    "5": "schema example only, level 5"
+  },
+  "features": [
+    "n_sources",
+    "n_platforms",
+    "complaint_count",
+    "trend_growth"
+  ],
+  "output_schema": [
+    "score",
+    "confidence",
+    "evidence_ids",
+    "reason"
+  ],
+  "examples": [
+    {
+      "input": "...",
+      "expected": {
+        "score": 0,
+        "evidence_ids": [
+          "..."
+        ]
+      }
+    },
+    {
+      "input": "...",
+      "expected": {
+        "score": 1,
+        "evidence_ids": [
+          "..."
+        ]
+      }
+    },
+    {
+      "input": "...",
+      "expected": {
+        "score": 2,
+        "evidence_ids": [
+          "..."
+        ]
+      }
+    },
+    {
+      "input": "...",
+      "expected": {
+        "score": 3,
+        "evidence_ids": [
+          "..."
+        ]
+      }
+    },
+    {
+      "input": "...",
+      "expected": {
+        "score": 4,
+        "evidence_ids": [
+          "..."
+        ]
+      }
+    },
+    {
+      "input": "...",
+      "expected": {
+        "score": 5,
+        "evidence_ids": [
+          "..."
+        ]
+      }
+    }
+  ]
+}

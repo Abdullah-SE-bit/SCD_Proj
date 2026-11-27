@@ -1,0 +1,225 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Rubric file, one per dimension",
+  "description": "Source: Guide section 10: an anchor for every score 0-5 and at least one worked example per level. Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "dimension": {
+      "enum": [
+        "demand_pain",
+        "competition",
+        "differentiation",
+        "feasibility",
+        "risk",
+        "learning"
+      ]
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "scale": {
+      "const": "0-5"
+    },
+    "anchors": {
+      "type": "object",
+      "properties": {
+        "0": {
+          "type": "string",
+          "minLength": 1
+        },
+        "1": {
+          "type": "string",
+          "minLength": 1
+        },
+        "2": {
+          "type": "string",
+          "minLength": 1
+        },
+        "3": {
+          "type": "string",
+          "minLength": 1
+        },
+        "4": {
+          "type": "string",
+          "minLength": 1
+        },
+        "5": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "additionalProperties": false
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "output_schema": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "required": [
+          "input",
+          "expected"
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "score": {
+                    "const": 0
+                  }
+                },
+                "required": [
+                  "score"
+                ]
+              }
+            },
+            "required": [
+              "expected"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "score": {
+                    "const": 1
+                  }
+                },
+                "required": [
+                  "score"
+                ]
+              }
+            },
+            "required": [
+              "expected"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "score": {
+                    "const": 2
+                  }
+                },
+                "required": [
+                  "score"
+                ]
+              }
+            },
+            "required": [
+              "expected"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "score": {
+                    "const": 3
+                  }
+                },
+                "required": [
+                  "score"
+                ]
+              }
+            },
+            "required": [
+              "expected"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "score": {
+                    "const": 4
+                  }
+                },
+                "required": [
+                  "score"
+                ]
+              }
+            },
+            "required": [
+              "expected"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "expected": {
+                "type": "object",
+                "properties": {
+                  "score": {
+                    "const": 5
+                  }
+                },
+                "required": [
+                  "score"
+                ]
+              }
+            },
+            "required": [
+              "expected"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "required": [
+    "dimension",
+    "version",
+    "scale",
+    "anchors",
+    "features",
+    "output_schema",
+    "examples"
+  ]
+}

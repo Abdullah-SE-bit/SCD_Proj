@@ -32,7 +32,16 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "24"
+      - name: Judge policy checks with the base branch's checker
+        if: contains(fromJSON('["branch-policy","protected-files","task-policy"]'), matrix.check)
+        run: |
+          if git cat-file -e "origin/$PR_BASE:harness/verification/scd.py" 2>/dev/null; then
+            git show "origin/$PR_BASE:harness/verification/scd.py" > "$RUNNER_TEMP/scd.py"
+            echo "SCD=$RUNNER_TEMP/scd.py" >> "$GITHUB_ENV"
+          fi
+      # Policy checks need only the standard library, so nothing from the pull request is installed for them.
       - name: Install pinned Python tools
+        if: ${{ !contains(fromJSON('["branch-policy","protected-files","task-policy"]'), matrix.check) }}
         run: python -m pip install --disable-pip-version-check -q -r requirements-dev.txt
       - name: Install gitleaks v8.30.1 (checksum verified)
         if: matrix.check == 'secret-scan'
@@ -61,13 +70,6 @@ jobs:
       - name: Scan git history for secrets
         if: matrix.check == 'secret-scan'
         run: gitleaks git --redact --no-banner --exit-code 1 .
-      - name: Judge policy checks with the base branch's checker
-        if: contains(fromJSON('["branch-policy","protected-files","task-policy"]'), matrix.check)
-        run: |
-          if git cat-file -e "origin/$PR_BASE:harness/verification/scd.py" 2>/dev/null; then
-            git show "origin/$PR_BASE:harness/verification/scd.py" > "$RUNNER_TEMP/scd.py"
-            echo "SCD=$RUNNER_TEMP/scd.py" >> "$GITHUB_ENV"
-          fi
       - name: Run check
         env:
           CHECK: ${{ matrix.check }}
@@ -78,13 +80,9 @@ jobs:
     needs: [check]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: "3.12"
+      # Inline on purpose: the gate runs no code from the pull request.
       - name: Fail unless every required job succeeded
         env:
           NEEDS_JSON: ${{ toJSON(needs) }}
-        run: python harness/verification/scd.py check ci-gate
+        run: |
+          echo "$NEEDS_JSON" | jq -e 'length > 0 and all(.[]; .result == "success")'

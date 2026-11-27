@@ -14,7 +14,7 @@ Nothing here is approved. Proposed defaults are in force for planning only.
 | D-08 | Work split between contributors | [TaskOwnership](../planning/TaskOwnership.md) | all | P01 |
 | D-09 | Third data source and API tokens (AMB-18) | Product Hunt official API | M4 | P04.02 |
 | D-10 | Provide "Assignment 1" | Share the document | M2 | P02.01 |
-| D-11 | Require approval on task PRs into dev too? | Keep 0 required, peer review by policy; or set 1 | branches | P01 |
+| D-11 | **Decided (A-06):** no approval on task PRs into dev | - | branches | done |
 | D-12 | Hosted LLM provider and key (a Claude subscription does not include API usage) | A free tier (Gemini or Groq), checked for data-use terms | M5, M10, M10t | P05 |
 | D-13 | Where Jenkins, cluster and model run (15.6 GB RAM) | Local, one heavy workload at a time; GPU only on Colab/Kaggle | M14, M10t | P01 |
 | D-14 | Instructor questions (AMB-01, 03, 04, 05, 09, 24, 26) | Send one combined message | M9, M11, M14 | P03 |

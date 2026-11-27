@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "from",
+    "to",
+    "type",
+    "phase",
+    "task",
+    "branch",
+    "sha",
+    "pr",
+    "status",
+    "action",
+    "blockers"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}-(primary|secondary)-[0-9]{3}$"
+    },
+    "from": {
+      "enum": [
+        "primary",
+        "secondary"
+      ]
+    },
+    "to": {
+      "enum": [
+        "primary",
+        "secondary"
+      ]
+    },
+    "type": {
+      "enum": [
+        "TASK_CLAIMED",
+        "TASK_COMPLETED",
+        "PR_OPENED",
+        "REVIEW_REQUESTED",
+        "CHANGES_REQUESTED",
+        "REVIEW_COMPLETE",
+        "HUMAN_APPROVAL_REQUIRED",
+        "MERGED",
+        "BLOCKED",
+        "CONTRACT_UPDATED",
+        "PHASE_GATE_PASSED"
+      ]
+    },
+    "phase": {
+      "type": "string"
+    },
+    "task": {
+      "type": "string"
+    },
+    "branch": {
+      "type": "string"
+    },
+    "sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{7,40}$"
+    },
+    "pr": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "status": {
+      "enum": [
+        "open",
+        "done",
+        "blocked"
+      ]
+    },
+    "action": {
+      "type": "string"
+    },
+    "blockers": {
+      "type": "string"
+    }
+  }
+}

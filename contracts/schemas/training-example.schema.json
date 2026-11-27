@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fine-tuning example, one JSON object per line (M10t)",
+  "description": "Source: Guide 6.1. Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "messages": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "system"
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "role",
+            "content"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "user"
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "role",
+            "content"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "assistant"
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "role",
+            "content"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "items": false,
+      "minItems": 3
+    }
+  },
+  "required": [
+    "messages"
+  ]
+}

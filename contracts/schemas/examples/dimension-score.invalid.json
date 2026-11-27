@@ -1,0 +1,13 @@
+{
+  "dimension": "demand_pain",
+  "score": 3.5,
+  "confidence": 0.7,
+  "evidence_ids": [],
+  "features": {
+    "n_sources": 4,
+    "trend_growth": 0.31
+  },
+  "reason": "Short explanation that cites the ids above",
+  "rubric_version": "demand_pain@v3",
+  "model": "scorer-lora@v2"
+}

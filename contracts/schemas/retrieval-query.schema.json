@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Hand-written retrieval evaluation query",
+  "description": "Source: Description M6: at least 20 hand-written queries (record shape proposed). Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "query_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relevant_card_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "query_id",
+    "query",
+    "relevant_card_ids",
+    "author"
+  ]
+}

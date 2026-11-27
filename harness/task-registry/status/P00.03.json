@@ -1,0 +1,9 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/7",
+ "evidence": [
+  "contracts/database/entities.md",
+  "docs/architecture/Architecture.md",
+  "https://github.com/Abdullah-SE-bit/SCD_Proj/actions/runs/46063115027"
+ ]
+}

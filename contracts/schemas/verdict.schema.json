@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Verdict (M11)",
+  "description": "Source: Guide 2.3; representation of gate failures and abstentions is pending (AMB-09). Listed fields are the documented minimum (Guide section 1).",
+  "type": "object",
+  "properties": {
+    "idea_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verdict": {
+      "enum": [
+        "GO",
+        "PIVOT",
+        "NO-GO",
+        "INSUFFICIENT_EVIDENCE"
+      ]
+    },
+    "stability": {
+      "enum": [
+        "STABLE",
+        "BORDERLINE"
+      ]
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "gates": {
+      "type": "object",
+      "properties": {
+        "evidence": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "feasibility": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "risk": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "duplicate": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        }
+      },
+      "required": [
+        "evidence",
+        "feasibility",
+        "risk",
+        "duplicate"
+      ],
+      "additionalProperties": false
+    },
+    "weights": {
+      "type": "object",
+      "properties": {
+        "demand_pain": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "competition": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "differentiation": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "feasibility": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "risk": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "learning": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "demand_pain",
+        "competition",
+        "differentiation",
+        "feasibility",
+        "risk",
+        "learning"
+      ],
+      "additionalProperties": false
+    },
+    "thresholds": {
+      "type": "object",
+      "properties": {
+        "T_go": {
+          "type": "number"
+        },
+        "T_no": {
+          "type": "number"
+        },
+        "floor": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "T_go",
+        "T_no",
+        "floor"
+      ],
+      "additionalProperties": false
+    },
+    "scores": {
+      "type": "array",
+      "items": {
+        "$ref": "dimension-score.schema.json"
+      },
+      "maxItems": 6
+    },
+    "weakest_dimension": {
+      "anyOf": [
+        {
+          "enum": [
+            "demand_pain",
+            "competition",
+            "differentiation",
+            "feasibility",
+            "risk",
+            "learning"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "what_would_make_go": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "new_score": {
+            "type": "number"
+          },
+          "new_verdict": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "change",
+          "new_score",
+          "new_verdict"
+        ]
+      }
+    },
+    "sensitivity": {
+      "type": "object",
+      "properties": {
+        "runs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "flipped": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "runs",
+        "flipped"
+      ],
+      "additionalProperties": false
+    },
+    "versions": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rubrics": {
+          "type": "string",
+          "minLength": 1
+        },
+        "profile_weights": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "engine",
+        "rubrics",
+        "profile_weights"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "idea_id",
+    "version",
+    "run_id",
+    "verdict",
+    "stability",
+    "score",
+    "confidence",
+    "gates",
+    "weights",
+    "thresholds",
+    "scores",
+    "weakest_dimension",
+    "what_would_make_go",
+    "sensitivity",
+    "versions"
+  ]
+}

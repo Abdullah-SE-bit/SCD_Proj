@@ -1,0 +1,47 @@
+# Guide 9.3. Egress is denied by default; DNS and in-namespace traffic are allowed;
+# only pods labelled app=tools (M5) may reach the internet.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: { name: default-deny-egress, namespace: idea-validator }
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: { name: allow-dns, namespace: idea-validator }
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector: { matchLabels: { kubernetes.io/metadata.name: kube-system } }
+          podSelector: { matchLabels: { k8s-app: kube-dns } }
+      ports:
+        - { protocol: UDP, port: 53 }
+        - { protocol: TCP, port: 53 }
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: { name: allow-within-namespace, namespace: idea-validator }
+spec:
+  podSelector: {}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - podSelector: {}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: { name: allow-tools-internet, namespace: idea-validator }
+spec:
+  podSelector: { matchLabels: { app: tools } }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except: [10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 169.254.0.0/16]
+      ports:
+        - { protocol: TCP, port: 443 }
+        - { protocol: TCP, port: 80 }

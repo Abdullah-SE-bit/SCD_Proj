@@ -1,0 +1,17 @@
+{
+  "id": "card_8f21",
+  "name": "ExampleApp",
+  "summary": "One line on what it does",
+  "problem": "...",
+  "customer": "...",
+  "niche_tags": [
+    "devtools"
+  ],
+  "stage": "unknown",
+  "funding_usd": 1500000,
+  "source": "hackernews",
+  "url": "not-a-url",
+  "published_at": "2026-03-02",
+  "fetched_at": "2026-11-10",
+  "text": "Cleaned text used for embeddings"
+}

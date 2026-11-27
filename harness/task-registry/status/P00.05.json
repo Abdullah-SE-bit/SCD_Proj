@@ -1,0 +1,8 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/7",
+ "evidence": [
+  ".github/workflows/pr-checks.yml",
+  "https://github.com/Abdullah-SE-bit/SCD_Proj/actions/runs/46063115027"
+ ]
+}

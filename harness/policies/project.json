@@ -1,0 +1,88 @@
+{
+ "repository": "Abdullah-SE-bit/SCD_Proj",
+ "identities": {
+  "primary": {
+   "login": "Abdullah-SE-bit",
+   "git_name": "Abdullah Adnan",
+   "email_sha256": "84ea3e27901b1303faf0c6e83f51ab61f7fc0b766522f04f87834a473b00f5f6",
+   "clone_dir": "SCD_Proj",
+   "handoff": "docs/handoff/Primary.md"
+  },
+  "secondary": {
+   "login": "Demidoga",
+   "git_name": "Asad Ahmed",
+   "email_sha256": "695a0cc70425520fa52b2cf21ba3a406d7e19395e5d3564ec4385ef9bfcdb2e1",
+   "clone_dir": "SCD_Proj_demidoga",
+   "handoff": "docs/handoff/Demidoga.md"
+  }
+ },
+ "branches": {
+  "protected": ["main", "dev"],
+  "task_pattern": "^(feat|fix|chore|docs|test|ci|refactor)/(P\\d\\d(\\.\\d\\d)?)-[a-z0-9-]+$",
+  "bootstrap": "chore/phase-0-bootstrap"
+ },
+ "protected_paths": [
+  "docs/source/**",
+  "harness/policies/**",
+  "harness/verification/**",
+  "harness/tests/**",
+  ".claude/settings.json",
+  ".claude/hooks/**",
+  ".github/workflows/**",
+  ".github/CODEOWNERS"
+ ],
+ "protected_label": "authorized-protected-change",
+ "always_allowed_paths": [
+  "docs/handoff/**",
+  "docs/submission/AIUsageLog.md",
+  "docs/evidence/**",
+  "harness/task-registry/status/**",
+  "docs/requirements/requirements.json",
+  "docs/requirements/RequirementsTraceabilityMatrix.md",
+  "docs/requirements/Requirements.md",
+  "docs/requirements/FunctionalRequirements.md",
+  "docs/requirements/NonFunctionalRequirements.md"
+ ],
+ "ai_usage_log": "docs/submission/AIUsageLog.md",
+ "application_roots": ["services", "jobs", "tests/unit", "tests/integration", "tests/e2e", "tests/security"],
+ "non_application_files": ["README.md", ".gitkeep"],
+ "source_checksums": "docs/source/CHECKSUMS.sha256",
+ "required_checks": [
+  "repo-structure", "requirements-registry", "traceability", "task-policy", "branch-policy",
+  "protected-files", "secret-scan", "harness-tests", "lint", "typecheck", "verdict-unit-tests",
+  "backend-unit-tests", "ui-component-tests", "contract-tests", "retrieval-gate",
+  "agent-behaviour-tests", "docker-build", "image-scan", "k8s-validate", "dependency-security",
+  "ci-gate"
+ ],
+ "gated_checks": {
+  "verdict-unit-tests": {
+   "required_after": "P03",
+   "triggers": ["services/verdict/**"],
+   "commands": [["python", "-m", "pytest", "services/verdict", "-q"]]
+  },
+  "backend-unit-tests": {
+   "required_after": "P01",
+   "triggers": ["services/gateway/**", "services/profile/**", "services/orchestrator/**", "services/scouts/**", "services/tools/**", "services/kb/**", "services/analyst/**", "services/ideation/**", "services/validators/**", "services/scorer/**", "services/critic/**", "services/agentops/**", "jobs/**"],
+   "commands": [["python", "-m", "pytest", "services", "jobs", "tests", "-q"]]
+  },
+  "ui-component-tests": {
+   "required_after": "P01",
+   "triggers": ["services/ui/**"],
+   "commands": [["npm", "--prefix", "services/ui", "ci"], ["npm", "--prefix", "services/ui", "test"]]
+  },
+  "retrieval-gate": {
+   "required_after": "P04",
+   "triggers": ["eval/retrieval/**/*.py", "eval/retrieval/baseline.json"],
+   "must_exist": ["eval/retrieval/baseline.json"],
+   "commands": [["python", "-m", "pytest", "eval/retrieval", "-q"]]
+  },
+  "agent-behaviour-tests": {
+   "required_after": "P08",
+   "triggers": ["eval/agent-behaviour/**/*.py"],
+   "commands": [["python", "-m", "pytest", "eval/agent-behaviour", "-q"]]
+  },
+  "docker-build": {"required_after": "P01", "triggers": ["services/**", "jobs/**"], "builtin": "docker-build"},
+  "image-scan": {"required_after": "P01", "triggers": ["services/**", "jobs/**"], "builtin": "image-scan"}
+ },
+ "trivy_image": "aquasec/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb"
+}

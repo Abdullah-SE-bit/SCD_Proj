@@ -1,0 +1,4 @@
+# Local development only (Guide 4.3); the deployment target is Kubernetes.
+# Status: not operational. Postgres, Redis, the vector store and module services are added with
+# pinned images in task P01.04, after the stack decisions are approved (D-03).
+services: {}

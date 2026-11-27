@@ -1,12 +1,15 @@
 # Handoff: secondary (Demidoga)
 
-- Current task: P00.06 independent review. Claimed (`claim/P00.06`); **not done**.
-- State (2026-11-28): [#8](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8) still carries the change request
-  made at `b1f4081` ([findings](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6093185832),
-  [request](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6093195416)). Its head has moved
-  with `dev`; it needs a new review and a new decision.
-- Every decision below and on #8 was Asad's, after being shown Claude's recommendation or a summary. Claude Code
-  did the analysis, wrote the review text and submitted it.
+- Current task: P00.06 independent review. Review finished; task **not recorded done** (see Open).
+- State (2026-11-28): [#8](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8)
+  [approved](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6094108280) at `b5d038a` and merged
+  into `main` as `08cb1c3` (merge commit, no admin override). `main` files equal the approved head.
+- The first round on #8, at `b1f4081`:
+  [findings](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6093185832),
+  [change request](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6093195416).
+- Every decision here was Asad's, after being shown Claude's recommendation or a summary. Claude Code did the
+  analysis, wrote the review text and submitted it (and the merge). The reviews do not claim a line-by-line human
+  review.
 
 ## Reviews of the fix pull requests (all merged into `dev`)
 | PR | Decision and head |
@@ -22,9 +25,11 @@ AI-usage log conflict resolved on that side. GitHub shows its approval of `f361f
 and no later approval.
 
 ## Open
-- The single `P00` gate pull request described in `DefinitionOfDone.md` fails `task-policy`: members must already
-  be `done` on the base. A task's own branch recording itself `done` passes (both simulated). The behaviour came
-  in with #15; the reviews of #15 missed it. Resolve before Phase 0 closes.
+- **Phase 0 cannot be closed under the current rules (simulated).** Recording `done` regenerates
+  `ImplementationPlan.md`, which is outside the scope of the P00.04, P00.05 and P00.06 branches; leaving it stale
+  fails `repo-structure`; the `P00` gate needs its members already `done` on the base. P00.01-P00.03 can be
+  recorded. Adding that file to `always_allowed_paths` (protected change, human label) let the remaining records and
+  the gate pass in simulation. This corrects the #16 review, which tested only P00.02; the #15 reviews missed it.
 - `Primary.md` says #13 and #14 were approved before a log-only conflict resolution; only #14 had one.
 - `Phase0VerificationReport.md` still lists the secondary review and the second clone's hook check as unverified.
 - Low findings: [ReviewResponses](ReviewResponses.md).
@@ -33,9 +38,11 @@ and no later approval.
   fake `kubectl` and no reachable cluster.
 
 ## Next
-- Review the new head of #8 when the primary sends `REVIEW_REQUESTED`; Asad decides.
-- To close P00.06: human approval on #8, then its status record.
+- Primary: fix the close-out path, then the status records and the `P00` gate.
+- To record P00.06 `done`: its own branch, after that fix, with `reviewed_by` the other contributor, a review link
+  and a human's `authorized-protected-change` label.
+- No application work until the `P00` status record is on `dev`.
 
 ## Messages
-- Processed: `20261128-primary-001` to `20261128-primary-007`.
-- Sent: `20261128-secondary-001` to `20261128-secondary-008`.
+- Processed: `20261128-primary-001` to `20261128-primary-008`.
+- Sent: `20261128-secondary-001` to `20261128-secondary-009`.

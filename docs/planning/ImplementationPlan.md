@@ -208,7 +208,7 @@ All Phase 1 tasks merged and demonstrated.
 
 - Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity S; status not done
 - Depends on: P00, P01.01, P01.02, P01.03, P01.04, P01.05
-- Requirements: GEN-005
+- Requirements: CMN-008
 - File scope: `docs/**`, `harness/task-registry/status/**`
 - Deliverables: Gate record
 - Acceptance: Browser submits an idea and sees a fixture verdict card served end to end from the cluster.
@@ -244,7 +244,7 @@ Register, login, profile endpoints at the gateway.
 
 - Module M1; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status not done
 - Depends on: P02.01
-- Requirements: USR-001, M01-003, API-003, SCH-002, SEC-001
+- Requirements: M01-003, API-003, SCH-002, SEC-001
 - File scope: `services/gateway/**`, `services/profile/**`, `tests/**`
 - Deliverables: Auth and profile
 - Acceptance: Invalid, unauthenticated, over-limit rejected
@@ -460,7 +460,7 @@ All Phase 4 tasks merged and demonstrated.
 
 - Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity S; status not done
 - Depends on: P03, P04.01, P04.02, P04.03, P04.04, P04.05
-- Requirements: GEN-001
+- Requirements: M6I-003
 - File scope: `docs/**`, `harness/task-registry/status/**`
 - Deliverables: Gate record
 - Acceptance: Search 1,500+ real cards with citations and measured retrieval quality.
@@ -472,7 +472,7 @@ All Phase 4 tasks merged and demonstrated.
 
 ## P05: Validate workflow with scorers and guardrails
 
-Demonstrable result: Validate a real idea with live progress and evidence-linked card.
+Demonstrable result: Validate a real idea with live progress and evidence-linked card. Traces, replay and budget stops are visible.
 
 ### P05.01 Feature computation and four scorers
 
@@ -495,7 +495,7 @@ Parallel scorers, schemas, abstention; hosted model behind interface.
 Intake, clarify, evidence, scorers, verdict, challenge, stability, card; retries, budgets, approval.
 
 - Module M3; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status not done
-- Depends on: P04
+- Depends on: P04, P05.05, P05.06
 - Requirements: M03-001, M03-002, M03-003, M03-004, M03-005, VAL-001, VAL-002, VAL-005, VAL-006, USR-004, USR-005, ARC-002, ARC-004, CMN-001
 - File scope: `services/orchestrator/**`, `tests/**`
 - Deliverables: Orchestrator
@@ -538,13 +538,45 @@ SSE stream, approvals, card, insufficient evidence view.
 - Needs: nothing special
 - Done when: Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present.
 
+### P05.05 Tracing and replay
+
+Trace APIs, JSON lines, replay.
+
+- Module M13; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status not done
+- Depends on: P04
+- Requirements: M13-001, OPS-001, OPS-002, API-012, SCH-006, ARC-006, K8S-009
+- File scope: `services/agentops/**`, `services/**`, `tests/**`
+- Deliverables: Tracing
+- Acceptance: Replay reproduces decisions
+- Tests: behaviour
+- Verify: `pytest services/agentops -q`
+- Evidence: trace
+- Needs: nothing special
+- Done when: Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present.
+
+### P05.06 Budgets and registry
+
+Caps for tokens, pages, steps, cost; prompt and rubric registry.
+
+- Module M13; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status not done
+- Depends on: P05.05
+- Requirements: M13-002, M13-003, OPS-003, OPS-004
+- File scope: `services/agentops/**`, `services/orchestrator/**`, `services/tools/**`, `config/**`, `tests/**`
+- Deliverables: Budgets
+- Acceptance: Each cap tested
+- Tests: unit
+- Verify: `pytest services/agentops -q`
+- Evidence: CI run
+- Needs: nothing special
+- Done when: Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present.
+
 ### P05 Phase 5 gate
 
 All Phase 5 tasks merged and demonstrated.
 
 - Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity S; status not done
-- Depends on: P04, P05.01, P05.02, P05.03, P05.04
-- Requirements: GEN-004
+- Depends on: P04, P05.01, P05.02, P05.03, P05.04, P05.05, P05.06
+- Requirements: VAL-006
 - File scope: `docs/**`, `harness/task-registry/status/**`
 - Deliverables: Gate record
 - Acceptance: Validate a real idea with live progress and evidence-linked card.
@@ -648,7 +680,7 @@ Clustering, naming, monthly series, rising/flat/saturated, gaps.
 
 - Module M7; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity L; status not done
 - Depends on: P04
-- Requirements: M07-001, M07-002
+- Requirements: M07-001, M07-002, GEN-001
 - File scope: `services/analyst/**`, `tests/**`
 - Deliverables: M7
 - Acceptance: Series and gaps produced
@@ -680,7 +712,7 @@ Survivors validated and ranked.
 
 - Module M3; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status not done
 - Depends on: P07.02
-- Requirements: DSC-004, USR-002, GEN-002
+- Requirements: DSC-004, USR-002, GEN-002, USR-001
 - File scope: `services/orchestrator/**`, `services/ui/**`, `tests/**`
 - Deliverables: Discover
 - Acceptance: Ranked cards with reasons
@@ -706,43 +738,11 @@ All Phase 7 tasks merged and demonstrated.
 - Needs: nothing special
 - Done when: Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present.
 
-## P08: AgenticOps
+## P08: AgenticOps evaluation, drift and dashboard
 
-Demonstrable result: Replay a run, view dashboard and drift report.
+Demonstrable result: Behaviour tests pass; evaluation Job, dashboard and drift report shown.
 
-### P08.01 Tracing and replay
-
-Trace APIs, JSON lines, replay.
-
-- Module M13; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status not done
-- Depends on: P05
-- Requirements: M13-001, OPS-001, OPS-002, API-012, SCH-006, ARC-006, K8S-009
-- File scope: `services/agentops/**`, `services/**`, `tests/**`
-- Deliverables: Tracing
-- Acceptance: Replay reproduces decisions
-- Tests: behaviour
-- Verify: `pytest services/agentops -q`
-- Evidence: trace
-- Needs: nothing special
-- Done when: Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present.
-
-### P08.02 Budgets and registry
-
-Caps for tokens, pages, steps, cost; prompt and rubric registry.
-
-- Module M13; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status not done
-- Depends on: P08.01
-- Requirements: M13-002, M13-003, OPS-003, OPS-004
-- File scope: `services/agentops/**`, `services/orchestrator/**`, `services/tools/**`, `config/**`, `tests/**`
-- Deliverables: Budgets
-- Acceptance: Each cap tested
-- Tests: unit
-- Verify: `pytest services/agentops -q`
-- Evidence: CI run
-- Needs: nothing special
-- Done when: Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present.
-
-### P08.03 Behaviour tests
+### P08.01 Behaviour tests
 
 Recorded responses: invalid JSON, timeout, empty source, poisoned page.
 
@@ -758,12 +758,12 @@ Recorded responses: invalid JSON, timeout, empty source, poisoned page.
 - Needs: nothing special
 - Done when: Acceptance criteria met, listed tests pass in CI, docs, handoff and AI-usage log updated, evidence stored, PR into dev merged and status file present.
 
-### P08.04 Evaluation harness, drift and dashboard
+### P08.02 Evaluation harness, drift and dashboard
 
 Harness as Job, drift reports, dashboard metrics.
 
 - Module M13; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity L; status not done
-- Depends on: P08.01, P09.01
+- Depends on: P05.05, P09.01
 - Requirements: M13-004, M13-005, M13-006, OPS-005, OPS-006, OPS-007, OPS-008
 - File scope: `jobs/evaluation/**`, `services/agentops/**`, `services/ui/**`, `k8s/**`, `Jenkinsfile`
 - Deliverables: Harness and dashboard
@@ -779,8 +779,8 @@ Harness as Job, drift reports, dashboard metrics.
 All Phase 8 tasks merged and demonstrated.
 
 - Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity S; status not done
-- Depends on: P07, P08.01, P08.02, P08.03, P08.04
-- Requirements: GEN-004
+- Depends on: P07, P08.01, P08.02
+- Requirements: OPS-009
 - File scope: `docs/**`, `harness/task-registry/status/**`
 - Deliverables: Gate record
 - Acceptance: Replay a run, view dashboard and drift report.
@@ -916,7 +916,7 @@ Submission verified.
 
 - Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity S; status not done
 - Depends on: P09, P10.01, P10.02, P10.03, P10.04
-- Requirements: SUB-001
+- Requirements: SUB-001, GEN-004, GEN-005
 - File scope: `docs/**`, `harness/task-registry/status/**`
 - Deliverables: Release record
 - Acceptance: Rollout, rollback, NetworkPolicy test, report and screenshots.

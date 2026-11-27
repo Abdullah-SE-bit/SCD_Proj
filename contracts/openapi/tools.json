@@ -32,12 +32,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ]
+        }
       }
     },
     "/health": {
@@ -72,16 +67,11 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Alive but cannot serve now"
           }
         }
-      }
-    }
-  },
-  "components": {
-    "securitySchemes": {
-      "bearer": {
-        "type": "http",
-        "scheme": "bearer"
       }
     }
   }

@@ -16,12 +16,7 @@
     "complaint_count",
     "trend_growth"
   ],
-  "output_schema": [
-    "score",
-    "confidence",
-    "evidence_ids",
-    "reason"
-  ],
+  "output_schema": "score, confidence, evidence_ids, reason",
   "examples": [
     {
       "input": "...",

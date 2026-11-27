@@ -31,12 +31,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ]
+        }
       }
     },
     "/runs/{id}/trace": {
@@ -65,11 +60,6 @@
             "schema": {
               "type": "string"
             }
-          }
-        ],
-        "security": [
-          {
-            "bearer": []
           }
         ]
       }
@@ -106,16 +96,11 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Alive but cannot serve now"
           }
         }
-      }
-    }
-  },
-  "components": {
-    "securitySchemes": {
-      "bearer": {
-        "type": "http",
-        "scheme": "bearer"
       }
     }
   }

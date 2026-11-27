@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import subprocess  # nosec B404
 import sys
 from pathlib import Path
@@ -277,14 +278,15 @@ def status_problems(root: Path) -> list[str]:
     return problems
 
 
-def status_change_allowed(root: Path, tasks: dict[str, dict[str, Any]], tid: str, path: str) -> bool:
-    """Own status; withdrawing a claim of completion; or a phase gate recording its own phase."""
+def status_change_allowed(root: Path, tasks: dict[str, dict[str, Any]], tid: str, path: str,
+                          before: dict[str, str]) -> bool:
+    """Own status or the phase gate recording its phase. Others may only downgrade done to in_review."""
     other = Path(path).stem
-    if other == tid or not (root / path).exists():
+    gate = "." not in tid and other in tasks and tasks[other]["phase"] == tasks[tid]["phase"]
+    if other == tid or gate:
         return True
-    if load(root, path).get("status") == "in_review":
-        return True
-    return "." not in tid and other in tasks and tasks[other]["phase"] == tasks[tid]["phase"]
+    return (before.get(other) == "done" and (root / path).exists()
+            and load(root, path).get("status") == "in_review")
 
 
 def pr_task_problems(root: Path, policy: dict[str, Any], head: str, base: str, author: str,
@@ -298,8 +300,9 @@ def pr_task_problems(root: Path, policy: dict[str, Any], head: str, base: str, a
     if tid not in tasks:
         return [f"unknown task {tid}"]
     task, identity = tasks[tid], policy["identities"][tasks[tid]["owner"]]
+    before = task_states(root, f"origin/{base}")
     problems = [f"{tid} blocked: dependency {d} is not met on {base}"
-                for d in unmet_dependencies(tasks, tid, task_states(root, f"origin/{base}"))]
+                for d in unmet_dependencies(tasks, tid, before)]
     if author and author != identity["login"]:
         problems.append(f"{tid} belongs to {identity['login']}, PR author is {author}")
     allowed = task["allowed_paths"] + policy["always_allowed_paths"]
@@ -308,8 +311,8 @@ def pr_task_problems(root: Path, policy: dict[str, Any], head: str, base: str, a
         problems.append(f"handoff not updated: {identity['handoff']}")
     if policy["ai_usage_log"] not in changed:
         problems.append(f"AI-usage log not updated: {policy['ai_usage_log']}")
-    problems += [f"cannot mark another task done: {f}" for f in changed
-                 if f.startswith(STATUS_DIR + "/") and not status_change_allowed(root, tasks, tid, f)]
+    problems += [f"cannot create, delete or raise another task's status: {f}" for f in changed
+                 if f.startswith(STATUS_DIR + "/") and not status_change_allowed(root, tasks, tid, f, before)]
     return problems
 
 
@@ -642,7 +645,7 @@ def claim(root: Path, task_id: str) -> str:
 
 def gh(root: Path, args: list[str]) -> int:
     """Run gh as this clone's contributor without touching gh's shared active account."""
-    decision, reason = command_decision(root, "scd.py gh -- " + " ".join(args))
+    decision, reason = gh_decision(load(root, POLICY_PATH), args)
     if decision == "deny":
         raise Failure(reason)
     _, who = identity(root)
@@ -652,11 +655,124 @@ def gh(root: Path, args: list[str]) -> int:
     return subprocess.run(["gh", *args], env={**os.environ, "GH_TOKEN": token}).returncode  # nosec B603 B607
 
 
+GH_COMMANDS = {
+    "pr": {"view", "list", "diff", "checks", "status", "create", "ready", "close", "comment", "edit", "review",
+           "merge"},
+    "issue": {"view", "list", "create", "comment", "edit", "close"},
+    "label": {"list", "create"}, "run": {"view", "list", "watch"}, "workflow": {"view", "list"},
+    "auth": {"status"}, "repo": {"view"},
+}
+# flags whose value is free text and may therefore mention the protected label
+GH_TEXT_FLAGS = ("--body", "-b", "--body-file", "-F", "--title", "-t", "--comment", "-c")
+API_VALUE_FLAGS = ("-q", "--jq", "-t", "--template")
+API_SWITCHES = ("--paginate", "-i", "--include", "--silent", "--slurp")
+
+
+def gh_decision(policy: dict[str, Any], args: list[str]) -> tuple[str, str]:
+    """Allow-list over real arguments, so attached, combined and reordered flags cannot slip through."""
+    words: list[str] = []
+    rest = list(args)
+    while rest and len(words) < 2:
+        token = rest.pop(0)
+        if token in ("-R", "--repo") and rest:
+            rest.pop(0)
+        elif token.startswith(("--repo=", "-R")):
+            continue
+        elif token.startswith("-"):
+            return "deny", f"only -R/--repo may precede the gh subcommand, not {token}"
+        else:
+            words.append(token)
+            if words[0] == "api":
+                break
+    if not words:
+        return "deny", "no gh command"
+    group = words[0]
+    if group == "api":
+        endpoints = []
+        while rest:
+            token = rest.pop(0)
+            if token in API_VALUE_FLAGS and rest:
+                rest.pop(0)
+            elif token in API_SWITCHES or token.startswith(("--jq=", "--template=")):
+                continue
+            elif token.startswith("-"):
+                return "deny", f"API writes are not available to sessions: only plain GET requests, not {token}"
+            else:
+                endpoints.append(token)
+        if len(endpoints) != 1 or endpoints[0].strip("/").lower() == "graphql":
+            return "deny", "API writes are not available to sessions: one REST endpoint, no GraphQL"
+        return "allow", ""
+    sub = words[1] if len(words) > 1 else ""
+    if sub not in GH_COMMANDS.get(group, set()):
+        return "deny", f"'gh {group} {sub}' is not available to sessions"
+    label = policy["protected_label"].lower()
+    skip = False
+    for token in rest:
+        if skip:
+            skip = False
+            continue
+        if token in GH_TEXT_FLAGS:
+            skip = True
+            continue
+        if token.startswith(("--body=", "--title=", "--body-file=", "--comment=")):
+            continue
+        if label in token.lower():
+            return "deny", "only a human adds the authorization label"
+        if token.startswith(("--admin", "--delete-branch")) or (sub in ("close", "merge") and token == "-d"):  # nosec B105
+            return "deny", "admin merges and branch deletion are not available to sessions"
+    if group == "pr" and sub == "merge":
+        return "ask", "merging needs confirmation"
+    if group == "pr" and sub == "review":
+        plain = {"--comment", "-c", "--body", "-b", "--body-file", "-F"}
+        skip = False
+        commented = False
+        for token in rest:
+            if skip:
+                skip = False
+            elif token in ("--body", "-b", "--body-file", "-F"):
+                skip = True
+            elif token in ("--comment", "-c"):
+                commented = True
+            elif token.startswith("-") and token.split("=")[0] not in plain:
+                return "ask", "a review decision belongs to the account owner"
+        return ("allow", "") if commented else ("ask", "a review decision belongs to the account owner")
+    if any(t.startswith(("--label", "--add-label", "--remove-label", "-l")) for t in rest):
+        if sub != "list":
+            return "ask", "labels can carry authority"
+    return "allow", ""
+
+
+def wrapper_calls(line: str) -> list[list[str]]:
+    """Argument lists of every literal 'scd.py gh --' call in a shell command line."""
+    if not re.search(r"scd\.py[\"']?\s+gh\b", line):
+        return []
+    quote, text = "", []
+    for char in line.replace("\\\n", " ").replace("\\", "/"):
+        if char in "\"'":
+            quote = "" if quote == char else quote or char
+        text.append(" ; " if char == "\n" and not quote else char)  # an unquoted newline ends a command
+    lexer = shlex.shlex("".join(text), posix=True, punctuation_chars=True)
+    lexer.whitespace_split = True
+    tokens = list(lexer)
+    calls = []
+    for i, token in enumerate(tokens):
+        if token.endswith("scd.py") and tokens[i + 1:i + 2] == ["gh"]:
+            start = i + 3 if tokens[i + 2:i + 3] == ["--"] else i + 2
+            args: list[str] = []
+            for item in tokens[start:]:
+                if item and set(item) <= set("();<>|&"):
+                    if item.startswith((">", "<")) and args and args[-1].isdigit():
+                        args.pop()
+                    break
+                args.append(item)
+            calls.append(args)
+    return calls
+
+
 # ---------------------------------------------------------------- Claude Code hooks
 
 SEGMENT = r"[^;&|\n]*"
 PUSH = rf"\bgit\b{SEGMENT}\bpush\b{SEGMENT}"
-API_WRITE = r"(-X\s*|--method[\s=]*)(POST|PUT|PATCH|DELETE)\b|\s(-f|-F|--field|--raw-field|--input)(\s|=)"
 # Matched case-insensitively against the command with quotes removed.
 DENY_COMMANDS = [
     (r"\bgh(\.exe)?\s+(pr|issue|api|release|label|workflow|run|repo|secret|ruleset)\b",
@@ -668,29 +784,27 @@ DENY_COMMANDS = [
     (r"--no-verify|--no-gpg-sign", "do not bypass verification"),
     (rf"\bgit\b{SEGMENT}\bconfig\b{SEGMENT}(user\.(name|email)\s+\S|credential\.|core\.hookspath)",
      "identity configuration is fixed"),
-    (rf"\bgit\b{SEGMENT}\s-c\s*(user\.(name|email)|credential\.|core\.hookspath)|\bGIT_(AUTHOR|COMMITTER)_(NAME|EMAIL)\b",
+    (rf"\bgit\b{SEGMENT}\s(-c\s*|--config-env[=\s])(user\.(name|email)|credential\.|core\.hookspath)|"
+     rf"\bgit\b{SEGMENT}\s--author\b|\bGIT_(AUTHOR|COMMITTER)_(NAME|EMAIL)\b",
      "identity cannot be overridden per command"),
     (r"\b(switch|checkout)\b" + SEGMENT + r"\s(main|dev)(?![\w./-])[\s\S]*\bgit\b" + SEGMENT + r"\bcommit\b",
      "no direct commits on main or dev"),
-    (rf"\bgh\s+--\s+api\b[\s\S]*({API_WRITE})|\bgh\s+--\s+api\b[\s\S]*\bmutation\b",
-     "API writes (reviews, merges, labels, protection) are not available to sessions"),
-    (r"(--label|--add-label|\s-l\s|/labels)[\s\S]*authorized-protected-change|"
-     r"authorized-protected-change[\s\S]*(--label|--add-label|/labels)", "only a human adds the authorization label"),
     (r"\bpr\s+merge\b[\s\S]*--admin", "admin merge bypasses protection"),
     (r"\brepo\s+(edit|delete|rename|archive)\b", "repository settings need a human"),
     (r"SCD_HARNESS_MAINTENANCE", "only a human may enable harness maintenance"),
     (r"settings\.local\.json|disableAllHooks", "only a human may change local settings or hooks"),
 ]
+PROTECTED = (r"(harness[/\\](verification|policies|tests|task-registry[/\\]tasks)|\.claude[/\\](settings|hooks)|"
+             r"\.github[/\\](workflows|CODEOWNERS)|requirements-dev\.txt|pyproject\.toml|docs[/\\]source[/\\])")
 PROTECTED_WRITE = (
-    r"(>{1,2}|\btee\b|\bsed\b" + SEGMENT + r"\s-i|\b(Set|Add)-Content\b|\bOut-File\b|\b(Remove|Move|Copy)-Item\b|"
-    r"\b(rm|mv|cp)\b)" + SEGMENT +
-    r"(harness[/\\](verification|policies|tests|task-registry[/\\]tasks)|\.claude[/\\](settings|hooks)|"
-    r"\.github[/\\](workflows|CODEOWNERS)|requirements-dev\.txt|pyproject\.toml|docs[/\\]source[/\\])")
+    r">{1,2}\s*[^\s;&|]*" + PROTECTED + "|"
+    r"(\btee\b|\bsed\b" + SEGMENT + r"(\s-i|--in-place)|\b(Set|Add)-Content\b|\bOut-File\b|\bNew-Item\b|"
+    r"\b(Remove|Move|Copy)-Item\b|WriteAll(Text|Lines|Bytes)|\b(rm|mv|cp)\b|\b(curl|wget)\b" + SEGMENT + r"\s-[oO]\b|"
+    r"\bgit\b" + SEGMENT + r"\b(restore|checkout)\b)" + SEGMENT + PROTECTED + "|"
+    r"\bcd\s+[^\s;&|]*(harness|\.claude|\.github)[^\n]*(\bsed\b[^\n]*(\s-i|--in-place)|>{1,2}\s*\w|\btee\b|\b(rm|mv|cp)\b)")
 ASK_COMMANDS = [
-    (r"\bpr\s+review\b[\s\S]*(--approve\b|--request-changes\b|(?<!\S)-[ar](?!\S))",
-     "a review decision belongs to the account owner"),
-    (r"\bpr\s+merge\b", "merging needs confirmation"),
-    (r"--add-label", "labels can carry authority"),
+    # fallback for calls made through a shell variable, which the parser below cannot see
+    (r"\$\S*[\s\S]*\bpr\b(\s+(-R|--repo)[\s=]*\S+)*\s+(review|merge)\b", "review and merge decisions are the owner's"),
 ]
 
 
@@ -708,8 +822,22 @@ def command_decision(root: Path, line: str, maintenance: bool = False) -> tuple[
         _, problems = identity_problems(root, load(root, POLICY_PATH))
         if problems:
             return "deny", "; ".join(problems)
-        if secrets_in(git(root, "diff", "--cached")) or secrets_in(git(root, "diff", "HEAD")):
+        texts = [git(root, "diff", "--cached"), git(root, "diff", "HEAD")]
+        if re.search(rf"\bgit\b{SEGMENT}\badd\b", flat):  # files being added in the same command
+            untracked = git(root, "ls-files", "--others", "--exclude-standard").splitlines()
+            texts += [(root / f).read_bytes().decode("utf-8", errors="ignore") for f in untracked]
+        if any(secrets_in(t) for t in texts):
             return "deny", "changes look like they contain a secret"
+    try:
+        calls = wrapper_calls(line)
+    except ValueError:
+        return "ask", "the command could not be parsed"
+    policy = load(root, POLICY_PATH) if calls else {}
+    decisions = [gh_decision(policy, args) for args in calls]
+    for wanted in ("deny", "ask"):
+        for decision, reason in decisions:
+            if decision == wanted:
+                return decision, reason
     for pattern, reason in ASK_COMMANDS:
         if re.search(pattern, flat, re.I):
             return "ask", reason
@@ -747,13 +875,23 @@ def edit_decision(root: Path, path: str, content: str, maintenance: bool = False
 
 def hook_decision(root: Path, event: dict[str, Any], maintenance: bool = False) -> tuple[str, str]:
     tool, data = event.get("tool_name", ""), event.get("tool_input", {})
-    if tool in ("Bash", "PowerShell"):
-        return command_decision(root, data.get("command", ""), maintenance)
+    if isinstance(data.get("command"), str):  # Bash, PowerShell, Monitor, terminal tools
+        return command_decision(root, data["command"], maintenance)
     if tool in ("Edit", "Write", "MultiEdit", "NotebookEdit"):
         content = json.dumps([data.get(k) for k in ("content", "new_string", "edits", "new_source")])
         return edit_decision(root, data.get("file_path") or data.get("notebook_path", ""), content, maintenance)
-    if tool.startswith("mcp__") and re.search(r"repl|run_code|execute|shell", tool, re.I):
-        return "ask", "this tool runs code that the harness cannot inspect"
+    if tool.startswith("mcp__"):
+        name = tool.rsplit("__", 1)[-1]
+        if re.search(r"_repl$|run_code|execute|shell", name, re.I):
+            return "ask", "this tool runs code that the harness cannot inspect"
+        if re.search(r"write|create|replace|edit|delete|move|insert|rename", name, re.I):
+            for key in ("file_path", "path", "relative_path", "filename", "destination"):
+                if isinstance(data.get(key), str):
+                    target = Path(data[key])
+                    full = target if target.is_absolute() else root / target
+                    found = edit_decision(root, str(full), json.dumps(data), maintenance)
+                    if found[0] != "allow":
+                        return found
     return "allow", ""
 
 

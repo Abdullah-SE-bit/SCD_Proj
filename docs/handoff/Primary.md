@@ -7,3 +7,4 @@
 - Review fix (P00.04): H1-H4, H6 mechanism, M8 harness bypasses, PR from `fix/P00.04-guard`.
 - Review fix (P00.01): H7, M1, M2, M6, M7 registry and plan defects, PR from `fix/P00.01-registry-plan`.
 - Review fix (P00.03): M3, M4, M5, M10 contract defects, PR from `fix/P00.03-contracts`.
+- Review fix 2 (P00.04): second-round findings on #15 (argument parsing, other tools, status files, shell writes).

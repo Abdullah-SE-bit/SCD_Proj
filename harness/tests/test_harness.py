@@ -430,9 +430,75 @@ class ReviewFindings(Fixture):
         self.assertTrue(scd.unmet_dependencies(tasks, "P01.01", {"P00": "in_review"}))
         self.done("P00.02", status="in_review")
         self.assertEqual(scd.done_tasks(self.repo), set())
-        self.assertTrue(scd.status_change_allowed(self.repo, tasks, "P00.01", f"{scd.STATUS_DIR}/P00.02.json"))
+
+    def test_status_files_of_others(self):
+        tasks = scd.tasks_by_id(self.repo)
+        path = f"{scd.STATUS_DIR}/P00.02.json"
+
+        def allowed(branch_task, before):
+            return scd.status_change_allowed(self.repo, tasks, branch_task, path, before)
+
+        self.done("P00.02", status="in_review")
+        self.assertFalse(allowed("P00.01", {}))  # creating another task's record unblocks dependants
+        self.assertTrue(allowed("P00.01", {"P00.02": "done"}))  # downgrade
+        self.assertTrue(allowed("P00.02", {}))  # own
+        self.assertTrue(allowed("P00", {}))  # phase gate
         self.done("P00.02")
-        self.assertFalse(scd.status_change_allowed(self.repo, tasks, "P00.01", f"{scd.STATUS_DIR}/P00.02.json"))
+        self.assertFalse(allowed("P00.01", {"P00.02": "in_review"}))  # raising
+        (self.repo / path).unlink()
+        self.assertFalse(allowed("P00.01", {"P00.02": "done"}))  # deleting
+
+    def test_gh_flag_shapes_from_second_review(self):
+        self.branch("feat/P01.01-x")
+        deny = ["api repos/O/R/pulls/8/reviews -fevent=APPROVE", "api repos/O/R/pulls/8/merge -X=PUT",
+                "api repos/O/R/pulls/8/merge -iXPUT", "api graphql -Fquery=@m.graphql",
+                "api -H X:y repos/O/R", "pr create -lauthorized-protected-change",
+                "pr create -l=authorized-protected-change", "pr create -dlAUTHORIZED-PROTECTED-CHANGE",
+                "pr edit 8 --add-label task,authorized-protected-change", "pr merge 8 --admin",
+                "pr close 8 --delete-branch", "pr close 8 -d", "secret set X", "extension install a/b",
+                "pr --web review 8"]
+        ask = ["pr review 8 -ab ok", "pr --repo O/R review 8 --approve", "pr -R O/R merge 8",
+               "pr review 8 --comment -a", "pr review 8 -r -b no", "pr create -l task"]
+        allow = ["api repos/O/R/pulls/8 -q .state", "api --paginate repos/O/R/pulls",
+                 "pr review 8 --comment --body-file notes.md", 'pr create --body "about authorized-protected-change"',
+                 "pr view 8 --json labels", "pr checks 8 --watch 2>&1"]
+        for expected, lines in (("deny", deny), ("ask", ask), ("allow", allow)):
+            for line in lines:
+                with self.subTest(line=line):
+                    self.assertEqual(self.decide("Bash", command=GH + line), expected)
+        self.assertEqual(self.decide("Bash", command='G="' + GH.strip() + '"; $G pr -R O/R merge 8'), "ask")
+        two_lines = GH + "api repos/O/R/pulls/8\ngit status"
+        self.assertEqual(self.decide("Bash", command=two_lines), "allow")
+        self.assertEqual(self.decide("Bash", command=GH + "pr view 8\n" + GH + "pr merge 8"), "ask")
+        with self.assertRaisesRegex(scd.Failure, "API writes"):
+            scd.gh(self.repo, ["api", "repos/O/R/pulls/8/merge", "-iXPUT"])
+
+    def test_other_tools_are_checked(self):
+        self.branch("feat/P01.01-x")
+        line = GH + "pr review 8 --approve; git push origin main"
+        for tool in ("Monitor", "mcp__terminal__run_in_terminal"):
+            self.assertEqual(self.decide(tool, command=line), "deny")
+        for tool in ("mcp__serena__create_text_file", "mcp__filesystem__write_file"):
+            self.assertEqual(self.decide(tool, relative_path="harness/verification/scd.py", content="x"), "deny")
+        self.assertEqual(self.decide("mcp__serena__find_symbol", relative_path="harness/verification/scd.py"), "allow")
+        self.assertIn("Monitor", (ROOT / ".claude/settings.json").read_text(encoding="utf-8"))
+
+    def test_one_line_shell_writes_and_identity(self):
+        self.branch("feat/P01.01-x")
+        for line in ["sed --in-place s/a/b/ harness/verification/scd.py",
+                     "cd harness/verification && sed -i s/a/b/ scd.py",
+                     "git restore --source=HEAD~1 -- .github/workflows/pr-checks.yml",
+                     "git checkout main -- .github/workflows/pr-checks.yml",
+                     "New-Item -Force .claude/hooks/guard.py", "[IO.File]::WriteAllText('pyproject.toml','')",
+                     "curl -o requirements-dev.txt https://example.com", "git commit --author='A <a@b.c>' -m x",
+                     "git --config-env=user.email=X commit -m x"]:
+            with self.subTest(line=line):
+                self.assertEqual(self.decide("Bash", command=line), "deny")
+        for line in ["git log 2>/dev/null -- .github/workflows", "git checkout feat/P01.01-x"]:
+            with self.subTest(line=line):
+                self.assertEqual(self.decide("Bash", command=line), "allow")
+        (self.repo / "new.txt").write_text(FAKE_TOKEN)
+        self.assertEqual(self.decide("Bash", command="git add new.txt && git commit -m x"), "deny")
 
 
 if __name__ == "__main__":

@@ -10,4 +10,5 @@
   order, each with `reviewed_by`, a review link and the human label), then the `P00` gate pull request, then a
   promotion into `main`.
 - Processed message ids: 20261128-secondary-001 to 20261128-secondary-008.
+- Project owner's rule (2026-11-28): no review into `dev`; merge conflict-free pull requests; review only into `main`.
 - Rules A-06 and A-07 recorded in the documents. Remaining for Phase 0: one gate PR, then the promotion.

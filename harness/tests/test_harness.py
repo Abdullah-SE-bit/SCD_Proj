@@ -151,10 +151,9 @@ class Commands(Fixture):
             with self.subTest(line=line):
                 self.assertEqual(self.decide("Bash", command=line), "allow")
 
-    def test_approval_and_merge_ask_a_human(self):
-        for line in ["python harness/verification/scd.py gh -- pr review 2 --approve",
-                     "python harness/verification/scd.py gh -- pr merge 2 --merge"]:
-            self.assertEqual(self.decide("Bash", command=line), "ask")
+    def test_approval_asks_but_merge_does_not(self):
+        self.assertEqual(self.decide("Bash", command=GH + "pr review 2 --approve"), "ask")
+        self.assertEqual(self.decide("Bash", command=GH + "pr merge 2 --merge"), "allow")
 
     def test_secret_in_staged_changes(self):
         self.branch("feat/P01.01-x")
@@ -316,6 +315,21 @@ class TasksAndClaims(Fixture):
         with self.assertRaisesRegex(scd.Failure, "already claimed"):
             scd.claim(other, "P01.01")
 
+    def test_gate_closes_a_phase_in_one_pull_request(self):
+        tasks = scd.tasks_by_id(self.repo)
+        members = [f"P00.0{n}" for n in range(1, 7)]
+        self.done(*members, status="in_review")
+        self.publish_dev("all in review")
+        self.done(*members, "P00")
+        owner = self.policy["identities"][tasks["P00"]["owner"]]
+        changed = [f"{scd.STATUS_DIR}/{t}.json" for t in [*members, "P00"]]
+        changed += ["docs/planning/ImplementationPlan.md", owner["handoff"], self.policy["ai_usage_log"]]
+        self.assertEqual(scd.pr_task_problems(self.repo, self.policy, "docs/P00-gate", "dev", owner["login"],
+                                              changed), [])
+        (self.repo / f"{scd.STATUS_DIR}/P00.06.json").unlink()  # a missing member still blocks the gate
+        found = scd.pr_task_problems(self.repo, self.policy, "docs/P00-gate", "dev", owner["login"], changed)
+        self.assertIn("dependency P00.06", found[0])
+
     def test_phase_can_be_closed_task_by_task(self):
         """Recording each task done regenerates the plan; every such pull request, and the gate, must pass."""
         tasks = scd.tasks_by_id(self.repo)
@@ -389,17 +403,19 @@ class ReviewFindings(Fixture):
         self.write(f"{scd.STATUS_DIR}/P00.01.json",
                    {"status": "done", "pr": "https://example.invalid", "evidence": ["https://example.invalid"]})
         found = " | ".join(scd.status_problems(self.repo))
-        for expected in ["pr must link", "not in this repository", "reviewed_by", "review link"]:
+        for expected in ["pr must link", "not in this repository"]:
             self.assertIn(expected, found)
 
     def test_done_needs_the_human_label(self):
-        self.branch("chore/P00-gate")
+        self.branch("docs/P00-gate")
         self.done("P00.01")
         sh(self.repo, "git", "add", "-A")
-        sh(self.repo, "git", "commit", "-qm", "certify")
+        sh(self.repo, "git", "commit", "-qm", "complete")
         self.with_env(PR_BASE="dev", PR_LABELS="")
         with self.assertRaisesRegex(scd.Failure, "label from a human"):
             scd.check_protected_files(self.repo)
+        os.environ["PR_LABELS"] = self.policy["protected_label"]
+        scd.check_protected_files(self.repo)
 
     def test_h3_bypasses_are_denied_or_asked(self):
         self.branch("feat/P01.01-x")
@@ -480,7 +496,7 @@ class ReviewFindings(Fixture):
                 "pr edit 8 --add-label task,authorized-protected-change", "pr merge 8 --admin",
                 "pr close 8 --delete-branch", "pr close 8 -d", "secret set X", "extension install a/b",
                 "pr --web review 8"]
-        ask = ["pr review 8 -ab ok", "pr --repo O/R review 8 --approve", "pr -R O/R merge 8",
+        ask = ["pr review 8 -ab ok", "pr --repo O/R review 8 --approve",
                "pr review 8 --comment -a", "pr review 8 -r -b no", "pr create -l task"]
         allow = ["api repos/O/R/pulls/8 -q .state", "api --paginate repos/O/R/pulls",
                  "pr review 8 --comment --body-file notes.md", 'pr create --body "about authorized-protected-change"',
@@ -489,10 +505,10 @@ class ReviewFindings(Fixture):
             for line in lines:
                 with self.subTest(line=line):
                     self.assertEqual(self.decide("Bash", command=GH + line), expected)
-        self.assertEqual(self.decide("Bash", command='G="' + GH.strip() + '"; $G pr -R O/R merge 8'), "ask")
+        self.assertEqual(self.decide("Bash", command='G="' + GH.strip() + '"; $G pr -R O/R review 8 -a'), "ask")
         two_lines = GH + "api repos/O/R/pulls/8\ngit status"
         self.assertEqual(self.decide("Bash", command=two_lines), "allow")
-        self.assertEqual(self.decide("Bash", command=GH + "pr view 8\n" + GH + "pr merge 8"), "ask")
+        self.assertEqual(self.decide("Bash", command=GH + "pr view 8\n" + GH + "pr review 8 -a"), "ask")
         with self.assertRaisesRegex(scd.Failure, "API writes"):
             scd.gh(self.repo, ["api", "repos/O/R/pulls/8/merge", "-iXPUT"])
 
@@ -500,8 +516,8 @@ class ReviewFindings(Fixture):
         script = "python harness/verification/scd.py "
         for line in [script + '"gh" -- pr review 8 --approve', script + "'gh' -- pr review 8 --approve",
                      script + "g\\h -- pr review 8 --approve", f'bash -c "{GH}pr review 8 --approve"',
-                     f"pwsh -Command '{GH}pr merge 8'", f'eval "{GH}pr review 8 -a"',
-                     f'bash -c "{GH}pr review 8 -ab ok"', f'sh -c "{GH}pr -R O/R merge 8"',
+                     f'eval "{GH}pr review 8 -a"',
+                     f'bash -c "{GH}pr review 8 -ab ok"', f"pwsh -Command '{GH}pr -R O/R review 8 -a'",
                      f'bash -c "{GH}pr review 8 --request-changes"']:
             with self.subTest(line=line):
                 self.assertEqual(self.decide("Bash", command=line), "ask")

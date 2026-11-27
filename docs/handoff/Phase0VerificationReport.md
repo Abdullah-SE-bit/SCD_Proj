@@ -62,6 +62,18 @@ history scan and kubeconform.
 | failing or skipped required checks | yes | #9 |
 | premature completion, application code in Phase 0 | yes | - |
 
+## Independent review rounds
+| Round | Result |
+|---|---|
+| #8 at `b1f4081` | changes requested: 7 high, 10 medium, low items |
+| #12 to #15, first review | #13, #14 approved; #12, #15 changes requested |
+| second | #12 approved; #15 changes requested (one item) |
+| third | #15 approved at `58c5c12` |
+
+All decisions were made on the `Demidoga` account in the secondary session with AI-written analysis. The
+statements above about 27 tests describe the first foundation; the harness has 41 tests after the fixes.
+Responses: [ReviewResponses](ReviewResponses.md).
+
 ## Not verified
 Jenkinsfile syntax and execution; NetworkPolicy enforcement; hooks in a freshly started session of the second
 clone; secondary review; promotion approval.

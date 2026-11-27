@@ -62,7 +62,7 @@ Source wording is never rewritten; these are interpretations. Status of every en
 - **Status:** open.
 
 ## AMB-04 Hosted model versus single internet exit
-- **Sources:** D p3 M10 hosted fallback; G p4 hosted labelling and comparison; D p2/p7 only M5 reaches the internet.
+- **Sources:** D p3 M10 hosted fallback; G p4 hosted labelling and comparison; D p2 (architecture figure and caption) only M5 reaches the internet.
 - **Why unclear:** Calling a hosted model needs egress from M3/M8/M10.
 - **Interpretations:** (a) route model calls through M5; (b) allow egress for a second, model-gateway pod; (c) M5 exposes a dedicated proxy endpoint.
 - **Consequences:** (b) contradicts 'only M5'.

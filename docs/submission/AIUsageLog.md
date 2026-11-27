@@ -12,5 +12,8 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | Fix review findings H5 and M9 (workflow trust, rollback) | owner chose to fix High and Medium findings; no edits by humans | independent review of PR 8 |
 | 2026-11-28 | Claude Code | Fix review findings H7, M1, M2, M6, M7 (registry, ambiguities, phase order) | owner chose to fix High and Medium findings; no edits by humans | independent review of PR 8 |
 | 2026-11-28 | Claude Code | Fix review findings M3, M4, M5, M10 (contracts and their documents) | owner chose to fix High and Medium findings; no edits by humans | independent review of PR 8 |
+| 2026-11-28 | Claude Code | Second fix round on #12 (rollback, script modes) and #15 (argument parsing, other tools, status files, shell writes) | owner added the authorization label; no edits by humans | change requests on #12 and #15 |
+| 2026-11-28 | Claude Code | Third fix round on #15 (wrapped approval and merge commands ask again) | none | change request on #15 |
+| 2026-11-28 | Claude Code | Return P00.01-P00.05 to `in_review`, update records, answer low findings | pending human review | finding H6 |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

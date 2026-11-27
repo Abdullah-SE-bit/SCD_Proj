@@ -1,5 +1,5 @@
 {
- "status": "done",
+ "status": "in_review",
  "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/7",
  "evidence": [
   "contracts/database/entities.md",

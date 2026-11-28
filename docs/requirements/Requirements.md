@@ -59,9 +59,9 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| M04-001 | Desc p3 §4 | mandatory | Scouts bring in new data from at least 3 sources. | Three connectors produce cards. | integration | unimplemented |
-| M04-002 | Desc p3 §4 | mandatory | Scouts run scheduled (CronJob) and on demand. | Both triggers demonstrated. | demo | unimplemented |
-| M04-003 | Desc p3 §4 | mandatory | Per-source rate limits and failure handling. | Rate limit and failure tests pass. | test | unimplemented |
+| M04-001 | Desc p3 §4 | mandatory | Scouts bring in new data from at least 3 sources. | Three connectors produce cards. | integration | in_progress |
+| M04-002 | Desc p3 §4 | mandatory | Scouts run scheduled (CronJob) and on demand. | Both triggers demonstrated. | demo | in_progress |
+| M04-003 | Desc p3 §4 | mandatory | Per-source rate limits and failure handling. | Rate limit and failure tests pass. | test | implemented |
 
 ## M5
 

@@ -59,9 +59,9 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M03-003 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
 | M03-004 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
 | M03-005 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
-| M04-001 | Description p3 | M4 | P04 | P04.02 | integration | none yet | unimplemented |
-| M04-002 | Description p3 | M4 | P04 | P04.02 | demo | none yet | unimplemented |
-| M04-003 | Description p3 | M4 | P04 | P04.02 | test | none yet | unimplemented |
+| M04-001 | Description p3 | M4 | P04 | P04.02 | integration | none yet | in_progress |
+| M04-002 | Description p3 | M4 | P04 | P04.02 | demo | none yet | in_progress |
+| M04-003 | Description p3 | M4 | P04 | P04.02 | test | docs/evidence/phase4-scouts.txt, services/scouts/test_scouts_run.py | implemented |
 | M05-001 | Description p3 | M5 | P04 | P04.01 | test | services/tools/test_tools_fetch.py, services/tools/test_tools_politeness.py | implemented |
 | M05-002 | Description p3 | M5 | P04 | P04.01 | security-test | tests/security/test_poisoned_page.py | implemented |
 | M05-003 | Description p3 | M5 | P04 | P04.01 | infra-test | docs/evidence/phase4-egress.txt | implemented |

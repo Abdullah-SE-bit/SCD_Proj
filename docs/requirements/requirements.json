@@ -864,7 +864,7 @@
    "acceptance": "Three connectors produce cards.",
    "verification": "integration",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -879,7 +879,7 @@
    "acceptance": "Both triggers demonstrated.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -894,8 +894,11 @@
    "acceptance": "Rate limit and failure tests pass.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4-scouts.txt",
+    "services/scouts/test_scouts_run.py"
+   ]
   },
   {
    "id": "M05-001",

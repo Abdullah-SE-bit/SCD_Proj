@@ -1,6 +1,9 @@
 # Database entities and migration specification
 
-Status: specification only; no SQL or migrations exist (task P02.01 and P04.03 create them).
+Status: the application tables (`users` to `conversations`) exist as migrations in
+`services/profile/scd_profile/migrations/` (P02.01). The knowledge tables arrive with P04.03.
+Added beyond the documented columns: text ids, `idea_versions.id`, `verdicts.id`, `verdicts.document`,
+`profiles.version` and decision and creation times.
 Columns are the documented minimum (Guide Figure 1). Types and constraints are proposals.
 
 | Table | Documented columns | Proposed keys and constraints |
@@ -21,7 +24,7 @@ Columns are the documented minimum (Guide Figure 1). Types and constraints are p
 | ingestion_runs | run_id, source, added, dropped | |
 | vector store | chunk_id, card_id, embedding, date | payload filters: date, source, niche |
 
-Migrations: forward-only files applied by one command on an empty database, tested in CI; never edit an applied
-migration.
+Migrations: forward-only files applied by one command (`python -m scd_profile.migrate`) on an empty database,
+tested in CI on SQLite and locally on PostgreSQL; never edit an applied migration.
 
 Note: the figure names the column `one_liner` while the card schema calls it `summary`; map one to the other.

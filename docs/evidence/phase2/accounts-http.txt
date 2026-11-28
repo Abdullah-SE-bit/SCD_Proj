@@ -1,0 +1,27 @@
+# P02.02: gateway and profile images with PostgreSQL 17 in throw-away containers, 2026-11-28T12:16Z.
+# Demo account and values invented for this run. The token is not recorded.
+
+$ POST /auth/register {"email":"demo@example.org","password":"demo password 1"}
+{"user_id": "u_371f2d3554f243789b0a85a61a91414a"}  [201]
+$ POST /auth/register {"email":"demo@example.org","password":"demo password 1"}
+{"error": "this email is already registered"}  [409]
+$ POST /auth/register {"email":"nobody","password":"demo password 1"}
+{"error": "invalid value: email"}  [400]
+$ POST /auth/login {"email":"demo@example.org","password":"wrong password"}
+{"error": "wrong email or password"}  [401]
+# (correct login returned a token)
+$ GET /profile 
+{"error": "log in first"}  [401]
+$ GET /profile with the token
+{"error": "no profile saved"}  [404]
+$ PUT /profile {"skills":["python"],"hours_per_week":10,"weeks_available":12,"team_size":2,"compute":"laptop","goal":"portfolio","interests":["education"]}  (with the token)
+{"user_id": "u_371f2d3554f243789b0a85a61a91414a", "skills": ["python"], "hours_per_week": 10.0, "team_size": 2, "goal": "portfolio", "weeks_available": 12, "compute": "laptop", "interests": ["education"], "version": 1}  [200]
+$ PUT /profile with goal "fun"
+{"error": "invalid value: goal"}  [400]
+# six more logins for one account
+{"error": "wrong email or password"}  [401]
+{"error": "wrong email or password"}  [401]
+{"error": "wrong email or password"}  [401]
+{"error": "too many requests", "retry_after": 57}  [429]
+{"error": "too many requests", "retry_after": 57}  [429]
+{"error": "too many requests", "retry_after": 57}  [429]

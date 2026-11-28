@@ -27,7 +27,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | USR-008 | Description p2 | M12 | P05 | P05.03 | e2e | none yet | unimplemented |
 | USR-009 | Description p2 | M2 | P02 | P02.03 | e2e | none yet | unimplemented |
 | USR-010 | Description p2 | M1 | P05 | P05.04 | e2e | none yet | unimplemented |
-| USR-011 | Description p2 | M11 | P03, P07 | P03.02, P07 | test | none yet | unimplemented |
+| USR-011 | Description p2 | M11 | P03, P07 | P03.02, P07 | test | services/verdict/test_verdict_suggest.py | implemented |
 | ARC-001 | Description p2 | M1 | P01 | P01.03 | test | none yet | in_progress |
 | ARC-002 | Description p2 | M3 | P05 | P05.02 | inspection | none yet | unimplemented |
 | ARC-003 | Description p2 | M6 | P04 | P04.04 | inspection | none yet | unimplemented |
@@ -49,11 +49,11 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M01-002 | Description p3 | M1 | P01 | P01.03 | test | docs/evidence/phase1/ui-runtime-api.txt, services/ui/nginx/default.conf.template | implemented |
 | M01-003 | Description p3 | M1 | P02 | P02.02 | test | none yet | unimplemented |
 | M01-004 | Description p3 | M1 | P02 | P02.04 | ci | services/ui/src/App.test.tsx, services/ui/src/VerdictCard.test.tsx | implemented |
-| M02-001 | Description p3 | M2 | P02 | P02.01 | integration | none yet | unimplemented |
-| M02-002 | Description p3 | M2 | P02 | P02.01 | integration | none yet | unimplemented |
+| M02-001 | Description p3 | M2 | P02 | P02.01 | integration | none yet | in_progress |
+| M02-002 | Description p3 | M2 | P02 | P02.01 | integration | docs/evidence/phase2/m2-migrations.txt | implemented |
 | M02-003 | Description p3 | M2 | P02 | P02.03 | unit | none yet | unimplemented |
 | M02-004 | Description p3 | M2 | P02 | P02.03 | test | none yet | unimplemented |
-| M02-005 | Description p3 | M2 | P02 | P02.01 | inspection | none yet | unimplemented |
+| M02-005 | Description p3 | M2 | P02 | P02.01 | inspection | none yet | in_progress |
 | M03-001 | Description p3 | M3 | P05 | P05.02 | unit | none yet | unimplemented |
 | M03-002 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
 | M03-003 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
@@ -91,7 +91,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M11-001 | Description p4 | M11 | P03 | P03.01 | inspection | services/verdict/test_verdict_flow.py, tests/unit/test_verdict_contract.py | implemented |
 | M11-002 | Description p4 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_flow.py, tests/unit/test_verdict_contract.py | implemented |
 | M11-003 | Description p4 | M11 | P03, P10 | P03.01, P10.01 | infra-test | docs/evidence/P03.01-configmap.txt, tests/unit/test_verdict_contract.py | implemented |
-| M11-004 | Description p4 | M11 | P03 | P03.02 | ci | none yet | unimplemented |
+| M11-004 | Description p4 | M11 | P03 | P03.02 | ci | services/verdict/test_verdict_sensitivity.py, services/verdict/test_verdict_suggest.py, services/verdict/test_verdict_challenge.py, tests/unit/test_verdict_whatif.py | implemented |
 | M12-001 | Description p4 | M12 | P05 | P05.03 | test | none yet | unimplemented |
 | M12-002 | Description p4 | M12 | P05 | P05.03 | security-test | none yet | unimplemented |
 | M12-003 | Description p4 | M12 | P05 | P05.03 | security-test | none yet | unimplemented |
@@ -117,18 +117,18 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | GAT-003 | Description p5 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_gates.py | implemented |
 | GAT-004 | Description p5 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_gates.py | implemented |
 | GAT-005 | Description p5 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_gates.py | implemented |
-| FLW-001 | Description p5 | M11 | P03 | P03.01 | unit | none yet | in_progress |
+| FLW-001 | Description p5 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_sensitivity.py, services/verdict/test_verdict_flow.py | implemented |
 | SCR-001 | Description p5 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_scoring.py | implemented |
 | SCR-002 | Description p5 | M11 | P03 | P03.01 | inspection | config/verdict.defaults.json, tests/unit/test_verdict_contract.py | implemented |
 | SCR-003 | Description p5 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_scoring.py, services/verdict/test_verdict_flow.py | implemented |
 | SCR-004 | Description p5 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_scoring.py, services/verdict/test_verdict_flow.py | implemented |
 | SCR-005 | Description p5 | M11 | P03 | P03.01 | unit | config/verdict.defaults.json, tests/unit/test_verdict_contract.py | implemented |
 | SCR-006 | Description p5 | M11 | P03 | P03.01 | unit | services/verdict/test_verdict_scoring.py, services/verdict/test_verdict_flow.py | implemented |
-| SCR-007 | Description p5 | M11 | P03 | P03.02 | unit | none yet | unimplemented |
-| SCR-008 | Description p5 | M11 | P03 | P03.02 | unit | none yet | unimplemented |
-| SCR-009 | Description p5 | M11 | P03 | P03.02 | unit | none yet | unimplemented |
-| SCR-010 | Description p5 | M11 | P03 | P03.02 | e2e | none yet | unimplemented |
-| SCR-011 | Description p6 | M11 | P03 | P03.02 | unit | none yet | in_progress |
+| SCR-007 | Description p5 | M11 | P03 | P03.02 | unit | services/verdict/test_verdict_challenge.py, tests/unit/test_verdict_whatif.py | implemented |
+| SCR-008 | Description p5 | M11 | P03 | P03.02 | unit | services/verdict/test_verdict_sensitivity.py | implemented |
+| SCR-009 | Description p5 | M11 | P03 | P03.02 | unit | services/verdict/test_verdict_sensitivity.py, tests/unit/test_verdict_whatif.py | implemented |
+| SCR-010 | Description p5 | M11 | P03 | P03.02 | e2e | none yet | in_progress |
+| SCR-011 | Description p6 | M11 | P03 | P03.02 | unit | services/verdict/test_verdict_sensitivity.py, tests/unit/test_verdict_whatif.py | implemented |
 | SUB-001 | Description p6 | M14 | P10 | P10.03, P10 | inspection | none yet | unimplemented |
 | SUB-002 | Description p6 | M14 | P10 | P10.03, P10.04 | inspection | none yet | unimplemented |
 | SUB-003 | Description p6 | M14 | P10 | P10.03 | inspection | none yet | unimplemented |
@@ -141,7 +141,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | SUB-010 | Description p6 | M14 | P10 | P10.04 | inspection | none yet | unimplemented |
 | IFC-001 | Guide p1 | M14 | P00 | P00.01 | contract | none yet | unimplemented |
 | IFC-002 | Guide p1 | M14 | P00, P02 | P00.03, P02 | contract | none yet | unimplemented |
-| DBS-001 | Guide p1 | M2 | P02 | P02.01 | integration | none yet | unimplemented |
+| DBS-001 | Guide p1 | M2 | P02 | P02.01 | integration | docs/evidence/phase2/m2-migrations.txt, contracts/database/entities.md | implemented |
 | DBS-002 | Guide p1 | M6 | P04 | P04.03 | integration | none yet | unimplemented |
 | DBS-003 | Guide p1 | M13 | P02 | P02.03 | inspection | none yet | unimplemented |
 | SCH-001 | Guide p2 | M6 | P00, P04 | P00.03, P04.03 | contract | none yet | unimplemented |
@@ -159,7 +159,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | API-007 | Guide p2 | M5 | P04 | P04.01 | test | services/tools/test_tools_fetch.py, services/tools/test_tools_politeness.py, tests/security/test_poisoned_page.py | implemented |
 | API-008 | Guide p3 | M6 | P04 | P04.04 | contract | none yet | unimplemented |
 | API-009 | Guide p3 | M10 | P05 | P05.01 | contract | none yet | unimplemented |
-| API-010 | Guide p3 | M11 | P03 | P03.01 | contract | none yet | in_progress |
+| API-010 | Guide p3 | M11 | P03 | P03.01 | contract | tests/unit/test_verdict_whatif.py, tests/unit/test_verdict_contract.py | implemented |
 | API-011 | Guide p3 | M12 | P05 | P05.03 | contract | none yet | unimplemented |
 | API-012 | Guide p3 | M13 | P05 | P05.05 | contract | none yet | unimplemented |
 | REP-001 | Guide p3 | M14 | P00 | P00.05 | ci | none yet | unimplemented |

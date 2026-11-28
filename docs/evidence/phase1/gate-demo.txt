@@ -1,0 +1,42 @@
+Phase 1 demonstration, 2026-11-28T15:36:22+05:00, dev c808e99
+--- scripts/deploy.sh
+partitioned roll out complete: 1 new pods have been updated...
+deployment "traefik" successfully rolled out
+deployed c808e99. Open the app with: kubectl -n ingress port-forward svc/traefik 8080:80
+--- scripts/smoke_test.sh
+OK: every workload is ready
+OK: 14 services answer /health and /ready
+OK: postgres, redis and qdrant answer
+OK: ingress serves the UI
+OK: UI to gateway through the ingress returns the labelled fixture verdict
+PASS: smoke test
+exit 0
+--- scripts/netpol_test.sh
+OK: M5 pod (app=tools) reaches the internet (HTTP 200)
+OK: a pod reaches another pod in the namespace (HTTP 404)
+OK: UI (app=ui) reaches the API (app=gateway) (HTTP 404)
+OK: non-M5 pods resolve DNS
+OK: non-M5 pod cannot reach the internet (timed out)
+OK: UI cannot reach the internet (timed out)
+OK: UI cannot reach any other service (timed out)
+PASS: network policies enforced in namespace idea-validator
+exit 0
+--- kubectl get pods
+NAME                            READY   STATUS    RESTARTS   AGE    IP               NODE                     
+agentops-5f6979c6d5-nh4tl       1/1     Running   0          56s    192.168.37.211   idea-validator-control-pl
+analyst-54ff66bcb6-ck2kh        1/1     Running   0          56s    192.168.37.209   idea-validator-control-pl
+critic-7795bb5b96-jqj2v         1/1     Running   0          56s    192.168.37.215   idea-validator-control-pl
+gateway-54c67d7f8-vbqtv         1/1     Running   0          56s    192.168.37.214   idea-validator-control-pl
+ideation-76dc74f6bc-dkd7c       1/1     Running   0          56s    192.168.37.216   idea-validator-control-pl
+kb-7685568bf9-8kbdv             1/1     Running   0          56s    192.168.37.210   idea-validator-control-pl
+orchestrator-596b747dc6-42rp5   1/1     Running   0          56s    192.168.37.213   idea-validator-control-pl
+postgres-0                      1/1     Running   0          138m   192.168.37.240   idea-validator-control-pl
+profile-6c4d895c5c-tkbcq        1/1     Running   0          56s    192.168.37.204   idea-validator-control-pl
+qdrant-0                        1/1     Running   0          125m   192.168.37.249   idea-validator-control-pl
+redis-5974b6d4df-x5t4s          1/1     Running   0          138m   192.168.37.231   idea-validator-control-pl
+scorer-5cbbd77b84-tr24x         1/1     Running   0          56s    192.168.37.208   idea-validator-control-pl
+scouts-77d846c697-w9rcn         1/1     Running   0          56s    192.168.37.207   idea-validator-control-pl
+tools-c9f4f4f47-2m5g5           1/1     Running   0          56s    192.168.37.212   idea-validator-control-pl
+ui-54b6d4b8f7-2hbrg             1/1     Running   0          55s    192.168.37.218   idea-validator-control-pl
+validators-67694685cc-jnkgf     1/1     Running   0          55s    192.168.37.217   idea-validator-control-pl
+verdict-59f9cc9dbf-8kshv        1/1     Running   0          55s    192.168.37.248   idea-validator-control-pl

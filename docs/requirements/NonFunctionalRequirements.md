@@ -127,7 +127,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | SEC-002 | Desc p1 §1.3 | mandatory | Never commit keys or passwords. | Secret scan passes on every PR. | ci | unimplemented |
 | M14-001 | Desc p4 §4 | mandatory | GitHub with protected main and pull requests. | Protection verified through GitHub API. | inspection | implemented |
 | M14-002 | Desc p4 §4 | mandatory | GitHub Actions on every pull request. | Workflow runs on each PR. | ci | unimplemented |
-| M14-003 | Desc p4 §4 | mandatory | Jenkins for delivery. | Jenkins deploys merged code. | demo | in_progress |
+| M14-003 | Desc p4 §4 | mandatory | Jenkins for delivery. | Jenkins deploys merged code. | demo | implemented |
 | M14-004 | Desc p4 §4 | mandatory | One Docker image per module. | Image list covers every module. | inspection | implemented |
 | M14-005 | Desc p4 §4 | mandatory | Full Kubernetes deployment with rollout and rollback. | Rollout and rollback demonstrated. | demo | unimplemented |
 | SUB-001 | Desc p6 §6.1 | mandatory | Submit through GCR a GitHub repository link containing code, Dockerfiles, workflows, Jenkinsfile, k8s/, fine-tuning data and scripts, rubrics, evaluation sets and a README that lets someone else start the system. | Checklist complete. | inspection | unimplemented |
@@ -177,4 +177,4 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | DDR-001 | Guide p8 §11.1 | mandatory | At least 3 design decision records, one page or less, in docs/decisions/, with Title, Status, Context, Options, Decision, Why, Cost, AI use. | >=3 conforming records. | inspection | unimplemented |
 | LOG-001 | Guide p8 §11.2 | mandatory | AI-usage log columns: Date, Tool, What you asked for, What you changed, Why. | Columns present. | ci | unimplemented |
 | LOG-002 | Guide p8 §11.2 | mandatory | Contribution table: modules owned, PRs authored/reviewed, approximate hours, signature, for both members with name and roll number. | Template complete and signed by students. | inspection | unimplemented |
-| CMN-008 | Guide p8 §12 | recommended | Get a thin end-to-end version on Kubernetes (with Docker and Jenkins) early, then improve. | Walking skeleton in Phase 1. | demo | in_progress |
+| CMN-008 | Guide p8 §12 | recommended | Get a thin end-to-end version on Kubernetes (with Docker and Jenkins) early, then improve. | Walking skeleton in Phase 1. | demo | implemented |

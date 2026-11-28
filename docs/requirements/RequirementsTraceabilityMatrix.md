@@ -104,7 +104,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M13-006 | Description p4 | M13 | P08 | P08.02 | demo | none yet | unimplemented |
 | M14-001 | Description p4 | M14 | P00 | P00.02 | inspection | docs/evidence/phase0/github-protection.md | implemented |
 | M14-002 | Description p4 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
-| M14-003 | Description p4 | M14 | P01 | P01.05 | demo | none yet | in_progress |
+| M14-003 | Description p4 | M14 | P01 | P01.05 | demo | docs/evidence/phase1/jenkins-dev-run.txt | implemented |
 | M14-004 | Description p4 | M14 | P01 | P01.02 | inspection | tests/unit/test_images.py, docs/evidence/phase1/cluster-state.txt | implemented |
 | M14-005 | Description p4 | M14 | P10 | P10.01 | demo | none yet | unimplemented |
 | VER-001 | Description p4 | M11 | P03 | P03.01 | inspection | none yet | unimplemented |
@@ -240,4 +240,4 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | CMN-005 | Guide p8 | M1 | P01 | P01.03 | ci | tests/unit/test_no_local_addresses.py, docs/evidence/phase1/ui-runtime-api.txt | implemented |
 | CMN-006 | Guide p8 | M6 | P04 | P04.05 | test | none yet | unimplemented |
 | CMN-007 | Guide p8 | M8 | P07 | P07.02 | test | none yet | unimplemented |
-| CMN-008 | Guide p8 | M14 | P01 | P01.03, P01 | demo | none yet | in_progress |
+| CMN-008 | Guide p8 | M14 | P01 | P01.03, P01 | demo | docs/evidence/phase1/gate-demo.txt, docs/evidence/screenshots/p01-gate-verdict-card.png, docs/evidence/phase1/jenkins-dev-run.txt | implemented |

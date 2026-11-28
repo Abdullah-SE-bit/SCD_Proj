@@ -1,7 +1,8 @@
 # Deployment, Docker and Kubernetes strategy
 
 Status: proposed. Verified: the namespace and NetworkPolicy manifests pass schema validation, and Calico enforces
-them on the local kind cluster ([test output](../evidence/phase1/netpol-test.txt)). No workload is deployed.
+them on the local kind cluster ([test output](../evidence/phase1/netpol-test.txt)). The Phase 1 skeleton, one Deployment per module with the data
+stores and the ingress, deploys with `scripts/deploy.sh` ([demonstration](../evidence/phase1/gate-demo.txt)).
 
 ## Docker
 - One image per module (AMB-03), multi-stage, non-root, pinned base (`python:3.12-slim` by digest) and

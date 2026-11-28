@@ -1533,8 +1533,10 @@
    "acceptance": "Jenkins deploys merged code.",
    "verification": "demo",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/jenkins-dev-run.txt"
+   ]
   },
   {
    "id": "M14-004",
@@ -3646,8 +3648,12 @@
    "acceptance": "Walking skeleton in Phase 1.",
    "verification": "demo",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/gate-demo.txt",
+    "docs/evidence/screenshots/p01-gate-verdict-card.png",
+    "docs/evidence/phase1/jenkins-dev-run.txt"
+   ]
   }
  ]
 }

@@ -1,0 +1,9 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/212",
+ "evidence": [
+  "docs/evidence/phase1/gate-demo.txt",
+  "docs/evidence/screenshots/p01-gate-verdict-card.png",
+  "docs/evidence/phase1/jenkins-dev-run.txt"
+ ]
+}

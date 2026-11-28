@@ -42,3 +42,8 @@ def test_compare_needs_a_login_and_ignores_a_forged_query_header(profile):  # no
     assert call("GET", "/compare?a=idea_1&b=idea_2")[0] == 401
     headers = {"Authorization": f"Bearer {token()}", "X-Query": "a=idea_1&b=idea_2"}
     assert app.service.handle("GET", "/compare", b"", headers)[0] == 400
+
+
+def test_metrics_show_the_cache_counts(profile):  # noqa: F811
+    profile.answers["/metrics"] = (200, {"cache_hits": 3})
+    assert call("GET", "/metrics") == (200, {"cache": {"cache_hits": 3}})

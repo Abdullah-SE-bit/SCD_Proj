@@ -9,7 +9,8 @@ from collections.abc import Callable
 from typing import Any
 
 from scd_profile import compare, history
-from scd_profile.base import Request, Service
+from scd_profile.base import Request, Service, log
+from scd_profile.cache import Redis, VerdictCache
 from scd_profile.db import Database, url_from_env
 from scd_profile.services import BadCredentials, Exists, Invalid, NotFound, ProfileService
 
@@ -32,6 +33,8 @@ def ready(database: Database | None) -> bool:
 url = url_from_env(os.environ)
 database = Database.from_url(url) if url else None
 service = Service("profile", "M2", ready=lambda: ready(database))
+cache_url = os.environ.get("REDIS_URL", "")
+verdicts = VerdictCache(Redis(cache_url) if cache_url else None)  # no address, no cache: every lookup misses
 
 
 def api(method: str, path: str) -> Callable[[Action], None]:
@@ -110,6 +113,36 @@ def add_verdict(records: ProfileService, request: Request) -> Answer:
 @api("POST", "/users/{user_id}/compare")
 def compare_ideas(records: ProfileService, request: Request) -> Answer:
     return 200, compare.compare(records, request["params"]["user_id"], request["body"].get("ideas"))
+
+
+CACHE = "/users/{user_id}/ideas/{idea_id}/versions/{version}/cache"
+
+
+def parts_of(records: ProfileService, request: Request) -> dict[str, Any]:
+    params = request["params"]
+    return history.cache_parts(records, params["user_id"], params["idea_id"], params["version"], request["body"])
+
+
+@api("POST", f"{CACHE}/lookup")
+def look_up(records: ProfileService, request: Request) -> Answer:
+    found = verdicts.get(parts_of(records, request))
+    if found is not None:
+        log(service="profile", run_id=request["run_id"], event="cache_hit", verdict=found.get("verdict"))
+    return 200, {"hit": found is not None, "verdict": found}
+
+
+@api("PUT", CACHE)
+def remember(records: ProfileService, request: Request) -> Answer:
+    document = request["body"].get("verdict")
+    if not isinstance(document, dict):
+        raise Invalid("not a verdict document")
+    history.check_verdict(document)
+    return 200, {"stored": verdicts.put(parts_of(records, request), document)}
+
+
+@service.route("GET", "/metrics")
+def metrics(request: Request) -> Answer:
+    return 200, verdicts.metrics()
 
 
 if __name__ == "__main__":

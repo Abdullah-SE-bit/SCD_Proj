@@ -141,6 +141,13 @@ def compare(request: Request) -> tuple[int, Any]:
     return forward("POST", f"/users/{user}/compare", {"ideas": chosen})
 
 
+@service.route("GET", "/metrics")
+def metrics(request: Request) -> tuple[int, Any]:
+    """Counts only, no user data."""
+    status, answer = forward("GET", "/metrics")
+    return (200, {"cache": answer}) if status == 200 else (status, answer)
+
+
 @service.route("POST", "/validate")
 def validate(request: Request) -> tuple[int, Any]:
     idea = request["body"].get("idea")

@@ -64,6 +64,22 @@ def check_verdict(document: dict[str, Any]) -> None:
         raise Invalid("not a verdict document")
 
 
+def cache_parts(records: ProfileService, user_id: str, idea_id: str, version: str,
+                body: dict[str, Any]) -> dict[str, Any]:
+    """The cache key of one version of the user's idea. The profile version is read here, never taken from a caller."""
+    given = {name: body.get(name) for name in ("rubrics", "engine", "snapshot")}
+    if not all(isinstance(value, str) and 0 < len(value) <= 500 for value in given.values()):
+        raise Invalid("name the rubrics, engine and snapshot versions")
+    with records.database.transaction() as tx:
+        owned(tx, user_id, idea_id)
+        row = next((r for r in repo.versions_of(tx, idea_id) if str(r["version"]) == version), None)
+        if not row:
+            raise NotFound("no such version")
+        profile = repo.profile_of(tx, user_id)
+    return {"user_id": user_id, "version_id": row["id"], "profile_version": profile["version"] if profile else 0,
+            **given}
+
+
 def save_verdict(records: ProfileService, user_id: str, idea_id: str, version: str,
                  document: dict[str, Any]) -> dict[str, Any]:
     """Store M11's answer for one version of the user's idea."""

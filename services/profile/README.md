@@ -28,3 +28,13 @@ python -m pytest services/profile -q
 
 The tests use SQLite. Set `TEST_DATABASE_URL` to a **throw-away** PostgreSQL database (its public schema is dropped)
 and install `requirements.txt` to run them against PostgreSQL.
+
+
+## History, comparison and cache (P02.03)
+Internal routes under `/users/{user_id}`: `ideas` (POST, GET), `ideas/{id}/versions` (POST, GET),
+`ideas/{id}/versions/{n}/verdict` (POST), `compare` (POST `{ideas: [a, b]}`),
+`ideas/{id}/versions/{n}/cache` (PUT `{rubrics, engine, snapshot, verdict}`) and `.../cache/lookup` (POST).
+`GET /metrics` counts cache hits, misses and errors; each hit is also logged. `REDIS_URL` turns the cache on; entries
+expire after a day. Public through the gateway: `GET /ideas`, `/ideas/{id}/versions`, `/compare?a=&b=`, `/metrics`.
+
+Not wired yet: the cluster passes no database or Redis address to this service and does not run the migrations.

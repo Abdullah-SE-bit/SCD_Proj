@@ -1,7 +1,15 @@
 # services/profile (M2)
 
-Application records in PostgreSQL. **So far** (P02.01): tables, migrations, repositories and services. The service
-still exposes only `/health`, `/ready` and `/info`; account and profile routes arrive with P02.02.
+Application records in PostgreSQL: tables, migrations, repositories, services and internal routes.
+
+| Internal route | Behaviour |
+|---|---|
+| `POST /users` | register; password stored as a salted scrypt hash |
+| `POST /sessions` | check email and password, return `user_id` |
+| `GET`, `PUT /users/{user_id}/profile` | read or save the profile; each save raises its version |
+
+They trust the caller: only the gateway authenticates users, and no ingress policy stops other pods.
+History, comparison and the cache arrive with P02.03.
 
 | Layer | File |
 |---|---|

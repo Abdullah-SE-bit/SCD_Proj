@@ -10,7 +10,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | USR-006 | Desc p2 §2 U6 | mandatory | U6: Read a verdict card showing verdict, gates, six scores with evidence links, weights, confidence and stability. | Card renders every listed element. | component | unimplemented |
 | USR-010 | Desc p2 §2 U10 | mandatory | U10: See why a verdict is INSUFFICIENT EVIDENCE; the card says what was missing and does not guess. | Card names missing evidence and shows no guessed verdict. | e2e | unimplemented |
 | M01-004 | Desc p3 §4 | mandatory | M1 has component tests. | UI component tests run in CI. | ci | implemented |
-| API-003 | Guide p2 §3 | mandatory | Public: POST /auth/register, /auth/login; GET, PUT /profile. | Endpoints exist. | contract | unimplemented |
+| API-003 | Guide p2 §3 | mandatory | Public: POST /auth/register, /auth/login; GET, PUT /profile. | Endpoints exist. | contract | implemented |
 | API-004 | Guide p2 §3 | mandatory | Public: POST /discover, /validate return a run id; GET /runs/{id} and live /runs/{id}/events (SSE or WebSocket). | Endpoints exist; stream works. | contract | unimplemented |
 | API-005 | Guide p2 §3 | mandatory | Public: POST /runs/{id}/answer, /approve; POST /ideas/{id}/challenge, /whatif. | Endpoints exist. | contract | unimplemented |
 | API-006 | Guide p2 §3 | mandatory | Public: GET /ideas, /ideas/{id}/versions, /compare; GET /metrics (Prometheus-style or JSON). | Endpoints exist. | contract | unimplemented |
@@ -25,7 +25,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | M02-002 | Desc p3 §4 | mandatory | Database migrations exist. | Fresh database migrates to head. | integration | implemented |
 | M02-003 | Desc p3 §4 | mandatory | Cache keys include profile and rubric versions. | Changing either version misses cache. | unit | unimplemented |
 | DBS-001 | Guide p1 §2 Fig.1 | mandatory | Application records: users, profiles, ideas, idea_versions, verdicts, dimension_scores, approvals, traces_index, conversations with listed fields. | Migrations include listed entities and fields. | integration | implemented |
-| SCH-002 | Guide p2 §2.1 | mandatory | Student profile schema with user_id, skills, hours_per_week, weeks_available, team_size, compute (laptop, free_gpu, paid), goal (startup, portfolio, course_project), interests. | Schema contains all fields and enums. | contract | unimplemented |
+| SCH-002 | Guide p2 §2.1 | mandatory | Student profile schema with user_id, skills, hours_per_week, weeks_available, team_size, compute (laptop, free_gpu, paid), goal (startup, portfolio, course_project), interests. | Schema contains all fields and enums. | contract | implemented |
 | CMN-002 | Guide p8 §12 | mandatory | Cache verdicts with profile and rubric version in the key. | Same as M02-003. | unit | unimplemented |
 
 ## M3

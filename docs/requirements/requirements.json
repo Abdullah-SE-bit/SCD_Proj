@@ -337,8 +337,12 @@
    "acceptance": "History, versions and six-dimension comparison shown.",
    "verification": "e2e",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/profile/test_profile_history.py",
+    "services/profile/test_profile_compare.py",
+    "services/gateway/test_gateway_history.py"
+   ]
   },
   {
    "id": "USR-010",
@@ -744,8 +748,10 @@
    "acceptance": "Changing either version misses cache.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/profile/test_profile_cache.py"
+   ]
   },
   {
    "id": "M02-004",
@@ -759,8 +765,11 @@
    "acceptance": "Hits shown in trace and metrics.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/profile/test_profile_cache.py",
+    "services/gateway/test_gateway_history.py"
+   ]
   },
   {
    "id": "M02-005",
@@ -2214,7 +2223,7 @@
    "acceptance": "Layout implemented; Redis TTL set.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2408,8 +2417,10 @@
    "acceptance": "Endpoints exist.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/gateway/test_gateway_history.py"
+   ]
   },
   {
    "id": "API-007",
@@ -3671,8 +3682,10 @@
    "acceptance": "Same as M02-003.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/profile/test_profile_cache.py"
+   ]
   },
   {
    "id": "CMN-003",

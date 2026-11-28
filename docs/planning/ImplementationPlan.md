@@ -326,7 +326,7 @@ Pure functions with config from ConfigMap.
 
 Adjustments, 14-run sensitivity, smallest change search.
 
-- Module M11; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status not done
+- Module M11; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status done
 - Depends on: P03.01
 - Requirements: M11-004, SCR-007, SCR-008, SCR-009, SCR-010, SCR-011, USR-011
 - File scope: `services/verdict/**`, `tests/**`

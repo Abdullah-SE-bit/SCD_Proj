@@ -40,3 +40,7 @@
 ## P04.01 (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/215)
 - Done: `/fetch` and `/llm`; egress proven on the cluster.
 - Not done: no live model call (needs the API key and model name in `.env`, then `scripts/load_secrets.sh`).
+
+## P03.02 (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/217)
+- Done: challenge adjustments, sensitivity, suggestions, `/whatif`; worked example reproduced.
+- Open: AMB-24 (flip count) for the instructor; applying a suggestion arrives with the run workflow.

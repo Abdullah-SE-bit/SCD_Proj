@@ -1,13 +1,13 @@
-"""POST /verdict: validate the request, run the engine, answer in the verdict contract (API-010, SCH-005)."""
+"""POST /verdict and /whatif: validate the request, run the engine, answer in the contract (API-010, SCH-005)."""
 
 import hashlib
 import json
 from typing import Any
 
-from scd_verdict import engine
+from scd_verdict import challenge, engine, sensitivity, suggest
 from scd_verdict.config import DIMENSIONS, InvalidInput, load, number
 
-ENGINE_VERSION = "m11@v1"
+ENGINE_VERSION = "m11@v2"
 RECORD_FIELDS = ("dimension", "score", "confidence", "evidence_ids", "features", "reason", "rubric_version", "model")
 
 
@@ -73,26 +73,59 @@ def assemble(core: dict[str, Any], scores: dict[str, dict[str, Any]], profile: d
         **core,
         "score": round(core["score"], 3),
         "confidence": round(core["confidence"], 3),
-        "stability": "STABLE",
         "weights": weights,
         "thresholds": {k: config["thresholds"][k] for k in ("T_go", "T_no", "floor")},
         "scores": [scores[d] for d in DIMENSIONS if d in scores],
-        "what_would_make_go": [],
-        "sensitivity": {"runs": 0, "flipped": 0},  # no sensitivity runs yet (P03.02): runs 0 says so
         "versions": {"engine": ENGINE_VERSION,
                      "rubrics": ",".join(sorted(r["rubric_version"] for r in scores.values())) or "none",
                      "profile_weights": f"{profile['goal']}:{digest}"},
     }
 
 
+def parse_objections(value: Any) -> list[dict[str, Any]]:
+    items = objects(value, "accepted_objections", 100)
+    for item in items:
+        if item.get("dimension") not in DIMENSIONS:
+            raise InvalidInput("each objection needs a known dimension")
+        text(item.get("reason"), "objection reason")
+    return items
+
+
 def verdict(body: dict[str, Any], run_id: str) -> dict[str, Any]:
+    """Challenge adjustments, gates and score, sensitivity and what would make it GO (Description Figure 3)."""
     config = load(body.get("config"))
     scores = parse_scores(body.get("scores"))
     profile = parse_profile(body.get("profile"), config)
     evidence = parse_evidence(body.get("evidence", []))
+    objections = parse_objections(body.get("accepted_objections", []))
     version = body.get("version", 1)
     if isinstance(version, bool) or not isinstance(version, int) or version < 1:
         raise InvalidInput("version must be a positive whole number")
     meta = {"idea_id": text(body.get("idea_id", "adhoc"), "idea_id"), "version": version,
             "run_id": text(body.get("run_id", run_id), "run_id")}
-    return assemble(engine.decide(scores, profile, evidence, config), scores, profile, config, meta)
+    scores, adjustments = challenge.apply(scores, objections, config)
+    core = engine.decide(scores, profile, evidence, config)
+    stability = sensitivity.check(core, scores, profile, evidence, config)
+    wanted = suggest.what_would_make_go(core, stability["stability"], scores, profile, evidence, config)
+    answer = assemble(core, scores, profile, config, meta)
+    return {**answer, **stability, "what_would_make_go": wanted, "adjustments": adjustments}
+
+
+def whatif(body: dict[str, Any], run_id: str) -> dict[str, Any]:
+    """The verdict if some scores or profile values were different. Nothing is stored and no scorer runs."""
+    changes = body.get("changes")
+    if not isinstance(changes, dict) or not changes or set(changes) - {"scores", "profile"}:
+        raise InvalidInput("changes must name scores and/or profile values")
+    new_scores, new_profile = changes.get("scores", {}), changes.get("profile", {})
+    if not isinstance(new_scores, dict) or not isinstance(new_profile, dict):
+        raise InvalidInput("changes.scores and changes.profile must be objects")
+    records = parse_scores(body.get("scores"))
+    unknown = set(new_scores) - set(records)
+    if unknown:
+        raise InvalidInput(f"cannot change a dimension without a score: {', '.join(sorted(unknown))}")
+    changed = [{**record, "score": new_scores.get(name, record["score"])} for name, record in records.items()]
+    profile = body.get("profile")
+    if not isinstance(profile, dict):
+        raise InvalidInput("profile must be an object")
+    result = verdict({**body, "scores": changed, "profile": {**profile, **new_profile}}, run_id)
+    return {**result, "hypothetical": True}

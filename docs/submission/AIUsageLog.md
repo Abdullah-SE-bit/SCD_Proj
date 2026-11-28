@@ -35,5 +35,6 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | P03.03: draft six rubrics with anchors, rules, features and worked examples, and their validation test | none yet; student review open | task P03.03; all content drafted by AI |
 | 2026-11-28 | Claude Code | P03.01: verdict engine core, tests, ConfigMap demonstration | no content edits by humans | deterministic verdicts |
 | 2026-11-28 | Claude Code | P04.01: tool layer, sanitiser, model route, egress proof | no content edits by humans | single controlled exit |
+| 2026-11-28 | Claude Code | P03.02: challenge, sensitivity, what-if, worked example | no content edits by humans | stability and explanation of verdicts |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

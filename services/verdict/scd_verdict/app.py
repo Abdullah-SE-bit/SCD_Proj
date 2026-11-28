@@ -26,5 +26,13 @@ def post_verdict(request: Request) -> tuple[int, Any]:
         return 400, {"error": str(error)}
 
 
+@service.route("POST", "/whatif")
+def post_whatif(request: Request) -> tuple[int, Any]:
+    try:
+        return 200, api.whatif(request["body"], request["run_id"])
+    except rules.InvalidInput as error:
+        return 400, {"error": str(error)}
+
+
 if __name__ == "__main__":
     service.run()

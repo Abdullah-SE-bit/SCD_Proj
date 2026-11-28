@@ -13,6 +13,14 @@ Facts the gates read from the scores' `features`: `feasibility.effort_hours`, `r
 
 Rules come from the file named by `VERDICT_CONFIG` (ConfigMap `verdict-config` on the cluster).
 
-Not yet: sensitivity, challenge and what-if (P03.02). Until then `sensitivity.runs` is 0 and `stability` is not tested.
+Optional `accepted_objections` (`dimension`, `reason`): each costs 0.5 score (at most 1.0) and 0.1 confidence; the
+answer lists `adjustments`. `stability` is BORDERLINE when any of the 14 sensitivity runs changes the verdict, and
+`flips` lists those runs. `what_would_make_go` suggests the smallest change.
+
+`POST /whatif` takes the same body plus `changes` (`scores`: new values by dimension; `profile`: new values) and
+answers with `hypothetical: true`.
+
+The worked example of Description 5.4 gives 4 flipping runs of 14, not the 3 shown there: its own rules also move
+competition by one point (AMB-24, ask the instructor).
 
 Run from this directory: `python -m scd_verdict.app`. Tests: `pytest services/verdict`.

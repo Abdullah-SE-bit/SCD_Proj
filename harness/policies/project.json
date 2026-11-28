@@ -43,6 +43,7 @@
   "harness/task-registry/status/**",
   "docs/requirements/requirements.json",
   "docs/requirements/RequirementsTraceabilityMatrix.md",
+  "docs/planning/ImplementationPlan.md",
   "docs/requirements/Requirements.md",
   "docs/requirements/FunctionalRequirements.md",
   "docs/requirements/NonFunctionalRequirements.md"

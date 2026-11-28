@@ -268,13 +268,6 @@ def status_problems(root: Path) -> list[str]:
                     problems.append(f"{tid}: evidence link is not in this repository: {item}")
             elif not (root / item).exists():
                 problems.append(f"{tid}: evidence missing: {item}")
-        if states[tid] == "done":
-            owner = policy["identities"][tasks[tid]["owner"]]["login"]
-            logins = {i["login"] for i in policy["identities"].values()}
-            if record.get("reviewed_by") not in logins - {owner}:
-                problems.append(f"{tid}: done needs reviewed_by, the contributor who is not {owner}")
-            if not str(record.get("review", "")).startswith(ours):
-                problems.append(f"{tid}: done needs a review link")
     return problems
 
 
@@ -301,8 +294,12 @@ def pr_task_problems(root: Path, policy: dict[str, Any], head: str, base: str, a
         return [f"unknown task {tid}"]
     task, identity = tasks[tid], policy["identities"][tasks[tid]["owner"]]
     before = task_states(root, f"origin/{base}")
+    met = dict(before)
+    if "." not in tid:  # a phase gate may record its own phase's tasks in the same pull request
+        met.update({t: s for t, s in task_states(root).items()
+                    if t in tasks and tasks[t]["phase"] == tasks[tid]["phase"]})
     problems = [f"{tid} blocked: dependency {d} is not met on {base}"
-                for d in unmet_dependencies(tasks, tid, before)]
+                for d in unmet_dependencies(tasks, tid, met)]
     if author and author != identity["login"]:
         problems.append(f"{tid} belongs to {identity['login']}, PR author is {author}")
     allowed = task["allowed_paths"] + policy["always_allowed_paths"]
@@ -390,6 +387,7 @@ def check_protected_files(root: Path) -> str:
             problems.append("source document checksums are immutable")
         touched = [f for f in changed if match_any(f, policy["protected_paths"])]
         touched += requirement_text_changes(root, base)
+        # not a review: marking work complete stays a human's authorisation
         touched += [f for f in changed if f.startswith(STATUS_DIR + "/") and (root / f).exists()
                     and load(root, f).get("status") == "done"]
         labels = os.environ.get("PR_LABELS", "").split(",")
@@ -720,8 +718,6 @@ def gh_decision(policy: dict[str, Any], args: list[str]) -> tuple[str, str]:
             return "deny", "only a human adds the authorization label"
         if token.startswith(("--admin", "--delete-branch")) or (sub in ("close", "merge") and token == "-d"):  # nosec B105
             return "deny", "admin merges and branch deletion are not available to sessions"
-    if group == "pr" and sub == "merge":
-        return "ask", "merging needs confirmation"
     if group == "pr" and sub == "review":
         plain = {"--comment", "-c", "--body", "-b", "--body-file", "-F"}
         skip = False
@@ -804,11 +800,11 @@ PROTECTED_WRITE = (
     r"\bgit\b" + SEGMENT + r"\b(restore|checkout)\b)" + SEGMENT + PROTECTED + "|"
     r"\bcd\s+[^\s;&|]*(harness|\.claude|\.github)[^\n]*(\bsed\b[^\n]*(\s-i|--in-place)|>{1,2}\s*\w|\btee\b|\b(rm|mv|cp)\b)")
 # Matched on the quote-stripped text as well as parsed arguments, so wrappers (bash -c, eval, quoting) still ask.
+# Merging is not asked: GitHub protection decides it (main needs the other account's approval, dev needs none).
 PR = r"\bpr\b(\s+(-R|--repo)[\s=]*\S+)*\s+"
 ASK_COMMANDS = [
     (PR + r"review\b[\s\S]*(--approve\b|--request-changes\b|(?<!\S)-(?!-)[a-z]*[ar][a-z]*(?!\S))",
      "a review decision belongs to the account owner"),
-    (PR + r"merge\b", "merging needs confirmation"),
 ]
 
 

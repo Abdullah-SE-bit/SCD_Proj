@@ -281,6 +281,9 @@ Source wording is never rewritten; these are interpretations. Status of every en
 - **Instructor clarification:** No. **Human approval:** Yes (D-11).
 - **Status:** open.
 
+**Owner decision on AMB-25 (2026-11-28, A-06):** no review into `dev`. The mutual-review requirement
+(COL-002, Description p1) is then met only through promotions, so both members must author and review them.
+
 ## AMB-26 Which dimensions the score floor applies to
 - **Sources:** D p5 Fig.4: "Score >= T_go and no dimension below floor?". D p5 5.3: "no score below the floor on the first five dimensions".
 - **Why unclear:** the figure covers all six; the text excludes learning and portfolio value.

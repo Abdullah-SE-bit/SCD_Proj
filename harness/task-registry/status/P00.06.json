@@ -1,0 +1,12 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/18",
+ "evidence": [
+  "docs/handoff/Demidoga.md",
+  "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6093185832",
+  "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6094108280",
+  "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/18#pullrequestreview-6094279413"
+ ],
+ "reviewed_by": "Abdullah-SE-bit",
+ "review": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/18#pullrequestreview-6094279413"
+}

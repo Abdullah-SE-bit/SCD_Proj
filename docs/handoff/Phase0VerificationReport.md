@@ -1,8 +1,7 @@
 # Phase 0 verification report
 
-**Status: PHASE 0 PARTIALLY COMPLETE — BLOCKERS REQUIRE RESOLUTION** (2026-11-28)
-
-Remaining blocker at the time of the first commit: independent review and human approval of the promotion PR.
+**Status: Phase 0 is complete once this report is on `main`**, which takes a promotion with the other
+collaborator's approval. Until then it is partially complete. Phase 1 is not authorised.
 
 ## Local checks (Windows, Python 3.12)
 `scd.py all`: 20 of 20 passed.
@@ -15,7 +14,7 @@ Remaining blocker at the time of the first commit: independent review and human 
 | task-policy, protected-files | pass |
 | branch-policy | pass locally (not a pull request) |
 | secret-scan (built-in) | 207 files |
-| harness-tests | 27 of 27 |
+| harness-tests | 43 of 43 at close-out (27 at the first version) |
 | lint, typecheck | pass |
 | contract-tests | 10 schemas, 20 examples, 7 OpenAPI documents |
 | k8s-validate | 5 resources valid |
@@ -74,9 +73,28 @@ All decisions were made on the `Demidoga` account in the secondary session with 
 statements above about 27 tests describe the first foundation; the harness has 41 tests after the fixes.
 Responses: [ReviewResponses](ReviewResponses.md).
 
+## Promotion
+#8 was approved at `b5d038a` ([review](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/8#pullrequestreview-6094108280)) and merged into `main` as
+`08cb1c3`; the merged tree equals the approved head. `scd.py all` passed 20/20 and GitHub 21/21 on that head.
+The decision was given in the secondary session; the review text states it is AI-assisted.
+
+## Close-out defect
+Found during the #8 review and reproduced by `test_phase_can_be_closed_task_by_task`: P00.04 to P00.06 could
+not record `done`, which also blocked the gate. Fixed by allowing the generated implementation plan in every
+task pull request (`repo-structure` rejects hand edits to it).
+
+## Close-out
+All six tasks and the gate are recorded `done` in one pull request (decision A-06: no review into `dev`),
+labelled by the owner. P00.06 evidence includes the findings, the approval of #8 and the primary approval of
+the secondary's record (#18).
+
+Later changes: #19 and #20 introduced the owner's merge and review rules. The automated security review noted
+that merges are no longer confirmed locally (intended; `main` is protected on GitHub) and that completion records
+had lost their human label (restored before #20 merged).
+
 ## Not verified
-Jenkinsfile syntax and execution; NetworkPolicy enforcement; hooks in a freshly started session of the second
-clone; secondary review; promotion approval.
+Jenkinsfile syntax and execution; Docker builds and image scan; NetworkPolicy enforcement and rollback on a
+real cluster; a human line-by-line audit of the requirements.
 
 ## Application code
 None.

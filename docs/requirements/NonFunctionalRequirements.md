@@ -9,7 +9,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | ARC-001 | Desc p2 §3 Fig.1 | mandatory | M1 is the browser's entry; chat and progress stream between user and M1; M1 talks to M3. | Browser only calls M1. | test | in_progress |
 | M01-001 | Desc p3 §4 | mandatory | M1 Web UI and API Gateway is the only entrance: chat, live progress, verdict card, approval prompt, history. | All listed views exist behind M1. | e2e | unimplemented |
 | M01-002 | Desc p3 §4 | mandatory | UI API address is set at runtime. | Same image runs against two API addresses. | test | implemented |
-| M01-003 | Desc p3 §4 | mandatory | M1 has login, rate limits and input validation. | Unauthenticated, over-limit and invalid requests rejected. | test | unimplemented |
+| M01-003 | Desc p3 §4 | mandatory | M1 has login, rate limits and input validation. | Unauthenticated, over-limit and invalid requests rejected. | test | implemented |
 | SUB-007 | Desc p6 §6.3 | mandatory | Interface screenshots: profile, Discover results, verdict card, challenge, what-if version 2, INSUFFICIENT EVIDENCE. | Captured and captioned. | evidence | unimplemented |
 | K8S-010 | Guide p6 §9 Fig.3 | mandatory | UI reaches the API only. | NetworkPolicy blocks UI to other services. | infra-test | implemented |
 | CMN-005 | Guide p8 §12 | mandatory | Never call model or scouts from the browser; no hard-coded localhost in images. | Static check and NetworkPolicy. | ci | implemented |
@@ -42,7 +42,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| SEC-001 | Desc p1 §1.3 | mandatory | Keep no private data. | Stored cards contain only public idea data. | inspection | unimplemented |
+| SEC-001 | Desc p1 §1.3 | mandatory | Keep no private data. | Stored cards contain only public idea data. | inspection | in_progress |
 | ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | implemented |
 | M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | implemented |
 | M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | implemented |

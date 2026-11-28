@@ -1,11 +1,17 @@
-"""M1 public API. Walking skeleton: both routes serve one fixed verdict, labelled FIXTURE DATA.
+"""M1 public API: accounts, profile and the walking-skeleton run.
 
-Nothing is evaluated and the orchestrator is not called yet; the real Validate flow arrives with P05.04.
+/validate and /runs serve one fixed verdict, labelled FIXTURE DATA, and need no login until the UI has one
+(P02.04). Nothing is evaluated and the orchestrator is not called yet; the real flow arrives with P05.04.
 """
 
+import os
+import secrets
 from typing import Any
 
-from scd_gateway.base import Request, Service
+from scd_gateway import tokens
+from scd_gateway.base import Request, Service, log
+from scd_gateway.limits import RateLimiter
+from scd_gateway.upstream import Client, Unavailable
 
 MAX_IDEA = 2000
 RUN_ID = "fixture-run"
@@ -33,7 +39,74 @@ RUN: dict[str, Any] = {
     },
 }
 
+# per minute: logins for one email; all registrations; all validations (a request carries no client address)
+LOGINS, REGISTRATIONS, VALIDATIONS = 5, 20, 60
 service = Service("gateway", "M1")
+profile = Client(os.environ.get("PROFILE_URL", "http://profile:8000"))
+limiter = RateLimiter()
+key = os.environ.get("JWT_SIGNING_KEY", "").encode()
+if len(key) < 32:  # never a built-in key: without one, logins end when the process does
+    log(service="gateway", event="JWT_SIGNING_KEY missing or shorter than 32 characters; using a temporary key")
+    key = secrets.token_bytes(32)
+
+
+def limited(name: str, limit: int) -> tuple[int, Any] | None:
+    wait = limiter.wait(name, limit)
+    return (429, {"error": "too many requests", "retry_after": wait}) if wait else None
+
+
+def credentials(body: dict[str, Any]) -> bool:
+    """Shape and size only; the profile service holds the rules."""
+    return (set(body) == {"email", "password"} and all(isinstance(value, str) for value in body.values())
+            and len(body["email"]) <= 254 and len(body["password"]) <= 128)
+
+
+def forward(method: str, path: str, body: Any = None) -> tuple[int, Any]:
+    try:
+        return profile(method, path, body)
+    except Unavailable as error:
+        log(service="gateway", error=f"profile: {error}")
+        return 503, {"error": "accounts are unavailable"}
+
+
+@service.route("POST", "/auth/register")
+def register(request: Request) -> tuple[int, Any]:
+    if not credentials(request["body"]):
+        return 400, {"error": "send an email and a password"}
+    return limited("register", REGISTRATIONS) or forward("POST", "/users", request["body"])
+
+
+@service.route("POST", "/auth/login")
+def login(request: Request) -> tuple[int, Any]:
+    body = request["body"]
+    if not credentials(body):
+        return 400, {"error": "send an email and a password"}
+    refused = limited(f"login:{body['email'].strip().lower()}", LOGINS)
+    if refused:
+        return refused
+    status, answer = forward("POST", "/sessions", body)
+    return (200, {"token": tokens.issue(answer["user_id"], key)}) if status == 200 else (status, answer)
+
+
+def signed_in(request: Request) -> str | None:
+    scheme, _, token = request["headers"].get("authorization", "").partition(" ")
+    return tokens.user_of(token.strip(), key) if scheme.lower() == "bearer" else None
+
+
+@service.route("GET", "/profile")
+def read_profile(request: Request) -> tuple[int, Any]:
+    user = signed_in(request)
+    return forward("GET", f"/users/{user}/profile") if user else (401, {"error": "log in first"})
+
+
+@service.route("PUT", "/profile")
+def write_profile(request: Request) -> tuple[int, Any]:
+    user = signed_in(request)
+    if not user:
+        return 401, {"error": "log in first"}
+    if request["body"].get("user_id", user) != user:
+        return 403, {"error": "this is not your profile"}
+    return forward("PUT", f"/users/{user}/profile", request["body"] | {"user_id": user})
 
 
 @service.route("POST", "/validate")
@@ -41,7 +114,7 @@ def validate(request: Request) -> tuple[int, Any]:
     idea = request["body"].get("idea")
     if not isinstance(idea, str) or not idea.strip() or len(idea) > MAX_IDEA:
         return 400, {"error": f"idea must be text of 1 to {MAX_IDEA} characters"}
-    return 200, {"run_id": RUN_ID}
+    return limited("validate", VALIDATIONS) or (200, {"run_id": RUN_ID})
 
 
 @service.route("GET", "/runs/{id}")

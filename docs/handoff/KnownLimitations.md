@@ -1,6 +1,7 @@
 # Known limitations (Phase 0)
 
-1. Application: nothing is implemented.
+1. Application: service skeletons with probes and a UI-to-gateway path serving a fixture verdict. Nothing is
+   evaluated.
 2. Course PDFs are not in the public repository (D-01); a fresh clone needs them copied in.
 3. Assignment 1, referenced by M2, was not supplied.
 4. The independent review was AI-assisted; no human has audited the requirements line by line. Both accounts'

@@ -1,0 +1,45 @@
+# P01.03: one UI image against two API addresses (M01-002), and no localhost in the images (CMN-005).
+# Captured by running these commands, 2026-11-28T07:53Z. Images built from services/gateway and services/ui.
+
+$ docker image inspect scd-ui:p0103 --format '{{.Id}} user={{.Config.User}}'
+sha256:24edb8dec3fbb6ec0ae268677a7c2ece981eaaa6d4c80a99488f06138582ca4a user=101:101
+$ docker image inspect scd-gateway:p0103 --format '{{.Id}} user={{.Config.User}}'
+sha256:b5a841bc4d40f8fe5bb170ec7935765467582d630cdd8feebc452d905943379b user=10001:10001
+
+# UI 'a': same image, API_URL=http://p0103-gw-a:8000, published on port 18080
+$ docker inspect p0103-ui-a --format '{{.Image}} {{range .Config.Env}}{{println .}}{{end}}' | grep -E 'sha256|API_URL'
+sha256:24edb8dec3fbb6ec0ae268677a7c2ece981eaaa6d4c80a99488f06138582ca4a API_URL=http://p0103-gw-a:8000
+$ curl -sS 127.0.0.1:18080/health
+{"status":"ok","service":"ui"}  [200]
+$ curl -sS 127.0.0.1:18080/ready
+{"ready":true,"service":"ui"}  [200]
+$ curl -sS -H 'Content-Type: application/json' -d '{"idea":"A study planner"}' 127.0.0.1:18080/api/validate
+{"run_id": "fixture-run"}  [200]
+$ curl -sS 127.0.0.1:18080/api/runs/fixture-run | head -c 160
+{"run_id": "fixture-run", "status": "completed", "label": "FIXTURE DATA", "verdict": {"idea_id": "fixture-idea", "version": 1, "run_id": "fixture-run", "verdict
+$ docker logs p0103-gw-a   # requests reached this gateway only
+{"ts": 1795852419.192, "service": "gateway", "event": "listening", "port": 8000}
+{"ts": 1795852424.746, "service": "gateway", "run_id": "5ff5833cb7ca4ef785d7e5dd9fdcf6ea", "method": "POST", "path": "/validate", "status": 200}
+{"ts": 1795852424.834, "service": "gateway", "run_id": "6d7687d60b8047f7bb9496eb984630ab", "method": "GET", "path": "/runs/fixture-run", "status": 200}
+
+# UI 'b': same image, API_URL=http://p0103-gw-b:8000, published on port 18081
+$ docker inspect p0103-ui-b --format '{{.Image}} {{range .Config.Env}}{{println .}}{{end}}' | grep -E 'sha256|API_URL'
+sha256:24edb8dec3fbb6ec0ae268677a7c2ece981eaaa6d4c80a99488f06138582ca4a API_URL=http://p0103-gw-b:8000
+$ curl -sS 127.0.0.1:18081/health
+{"status":"ok","service":"ui"}  [200]
+$ curl -sS 127.0.0.1:18081/ready
+{"ready":true,"service":"ui"}  [200]
+$ curl -sS -H 'Content-Type: application/json' -d '{"idea":"A study planner"}' 127.0.0.1:18081/api/validate
+{"run_id": "fixture-run"}  [200]
+$ curl -sS 127.0.0.1:18081/api/runs/fixture-run | head -c 160
+{"run_id": "fixture-run", "status": "completed", "label": "FIXTURE DATA", "verdict": {"idea_id": "fixture-idea", "version": 1, "run_id": "fixture-run", "verdict
+$ docker logs p0103-gw-b   # requests reached this gateway only
+{"ts": 1795852421.459, "service": "gateway", "event": "listening", "port": 8000}
+{"ts": 1795852426.42, "service": "gateway", "run_id": "e81b0052ed45443ca724636e26073d03", "method": "POST", "path": "/validate", "status": 200}
+{"ts": 1795852426.541, "service": "gateway", "run_id": "878acd546ca24111a37f8465c654d54b", "method": "GET", "path": "/runs/fixture-run", "status": 200}
+
+# Search both images for a hard-coded local address (nothing before 'exit=1' means none found).
+$ docker run --rm --entrypoint sh scd-ui:p0103 -c "grep -rnoiE 'localhost|127\.0\.0\.1' /usr/share/nginx/html /etc/nginx/templates"
+exit=1
+$ docker run --rm --entrypoint sh scd-gateway:p0103 -c "grep -rnoiE 'localhost|127\.0\.0\.1' /app"
+exit=1

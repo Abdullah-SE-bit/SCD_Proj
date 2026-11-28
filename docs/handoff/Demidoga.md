@@ -1,21 +1,35 @@
 # Handoff: secondary (Demidoga)
 
-## Current: P01.01 cluster with enforced NetworkPolicy (2026-11-28)
-- [#189](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/189) from `feat/P01.01-cluster-netpol`, one commit each for P01.01a to P01.01c. Status record:
-  `in_review`.
-- Done: `scripts/cluster_up.sh` (kind 0.33.0, Kubernetes 1.36.4, Calico 3.33.1), UI-to-API-only egress rule,
-  rewritten `scripts/netpol_test.sh`. The Phase 0 egress policies needed no change.
-- Evidence: [apply](../evidence/phase1/netpol-apply.txt), [test and negative controls](../evidence/phase1/netpol-test.txt).
-- Not shown: real M5 or UI workloads (test pods stand in for them; NET-003 stays with its task), ingress rules,
-  and a run from an empty Docker cache on a second machine. `shellcheck` was not available.
-- For P01.04: label pods `app: <module>` (`ui`, `gateway`, `tools` matter to the policies). The cluster maps no host
-  ports; add `extraPortMappings` in `cluster_up.sh` and recreate the cluster if Ingress needs them. A job that
-  downloads from the internet (model import) is blocked unless it goes through M5.
-- This PC: Docker Desktop was started by this session; containers of another project restarted with it and were left
-  alone. The cluster is still running and the current kubectl context is `kind-idea-validator` (it was `minikube`).
-  Free host memory was as low as 0.8 GB.
-- Next: P01.03 (gateway and UI), only after P01.02 is merged into `dev` and the primary session says so.
-- Messages: primary session message received 2026-11-28 (registry on `dev` stays; order after P01.01 is P01.03).
+## Current: P01.03 thin UI and gateway path (2026-11-28)
+- [#208](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/208) from `feat/P01.03-gateway-ui`: one commit each for P01.03a to P01.03c and a merge of `dev`.
+  Status: `in_review`.
+- Done: gateway fixture routes, React UI with the verdict card marked `FIXTURE DATA`, component tests.
+- Evidence: [one image, two API addresses](../evidence/phase1/ui-runtime-api.txt),
+  [screenshot](../evidence/screenshots/ui-fixture-card.png).
+- Not done: the gateway does not call the orchestrator (`services/orchestrator/**` is outside this task), so the path
+  is UI to gateway only. No login, rate limits or live progress. Every idea gets the same fixed verdict.
+- For P01.04:
+
+| Image | Port | Reads | Probes | User |
+|---|---|---|---|---|
+| gateway | 8000 | `PORT` (optional) | `/health`, `/ready` | 10001 |
+| ui | 8080 | `API_URL` (required) | `/health`, `/ready` | 101 |
+
+  nginx in the UI forwards `/api/...` to `API_URL` (no trailing slash, for example `http://gateway:8000`), read at
+  start. It exits if the host does not resolve, so create the gateway Service with or before the UI, and restart the
+  UI if that Service gets a new address. It writes `/etc/nginx/conf.d` at start (no read-only root filesystem without
+  a volume there). The NetworkPolicy lets `app: ui` reach `app: gateway` pods only. An Ingress can send everything to
+  the UI. `.env.example` lists `API_PUBLIC_URL`, which nothing reads yet.
+- Next: P01.05, after P01.04 is merged.
+- Messages: primary session messages of 2026-11-28 received (start P01.03 now; merge `dev` after #166).
+
+## Earlier: P01.01 cluster with enforced NetworkPolicy
+- Merged as [#189](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/189) (`afd1bf8`), recorded `in_review`.
+- `scripts/cluster_up.sh`, `scripts/netpol_test.sh`;
+  [test output](../evidence/phase1/netpol-test.txt). Not shown: real M5 or UI workloads, ingress rules.
+- Label pods `app: <module>`. The cluster maps no host ports (`extraPortMappings` is needed for Ingress from the host).
+  Run-time downloads outside M5 are blocked.
+- This PC: the `idea-validator` cluster was left running; the kubectl context is `kind-idea-validator`.
 
 ## Earlier: P00.06 independent review
 Kept because `status/P00.06.json` cites this file. The statements below describe the state at that time.

@@ -28,7 +28,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | USR-009 | Description p2 | M2 | P02 | P02.03 | e2e | none yet | unimplemented |
 | USR-010 | Description p2 | M1 | P05 | P05.04 | e2e | none yet | unimplemented |
 | USR-011 | Description p2 | M11 | P03, P07 | P03.02, P07 | test | none yet | unimplemented |
-| ARC-001 | Description p2 | M1 | P01 | P01.03 | test | none yet | unimplemented |
+| ARC-001 | Description p2 | M1 | P01 | P01.03 | test | none yet | in_progress |
 | ARC-002 | Description p2 | M3 | P05 | P05.02 | inspection | none yet | unimplemented |
 | ARC-003 | Description p2 | M6 | P04 | P04.04 | inspection | none yet | unimplemented |
 | ARC-004 | Description p2 | M11 | P05 | P05.02 | inspection | none yet | unimplemented |
@@ -46,9 +46,9 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | VAL-005 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
 | VAL-006 | Description p3 | M11 | P05 | P05.02, P05 | test | none yet | unimplemented |
 | M01-001 | Description p3 | M1 | P02 | P02.04 | e2e | none yet | unimplemented |
-| M01-002 | Description p3 | M1 | P01 | P01.03 | test | none yet | unimplemented |
+| M01-002 | Description p3 | M1 | P01 | P01.03 | test | docs/evidence/phase1/ui-runtime-api.txt, services/ui/nginx/default.conf.template | implemented |
 | M01-003 | Description p3 | M1 | P02 | P02.02 | test | none yet | unimplemented |
-| M01-004 | Description p3 | M1 | P02 | P02.04 | ci | none yet | unimplemented |
+| M01-004 | Description p3 | M1 | P02 | P02.04 | ci | services/ui/src/App.test.tsx, services/ui/src/VerdictCard.test.tsx | implemented |
 | M02-001 | Description p3 | M2 | P02 | P02.01 | integration | none yet | unimplemented |
 | M02-002 | Description p3 | M2 | P02 | P02.01 | integration | none yet | unimplemented |
 | M02-003 | Description p3 | M2 | P02 | P02.03 | unit | none yet | unimplemented |
@@ -237,7 +237,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | CMN-002 | Guide p8 | M2 | P02 | P02.03 | unit | none yet | unimplemented |
 | CMN-003 | Guide p8 | M11 | P03 | P03.01 | test | none yet | unimplemented |
 | CMN-004 | Guide p8 | M12 | P05 | P05.03 | test | none yet | unimplemented |
-| CMN-005 | Guide p8 | M1 | P01 | P01.03 | ci | none yet | unimplemented |
+| CMN-005 | Guide p8 | M1 | P01 | P01.03 | ci | tests/unit/test_no_local_addresses.py, docs/evidence/phase1/ui-runtime-api.txt | implemented |
 | CMN-006 | Guide p8 | M6 | P04 | P04.05 | test | none yet | unimplemented |
 | CMN-007 | Guide p8 | M8 | P07 | P07.02 | test | none yet | unimplemented |
-| CMN-008 | Guide p8 | M14 | P01 | P01.03, P01 | demo | none yet | unimplemented |
+| CMN-008 | Guide p8 | M14 | P01 | P01.03, P01 | demo | none yet | in_progress |

@@ -9,7 +9,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | USR-003 | Desc p2 §2 U3 | mandatory | U3: Watch the agents work live. Done when the screen shows the running agent, its tool calls and its spend as they happen. | Live stream shows agent, tool calls, spend during a run. | e2e | unimplemented |
 | USR-006 | Desc p2 §2 U6 | mandatory | U6: Read a verdict card showing verdict, gates, six scores with evidence links, weights, confidence and stability. | Card renders every listed element. | component | unimplemented |
 | USR-010 | Desc p2 §2 U10 | mandatory | U10: See why a verdict is INSUFFICIENT EVIDENCE; the card says what was missing and does not guess. | Card names missing evidence and shows no guessed verdict. | e2e | unimplemented |
-| M01-004 | Desc p3 §4 | mandatory | M1 has component tests. | UI component tests run in CI. | ci | unimplemented |
+| M01-004 | Desc p3 §4 | mandatory | M1 has component tests. | UI component tests run in CI. | ci | implemented |
 | API-003 | Guide p2 §3 | mandatory | Public: POST /auth/register, /auth/login; GET, PUT /profile. | Endpoints exist. | contract | unimplemented |
 | API-004 | Guide p2 §3 | mandatory | Public: POST /discover, /validate return a run id; GET /runs/{id} and live /runs/{id}/events (SSE or WebSocket). | Endpoints exist; stream works. | contract | unimplemented |
 | API-005 | Guide p2 §3 | mandatory | Public: POST /runs/{id}/answer, /approve; POST /ideas/{id}/challenge, /whatif. | Endpoints exist. | contract | unimplemented |

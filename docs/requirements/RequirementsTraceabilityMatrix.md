@@ -168,7 +168,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | GIT-002 | Guide p3 | M14 | P00 | P00.02 | git-history | none yet | unimplemented |
 | GIT-003 | Guide p3 | M14 | P10 | P10.02 | ci | none yet | unimplemented |
 | GIT-004 | Guide p3 | M14 | P10 | P10.02 | evidence | none yet | unimplemented |
-| SET-001 | Guide p3 | M14 | P01 | P01.01 | infra-test | none yet | unimplemented |
+| SET-001 | Guide p3 | M14 | P01 | P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
 | SET-002 | Guide p3 | M14 | P01 | P01.04 | demo | none yet | unimplemented |
 | SET-003 | Guide p3 | M14 | P00, P10 | P00.05, P10.03 | ci | none yet | unimplemented |
 | SET-004 | Guide p3 | M14 | P01 | P01.04 | demo | none yet | unimplemented |
@@ -211,7 +211,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | JNK-002 | Guide p5 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
 | JNK-003 | Guide p5 | M14 | P01 | P01.05 | inspection | none yet | unimplemented |
 | JNK-004 | Guide p6 | M14 | P01 | P01.05 | inspection | none yet | unimplemented |
-| K8S-001 | Guide p6 | M14 | P01 | P01.01 | infra-test | none yet | unimplemented |
+| K8S-001 | Guide p6 | M14 | P01 | P01.01 | infra-test | none yet | in_progress |
 | K8S-002 | Guide p6 | M14 | P01 | P01.04 | infra-test | none yet | unimplemented |
 | K8S-003 | Guide p6 | M14 | P04 | P04.02 | infra-test | none yet | unimplemented |
 | K8S-004 | Guide p6 | M14 | P10 | P10.01 | inspection | none yet | unimplemented |
@@ -220,9 +220,9 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | K8S-007 | Guide p6 | M14 | P01 | P01.04 | demo | none yet | unimplemented |
 | K8S-008 | Guide p6 | M14 | P01 | P01.04 | ci | none yet | unimplemented |
 | K8S-009 | Guide p6 | M13 | P05 | P05.05 | demo | none yet | unimplemented |
-| K8S-010 | Guide p6 | M1 | P01 | P01.01 | infra-test | none yet | unimplemented |
-| NET-001 | Guide p7 | M14 | P00, P01 | P00.05, P01.01 | infra-test | none yet | unimplemented |
-| NET-002 | Guide p7 | M14 | P01 | P01.01 | infra-test | none yet | unimplemented |
+| K8S-010 | Guide p6 | M1 | P01 | P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
+| NET-001 | Guide p7 | M14 | P00, P01 | P00.05, P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
+| NET-002 | Guide p7 | M14 | P01 | P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
 | NET-003 | Guide p7 | M14 | P04 | P04.01 | evidence | none yet | unimplemented |
 | TUN-001 | Guide p7 | M11 | P09 | P09.01 | inspection | none yet | unimplemented |
 | TUN-002 | Guide p7 | M11 | P09 | P09.01 | test | none yet | unimplemented |

@@ -1,0 +1,56 @@
+# P01.01c: egress test on the Calico cluster. Captured by running these commands, 2026-11-28T07:20Z.
+
+$ kubectl config current-context
+kind-idea-validator
+
+$ kubectl -n kube-system get daemonset calico-node -o wide
+NAME          DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE     CONTAINERS    IMAGES                        SELECTOR
+calico-node   1         1         1       1            1           kubernetes.io/os=linux   9m33s   calico-node   quay.io/calico/node:v3.33.1   k8s-app=calico-node
+
+$ kubectl -n idea-validator get networkpolicy
+NAME                     POD-SELECTOR     AGE
+allow-dns                <none>           115s
+allow-tools-internet     app=tools        115s
+allow-ui-to-api          app=ui           45s
+allow-within-namespace   app notin (ui)   115s
+default-deny-egress      <none>           115s
+
+$ scripts/netpol_test.sh
+OK: M5 pod (app=tools) reaches the internet (HTTP 200)
+OK: a pod reaches another pod in the namespace (HTTP 404)
+OK: UI (app=ui) reaches the API (app=gateway) (HTTP 404)
+OK: non-M5 pods resolve DNS
+OK: non-M5 pod cannot reach the internet (timed out)
+OK: UI cannot reach the internet (timed out)
+OK: UI cannot reach any other service (timed out)
+PASS: network policies enforced in namespace idea-validator
+exit=0
+
+$ kubectl -n idea-validator get pods
+No resources found in idea-validator namespace.
+
+# Negative controls, earlier on 2026-11-28 on the same cluster, with the same test script.
+# They show that the test fails when a rule is missing.
+
+# 1. Namespace only, no NetworkPolicy applied:
+$ KUBE_CONTEXT=kind-idea-validator sh scripts/netpol_test.sh
+OK: M5 pod (app=tools) reaches the internet (HTTP 200)
+OK: a pod reaches another pod in the namespace (HTTP 404)
+OK: UI (app=ui) reaches the API (app=gateway) (HTTP 404)
+OK: non-M5 pods resolve DNS
+FAIL: non-M5 pod cannot reach the internet: expected a block, got HTTP 200
+exit=1
+
+# 2. Egress policies of P01.01b applied, UI rule not yet added:
+$ KUBE_CONTEXT=kind-idea-validator sh scripts/netpol_test.sh
+OK: M5 pod (app=tools) reaches the internet (HTTP 200)
+OK: a pod reaches another pod in the namespace (HTTP 404)
+OK: UI (app=ui) reaches the API (app=gateway) (HTTP 404)
+OK: non-M5 pods resolve DNS
+OK: non-M5 pod cannot reach the internet (timed out)
+OK: UI cannot reach the internet (timed out)
+FAIL: UI cannot reach any other service: expected a block, got HTTP 404
+exit=1
+
+# HTTP 404 on in-namespace targets is expected: the test servers serve an empty directory. Any HTTP
+# status means the connection was made; a block is a timeout (curl exit 28).

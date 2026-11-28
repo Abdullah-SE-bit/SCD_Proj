@@ -647,7 +647,7 @@
    "acceptance": "All listed views exist behind M1.",
    "verification": "e2e",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {

@@ -10,7 +10,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | USR-006 | Desc p2 §2 U6 | mandatory | U6: Read a verdict card showing verdict, gates, six scores with evidence links, weights, confidence and stability. | Card renders every listed element. | component | unimplemented |
 | USR-010 | Desc p2 §2 U10 | mandatory | U10: See why a verdict is INSUFFICIENT EVIDENCE; the card says what was missing and does not guess. | Card names missing evidence and shows no guessed verdict. | e2e | unimplemented |
 | ARC-001 | Desc p2 §3 Fig.1 | mandatory | M1 is the browser's entry; chat and progress stream between user and M1; M1 talks to M3. | Browser only calls M1. | test | in_progress |
-| M01-001 | Desc p3 §4 | mandatory | M1 Web UI and API Gateway is the only entrance: chat, live progress, verdict card, approval prompt, history. | All listed views exist behind M1. | e2e | unimplemented |
+| M01-001 | Desc p3 §4 | mandatory | M1 Web UI and API Gateway is the only entrance: chat, live progress, verdict card, approval prompt, history. | All listed views exist behind M1. | e2e | in_progress |
 | M01-002 | Desc p3 §4 | mandatory | UI API address is set at runtime. | Same image runs against two API addresses. | test | implemented |
 | M01-003 | Desc p3 §4 | mandatory | M1 has login, rate limits and input validation. | Unauthenticated, over-limit and invalid requests rejected. | test | implemented |
 | M01-004 | Desc p3 §4 | mandatory | M1 has component tests. | UI component tests run in CI. | ci | implemented |

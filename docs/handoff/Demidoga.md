@@ -1,6 +1,15 @@
 # Handoff: secondary (Demidoga)
 
-## Current: P04.03 ingestion (2026-11-28)
+## Current: P02.04 profile and history screens (2026-11-28)
+- [#223](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/223) from `feat/P02.04-screens`. Status: `done`.
+- [Profile](../evidence/screenshots/ui-profile.png), [history and comparison](../evidence/screenshots/ui-history-compare.png)
+  (fixture ideas seeded through the profile service; no public route creates ideas yet).
+- P04.04 is in [#222](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/222), `in_review`.
+- Waiting: **P04.05** for 20 or more hand-written queries (human). **P02 gate** for the cluster to get database
+  settings, migrations and the signing key (`k8s/`, not this account's scope). **P05.01** for the P04 gate.
+- Next: report to the primary session.
+
+## Earlier: P04.03 ingestion (2026-11-28)
 - [#221](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/221) from `feat/P04.03-ingestion`. Status: `in_review`.
 - Done: 1,667 cards (GitHub 1000, Hacker News 667), 1,748 chunks indexed, snapshot on volume `raw-items`
   (`snapshot/cards.jsonl`), rerun adds nothing, restore into an empty database;

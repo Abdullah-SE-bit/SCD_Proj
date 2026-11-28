@@ -41,5 +41,6 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | P02.02: account routes, password hashing, tokens, rate limits, validation, tests; run against PostgreSQL | no edits by a human | task P02.02; code, documents and evidence capture by AI |
 | 2026-11-28 | Claude Code | P02.03: history, comparison, versioned verdict cache | no content edits by humans | revisit and compare ideas |
 | 2026-11-28 | Claude Code | P04.03: cards, dedupe, chunking, embedding, store, snapshot; ingestion run and restore on the cluster | no edits by a human | task P04.03; code, documents and evidence capture by AI |
+| 2026-11-28 | Claude Code | P02.04: sign-in, profile, history and comparison screens, component tests, screenshots | no edits by a human | task P02.04; code, documents and evidence capture by AI |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

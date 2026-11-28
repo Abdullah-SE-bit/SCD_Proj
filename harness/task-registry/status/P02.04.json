@@ -1,0 +1,9 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/223",
+ "evidence": [
+  "docs/evidence/screenshots/ui-profile.png",
+  "docs/evidence/screenshots/ui-history-compare.png",
+  "services/ui/src/Account.test.tsx"
+ ]
+}

@@ -77,9 +77,11 @@ def versions_of(tx: Transaction, idea_id: str) -> list[Row]:
 def save_verdict(tx: Transaction, version_id: str, document: dict[str, Any]) -> str:
     """Store the verdict as M11 produced it, with its scores in rows for queries and comparison."""
     verdict_id = new_id("verdict")
-    tx.run("INSERT INTO verdicts (id, version_id, verdict, score, confidence, document) "
-           "VALUES (%s, %s, %s, %s, %s, %s)", (verdict_id, version_id, document["verdict"], document["score"],
-                                               document["confidence"], json.dumps(document)))
+    latest = tx.one("SELECT COALESCE(MAX(seq), 0) AS latest FROM verdicts WHERE version_id = %s", (version_id,))
+    seq = (latest["latest"] if latest else 0) + 1
+    tx.run("INSERT INTO verdicts (id, version_id, verdict, score, confidence, document, seq) "
+           "VALUES (%s, %s, %s, %s, %s, %s, %s)", (verdict_id, version_id, document["verdict"], document["score"],
+                                                   document["confidence"], json.dumps(document), seq))
     for score in document["scores"]:
         tx.run("INSERT INTO dimension_scores (verdict_id, dimension, score, conf, evidence) "
                "VALUES (%s, %s, %s, %s, %s)", (verdict_id, score["dimension"], score["score"], score["confidence"],
@@ -89,7 +91,7 @@ def save_verdict(tx: Transaction, version_id: str, document: dict[str, Any]) -> 
 
 def verdicts_of(tx: Transaction, version_id: str) -> list[Row]:
     rows = tx.all("SELECT id, version_id, verdict, score, confidence, document FROM verdicts WHERE version_id = %s "
-                  "ORDER BY created_at, id", (version_id,))
+                  "ORDER BY seq, created_at, id", (version_id,))
     return [row | {"document": json.loads(row["document"])} for row in rows]
 
 

@@ -8,6 +8,7 @@ import os
 from collections.abc import Callable
 from typing import Any
 
+from scd_profile import history
 from scd_profile.base import Request, Service
 from scd_profile.db import Database, url_from_env
 from scd_profile.services import BadCredentials, Exists, Invalid, NotFound, ProfileService
@@ -74,6 +75,36 @@ def read_profile(records: ProfileService, request: Request) -> Answer:
 @api("PUT", "/users/{user_id}/profile")
 def write_profile(records: ProfileService, request: Request) -> Answer:
     return 200, records.save_profile(request["params"]["user_id"], request["body"])
+
+
+@api("POST", "/users/{user_id}/ideas")
+def add_idea(records: ProfileService, request: Request) -> Answer:
+    body = request["body"]
+    return 201, records.create_idea(request["params"]["user_id"], body.get("title"), body.get("text"),
+                                    body.get("source", "own"))
+
+
+@api("GET", "/users/{user_id}/ideas")
+def list_ideas(records: ProfileService, request: Request) -> Answer:
+    return 200, history.ideas(records, request["params"]["user_id"])
+
+
+@api("POST", "/users/{user_id}/ideas/{idea_id}/versions")
+def add_version(records: ProfileService, request: Request) -> Answer:
+    params = request["params"]
+    return 201, records.revise_idea(params["user_id"], params["idea_id"], request["body"].get("text"))
+
+
+@api("GET", "/users/{user_id}/ideas/{idea_id}/versions")
+def list_versions(records: ProfileService, request: Request) -> Answer:
+    return 200, history.versions(records, request["params"]["user_id"], request["params"]["idea_id"])
+
+
+@api("POST", "/users/{user_id}/ideas/{idea_id}/versions/{version}/verdict")
+def add_verdict(records: ProfileService, request: Request) -> Answer:
+    params = request["params"]
+    return 201, history.save_verdict(records, params["user_id"], params["idea_id"], params["version"],
+                                     request["body"])
 
 
 if __name__ == "__main__":

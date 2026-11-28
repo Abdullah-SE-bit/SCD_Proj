@@ -5,6 +5,7 @@
 """
 
 import os
+import re
 import secrets
 from typing import Any
 
@@ -14,6 +15,7 @@ from scd_gateway.limits import RateLimiter
 from scd_gateway.upstream import Client, Unavailable
 
 MAX_IDEA = 2000
+IDEA_ID = re.compile(r"[A-Za-z0-9_]{1,80}")
 RUN_ID = "fixture-run"
 SCORES = {"demand_pain": (3.5, 15), "competition": (2.0, 15), "differentiation": (3.0, 15),
           "feasibility": (4.0, 25), "risk": (3.5, 10), "learning": (4.5, 20)}  # dimension: score, weight
@@ -107,6 +109,23 @@ def write_profile(request: Request) -> tuple[int, Any]:
     if request["body"].get("user_id", user) != user:
         return 403, {"error": "this is not your profile"}
     return forward("PUT", f"/users/{user}/profile", request["body"] | {"user_id": user})
+
+
+@service.route("GET", "/ideas")
+def list_ideas(request: Request) -> tuple[int, Any]:
+    user = signed_in(request)
+    return forward("GET", f"/users/{user}/ideas") if user else (401, {"error": "log in first"})
+
+
+@service.route("GET", "/ideas/{id}/versions")
+def list_versions(request: Request) -> tuple[int, Any]:
+    user = signed_in(request)
+    if not user:
+        return 401, {"error": "log in first"}
+    idea_id = request["params"]["id"]
+    if not IDEA_ID.fullmatch(idea_id):  # it becomes part of an internal address
+        return 404, {"error": "no such idea"}
+    return forward("GET", f"/users/{user}/ideas/{idea_id}/versions")
 
 
 @service.route("POST", "/validate")

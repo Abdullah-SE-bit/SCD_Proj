@@ -1,0 +1,26 @@
+docker compose check, 2026-11-28T13:26:13+05:00
+ Container idea-validator-dev-redis-1 Waiting 
+ Container idea-validator-dev-postgres-1 Waiting 
+ Container idea-validator-dev-postgres-1 Healthy 
+ Container idea-validator-dev-redis-1 Healthy 
+ Container idea-validator-dev-qdrant-1 Starting 
+ Container idea-validator-dev-qdrant-1 Started 
+127.0.0.1:5432 - accepting connections
+PONG
+all shards are ready
+postgres running
+qdrant running
+redis running
+--- app profile, 2026-11-28T13:27:18+05:00
+ Container idea-validator-dev-gateway-1 Started 
+ Container idea-validator-dev-ui-1 Started 
+curl exit 0
+<html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.31.7</center>
+</body>
+</html>
+{"run_id": "fixture-run", "status": "completed", "label": "FIXTURE DATA", "verdict": {"ide
+note: the first request arrived before the gateway was listening (502); curl retried and got the fixture.

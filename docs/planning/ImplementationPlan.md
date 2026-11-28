@@ -290,7 +290,7 @@ Profile editor, history, comparison with component tests.
 
 All Phase 2 tasks merged and demonstrated.
 
-- Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity S; status not done
+- Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity S; status done
 - Depends on: P01, P02.01, P02.02, P02.03, P02.04
 - Requirements: IFC-002
 - File scope: `docs/**`, `harness/task-registry/status/**`

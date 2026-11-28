@@ -1,0 +1,57 @@
+# P02 gate demonstration on the idea-validator cluster, 2026-11-28T13:54Z, dev 7e42f3e.
+# Requests go through the ingress (kubectl -n ingress port-forward svc/traefik 18088:80).
+
+## scripts/deploy.sh
+deployed 7e42f3e. Open the app with: kubectl -n ingress port-forward svc/traefik 8080:80
+
+## scripts/smoke_test.sh
+OK: every workload is ready
+OK: 14 services answer /health and /ready
+OK: postgres, redis and qdrant answer
+OK: ingress serves the UI
+OK: UI to gateway through the ingress returns the labelled fixture verdict
+OK: register, log in, profile, history and cache metrics through the ingress
+OK: knowledge base search answers: [{"evidence_id": "card_8f3b96b989c15d5f#c0", "card_id": "card_8f3b96b989c15d5f",
+PASS: smoke test
+
+## Register and log in
+POST /api/auth/register {"email": "gate-ceb762f3@example.org", "password": "<not recorded>"}
+  201 {"user_id": "u_5892f538c889429dbb8ad04345f6a630"}
+POST /api/auth/login {"email": "gate-ceb762f3@example.org", "password": "<not recorded>"}
+  401 {"error": "wrong email or password"}
+POST /api/auth/login (correct password)
+  200 a token was returned (not recorded)
+
+## Edit the profile
+GET /api/profile
+  401 {"error": "log in first"}
+GET /api/profile (signed in)
+  404 {"error": "no profile saved"}
+PUT /api/profile (signed in) {"skills": ["python"], "hours_per_week": 10, "weeks_available": 12, "team_size": 2, "compute": "laptop", "goal": "portfolio", "interests": ["education"]}
+  200 {"user_id": "u_5892f538c889429dbb8ad04345f6a630", "skills": ["python"], "hours_per_week": 10.0, "team_size": 2, "goal": "portfolio", "weeks_available": 12, "compute": "laptop", "interests": ["education"], "version": 1}
+PUT /api/profile (signed in) {"skills": ["python"], "hours_per_week": 6, "weeks_available": 12, "team_size": 2, "compute": "laptop", "goal": "course_project", "interests": ["education"]}
+  200 {"user_id": "u_5892f538c889429dbb8ad04345f6a630", "skills": ["python"], "hours_per_week": 6.0, "team_size": 2, "goal": "course_project", "weeks_available": 12, "compute": "laptop", "interests": ["education"], "version": 2}
+GET /api/profile (signed in)
+  200 {"user_id": "u_5892f538c889429dbb8ad04345f6a630", "skills": ["python"], "hours_per_week": 6.0, "team_size": 2, "goal": "course_project", "weeks_available": 12, "compute": "laptop", "interests": ["education"], "version": 2}
+
+## History of a new account, as the product gives it
+GET /api/ideas (signed in)
+  200 {"ideas": []}
+POST /api/validate  200 {"run_id": "fixture-run"}
+GET /api/ideas (signed in)
+  200 {"ideas": []}
+# No public route saves an idea yet (the Validate flow is P05), so checking one leaves history empty.
+
+## History with records written directly to the profile service (not a user action)
+kubectl exec deploy/profile: seeded 2 ideas, 3 versions, 1 verdict (the contract example)
+GET /api/ideas (signed in)
+  200 {"ideas": [{"idea_id": "idea_84194105e4d645489293d33747aa0226", "title": "Seeded idea A", "source": "own", "versions": 2, "latest_version": 2, "verdict": {"verdict": "GO", "score": 70.5, "confidence": 0.74, "stability": "BORDERLINE", "weakest_dimension": "competition"}}, {"idea_id": "idea_3b407586222746e2b9a469dbbc317e55", "title": "Seeded idea B", "source": "own", "versions": 1, "latest_version": 1, "verdict": null}]}
+GET /api/ideas/idea_84194105e4d645489293d33747aa0226/versions (signed in)
+  200 {"idea_id": "idea_84194105e4d645489293d33747aa0226", "title": "Seeded idea A", "versions": [{"version": 1, "version_id": "ver_a665e7a2872743c6ac2304be7c0f7609", "text": "SEEDED DEMO RECORD: first version", "created_at": "2026-11-28 13:54:26.460210", "verdict": null}, {"version": 2, "version_id": "ver_20cf8134e2a14262917283e9261a2926", "text": "SEEDED DEMO RECORD: second version", "created_at": "2026-11-28 13:54:26.550301", "verdict": {"verdict": "GO", "score": 70.5, "confidence": 0.74, "stability": "BORDERLINE", "weakest_dimension": "competition"}}]}
+GET /api/compare?a=idea_84194105e4d645489293d33747aa0226&b=idea_3b407586222746e2b9a469dbbc317e55 (signed in)
+  200 {"dimensions": ["demand_pain", "competition", "differentiation", "feasibility", "risk", "learning"], "ideas": [{"idea_id": "idea_84194105e4d645489293d33747aa0226", "title": "Seeded idea A", "version": 2, "verdict": {"verdict": "GO", "score": 70.5, "confidence": 0.74, "stability": "BORDERLINE", "weakest_dimension": "competition"}, "dimensions": {"demand_pain": 3.5, "competition": 2.0, "differentiation": 3.0, "feasibility": 4.0, "risk": 3.5, "learning": 4.5}}, {"idea_id": "idea_3b407586222746e2b9a469dbbc317e55", "title": "Seeded idea B", "version": 1, "verdict": null, "dimensions": {"demand_pain": null, "competition": null, "differentiation": null, "feasibility": null, "risk": null, "learning"
+GET /api/ideas/idea_84194105e4d645489293d33747aa0226/versions
+  401 {"error": "log in first"}
+
+All assertions of this script passed.
+demo exit=0

@@ -1,0 +1,9 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/225",
+ "evidence": [
+  "docs/evidence/phase2/gate-demo.txt",
+  "docs/evidence/phase2/gate-demo.py",
+  "docs/requirements/ApprovedDecisions.md"
+ ]
+}

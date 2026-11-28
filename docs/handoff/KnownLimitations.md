@@ -23,6 +23,8 @@
 
 Rubrics (P03.03): student review is open and CI does not run their test.
 
+Phase 2 gate (A-10): idea history was demonstrated with records written by hand; the app cannot save an idea yet.
+
 Open low review findings: [ReviewResponses](ReviewResponses.md).
 
 ## Found at the P01 gate

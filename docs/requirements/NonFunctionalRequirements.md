@@ -43,11 +43,11 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
 | SEC-001 | Desc p1 §1.3 | mandatory | Keep no private data. | Stored cards contain only public idea data. | inspection | unimplemented |
-| ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | unimplemented |
-| M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | unimplemented |
-| M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | unimplemented |
-| M05-003 | Desc p3 §4 | mandatory | A NetworkPolicy ensures only M5 reaches the internet. | Non-M5 pod egress fails; M5 egress works. | infra-test | unimplemented |
-| ETH-002 | Guide p4 §5 | mandatory | Per-domain rate limits, clear User-Agent, caching, back-off on errors. | Tests for each. | test | unimplemented |
+| ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | implemented |
+| M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | implemented |
+| M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | implemented |
+| M05-003 | Desc p3 §4 | mandatory | A NetworkPolicy ensures only M5 reaches the internet. | Non-M5 pod egress fails; M5 egress works. | infra-test | implemented |
+| ETH-002 | Guide p4 §5 | mandatory | Per-domain rate limits, clear User-Agent, caching, back-off on errors. | Tests for each. | test | implemented |
 
 ## M6
 

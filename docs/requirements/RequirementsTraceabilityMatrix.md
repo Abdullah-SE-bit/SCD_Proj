@@ -14,7 +14,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | COL-002 | Description p1 | M14 | P00, P10 | P00.06, P10.04 | git-history | none yet | unimplemented |
 | COL-003 | Description p1 | M14 | P10 | P10.04 | viva | none yet | unimplemented |
 | DOC-001 | Description p1 | M14 | P00 | P00.04 | inspection | none yet | unimplemented |
-| DAT-001 | Description p1 | M5 | P04 | P04.01 | test | none yet | unimplemented |
+| DAT-001 | Description p1 | M5 | P04 | P04.01 | test | services/tools/scd_tools/sources.json, services/tools/test_tools_politeness.py | implemented |
 | SEC-001 | Description p1 | M5 | P02 | P02.02 | inspection | none yet | unimplemented |
 | SEC-002 | Description p1 | M14 | P00, P10 | P00.04, P10.03 | ci | none yet | unimplemented |
 | USR-001 | Description p2 | M2 | P07 | P07.03 | e2e | none yet | unimplemented |
@@ -34,7 +34,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | ARC-004 | Description p2 | M11 | P05 | P05.02 | inspection | none yet | unimplemented |
 | ARC-005 | Description p2 | M10 | P06 | P06.02 | inspection | none yet | unimplemented |
 | ARC-006 | Description p2 | M13 | P05 | P05.05 | test | none yet | unimplemented |
-| ARC-007 | Description p2 | M5 | P04 | P04.01 | infra-test | none yet | unimplemented |
+| ARC-007 | Description p2 | M5 | P04 | P04.01 | infra-test | docs/evidence/phase4-egress.txt | implemented |
 | DSC-001 | Description p3 | M8 | P07 | P07.02 | test | none yet | unimplemented |
 | DSC-002 | Description p3 | M8 | P07 | P07.02 | test | none yet | unimplemented |
 | DSC-003 | Description p3 | M8 | P07 | P07.02 | test | none yet | unimplemented |
@@ -62,9 +62,9 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M04-001 | Description p3 | M4 | P04 | P04.02 | integration | none yet | unimplemented |
 | M04-002 | Description p3 | M4 | P04 | P04.02 | demo | none yet | unimplemented |
 | M04-003 | Description p3 | M4 | P04 | P04.02 | test | none yet | unimplemented |
-| M05-001 | Description p3 | M5 | P04 | P04.01 | test | none yet | unimplemented |
-| M05-002 | Description p3 | M5 | P04 | P04.01 | security-test | none yet | unimplemented |
-| M05-003 | Description p3 | M5 | P04 | P04.01 | infra-test | none yet | unimplemented |
+| M05-001 | Description p3 | M5 | P04 | P04.01 | test | services/tools/test_tools_fetch.py, services/tools/test_tools_politeness.py | implemented |
+| M05-002 | Description p3 | M5 | P04 | P04.01 | security-test | tests/security/test_poisoned_page.py | implemented |
+| M05-003 | Description p3 | M5 | P04 | P04.01 | infra-test | docs/evidence/phase4-egress.txt | implemented |
 | M06-001 | Description p3 | M6 | P04 | P04.04 | test | none yet | unimplemented |
 | M06-002 | Description p3 | M6 | P04 | P04.04 | eval | none yet | unimplemented |
 | M06-003 | Description p3 | M6 | P04 | P04.04 | test | none yet | unimplemented |
@@ -156,7 +156,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | API-004 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
 | API-005 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
 | API-006 | Guide p2 | M1 | P02 | P02.03 | contract | none yet | unimplemented |
-| API-007 | Guide p2 | M5 | P04 | P04.01 | test | none yet | unimplemented |
+| API-007 | Guide p2 | M5 | P04 | P04.01 | test | services/tools/test_tools_fetch.py, services/tools/test_tools_politeness.py, tests/security/test_poisoned_page.py | implemented |
 | API-008 | Guide p3 | M6 | P04 | P04.04 | contract | none yet | unimplemented |
 | API-009 | Guide p3 | M10 | P05 | P05.01 | contract | none yet | unimplemented |
 | API-010 | Guide p3 | M11 | P03 | P03.01 | contract | none yet | in_progress |
@@ -175,8 +175,8 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | DKR-001 | Guide p3 | M14 | P01 | P01.02 | ci | tests/unit/test_images.py, docs/evidence/P01.02-probes.txt | implemented |
 | DKR-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | in_progress |
 | DKR-003 | Guide p3 | M14 | P01 | P01.05 | ci | docs/evidence/phase1/jenkins-runs.txt, .github/workflows/pr-checks.yml | implemented |
-| ETH-001 | Guide p4 | M5 | P04 | P04.01 | inspection | none yet | unimplemented |
-| ETH-002 | Guide p4 | M5 | P04 | P04.01 | test | none yet | unimplemented |
+| ETH-001 | Guide p4 | M5 | P04 | P04.01 | inspection | services/tools/scd_tools/sources.json | implemented |
+| ETH-002 | Guide p4 | M5 | P04 | P04.01 | test | services/tools/test_tools_politeness.py, services/tools/test_tools_fetch.py | implemented |
 | ETH-003 | Guide p4 | M6 | P04 | P04.03 | inspection | none yet | unimplemented |
 | ETH-004 | Guide p4 | M6 | P04 | P04.04 | e2e | none yet | unimplemented |
 | ETH-005 | Guide p4 | M12 | P05 | P05.03 | security-test | none yet | unimplemented |
@@ -223,7 +223,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | K8S-010 | Guide p6 | M1 | P01 | P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
 | NET-001 | Guide p7 | M14 | P00, P01 | P00.05, P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
 | NET-002 | Guide p7 | M14 | P01 | P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
-| NET-003 | Guide p7 | M14 | P04 | P04.01 | evidence | none yet | unimplemented |
+| NET-003 | Guide p7 | M14 | P04 | P04.01 | evidence | docs/evidence/phase4-egress.txt | implemented |
 | TUN-001 | Guide p7 | M11 | P09 | P09.01 | inspection | none yet | unimplemented |
 | TUN-002 | Guide p7 | M11 | P09 | P09.01 | test | none yet | unimplemented |
 | TUN-003 | Guide p7 | M11 | P09 | P09.02 | eval | none yet | unimplemented |

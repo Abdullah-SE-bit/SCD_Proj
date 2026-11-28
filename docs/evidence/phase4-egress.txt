@@ -1,0 +1,19 @@
+M5 egress evidence (NET-003, ARC-007), 2026-11-28T16:59:19+05:00
+image services-tools:9d11337; policies in k8s/networkpolicy.yaml
+direct from tools (M5):     reached the internet: HTTP 200
+direct from gateway:        blocked: TimeoutError
+direct from scouts:         blocked: TimeoutError
+scouts -> M5 /fetch:        200 cached False bytes 424
+scouts -> M5 same again:    200 cached True bytes 424
+scouts -> M5 disallowed:    403 domain is not on the allow-list: example.com
+
+--- scripts/netpol_test.sh, 2026-11-28T17:01:51+05:00
+OK: M5 pod (app=tools) reaches the internet (HTTP 200)
+OK: a pod reaches another pod in the namespace (HTTP 404)
+OK: UI (app=ui) reaches the API (app=gateway) (HTTP 404)
+OK: non-M5 pods resolve DNS
+OK: non-M5 pod cannot reach the internet (timed out)
+OK: UI cannot reach the internet (timed out)
+OK: UI cannot reach any other service (timed out)
+PASS: network policies enforced in namespace idea-validator
+exit 0

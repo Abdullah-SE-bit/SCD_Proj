@@ -60,6 +60,7 @@ run=$(curl -fsS -m 10 -H 'Content-Type: application/json' -d '{"idea":"smoke tes
   || fail "POST /api/validate through the ingress"
 case $run in *run_id*) ;; *) fail "unexpected validate answer: $run" ;; esac
 result=$(curl -fsS -m 10 "$base/api/runs/fixture-run") || fail "GET /api/runs through the ingress"
-case $result in *"FIXTURE DATA"*) ;; *) fail "unexpected run answer" ;; esac
+expect=${SMOKE_EXPECT:-FIXTURE DATA}   # Jenkins sets another text to demonstrate a failing run
+case $result in *"$expect"*) ;; *) fail "run answer does not contain '$expect'" ;; esac
 echo "OK: UI to gateway through the ingress returns the labelled fixture verdict"
 echo "PASS: smoke test"

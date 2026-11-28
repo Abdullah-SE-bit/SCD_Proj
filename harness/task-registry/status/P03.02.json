@@ -1,0 +1,10 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/217",
+ "evidence": [
+  "services/verdict/test_verdict_sensitivity.py",
+  "services/verdict/test_verdict_suggest.py",
+  "services/verdict/test_verdict_challenge.py",
+  "tests/unit/test_verdict_whatif.py"
+ ]
+}

@@ -5,15 +5,18 @@
 """
 
 import os
+import re
 import secrets
 from typing import Any
 
 from scd_gateway import tokens
-from scd_gateway.base import Request, Service, log
+from scd_gateway.base import Request, log
 from scd_gateway.limits import RateLimiter
+from scd_gateway.query import QueryService, parameters
 from scd_gateway.upstream import Client, Unavailable
 
 MAX_IDEA = 2000
+IDEA_ID = re.compile(r"[A-Za-z0-9_]{1,80}")
 RUN_ID = "fixture-run"
 SCORES = {"demand_pain": (3.5, 15), "competition": (2.0, 15), "differentiation": (3.0, 15),
           "feasibility": (4.0, 25), "risk": (3.5, 10), "learning": (4.5, 20)}  # dimension: score, weight
@@ -41,7 +44,7 @@ RUN: dict[str, Any] = {
 
 # per minute: logins for one email; all registrations; all validations (a request carries no client address)
 LOGINS, REGISTRATIONS, VALIDATIONS = 5, 20, 60
-service = Service("gateway", "M1")
+service = QueryService("gateway", "M1")
 profile = Client(os.environ.get("PROFILE_URL", "http://profile:8000"))
 limiter = RateLimiter()
 key = os.environ.get("JWT_SIGNING_KEY", "").encode()
@@ -107,6 +110,42 @@ def write_profile(request: Request) -> tuple[int, Any]:
     if request["body"].get("user_id", user) != user:
         return 403, {"error": "this is not your profile"}
     return forward("PUT", f"/users/{user}/profile", request["body"] | {"user_id": user})
+
+
+@service.route("GET", "/ideas")
+def list_ideas(request: Request) -> tuple[int, Any]:
+    user = signed_in(request)
+    return forward("GET", f"/users/{user}/ideas") if user else (401, {"error": "log in first"})
+
+
+@service.route("GET", "/ideas/{id}/versions")
+def list_versions(request: Request) -> tuple[int, Any]:
+    user = signed_in(request)
+    if not user:
+        return 401, {"error": "log in first"}
+    idea_id = request["params"]["id"]
+    if not IDEA_ID.fullmatch(idea_id):  # it becomes part of an internal address
+        return 404, {"error": "no such idea"}
+    return forward("GET", f"/users/{user}/ideas/{idea_id}/versions")
+
+
+@service.route("GET", "/compare")
+def compare(request: Request) -> tuple[int, Any]:
+    user = signed_in(request)
+    if not user:
+        return 401, {"error": "log in first"}
+    query = parameters(request)
+    chosen = [value for name in ("a", "b") for value in query.get(name, [])[:1]]
+    if len(chosen) != 2 or chosen[0] == chosen[1] or not all(IDEA_ID.fullmatch(value) for value in chosen):
+        return 400, {"error": "name two different ideas as a and b"}
+    return forward("POST", f"/users/{user}/compare", {"ideas": chosen})
+
+
+@service.route("GET", "/metrics")
+def metrics(request: Request) -> tuple[int, Any]:
+    """Counts only, no user data."""
+    status, answer = forward("GET", "/metrics")
+    return (200, {"cache": answer}) if status == 200 else (status, answer)
 
 
 @service.route("POST", "/validate")

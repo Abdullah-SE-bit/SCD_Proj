@@ -25,7 +25,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | USR-006 | Description p2 | M1 | P05 | P05.04 | component | none yet | unimplemented |
 | USR-007 | Description p2 | M11 | P05 | P05.04 | e2e | none yet | unimplemented |
 | USR-008 | Description p2 | M12 | P05 | P05.03 | e2e | none yet | unimplemented |
-| USR-009 | Description p2 | M2 | P02 | P02.03 | e2e | none yet | unimplemented |
+| USR-009 | Description p2 | M2 | P02 | P02.03 | e2e | services/profile/test_profile_history.py, services/profile/test_profile_compare.py, services/gateway/test_gateway_history.py | implemented |
 | USR-010 | Description p2 | M1 | P05 | P05.04 | e2e | none yet | unimplemented |
 | USR-011 | Description p2 | M11 | P03, P07 | P03.02, P07 | test | services/verdict/test_verdict_suggest.py | implemented |
 | ARC-001 | Description p2 | M1 | P01 | P01.03 | test | none yet | in_progress |
@@ -51,8 +51,8 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M01-004 | Description p3 | M1 | P02 | P02.04 | ci | services/ui/src/App.test.tsx, services/ui/src/VerdictCard.test.tsx | implemented |
 | M02-001 | Description p3 | M2 | P02 | P02.01 | integration | none yet | in_progress |
 | M02-002 | Description p3 | M2 | P02 | P02.01 | integration | docs/evidence/phase2/m2-migrations.txt | implemented |
-| M02-003 | Description p3 | M2 | P02 | P02.03 | unit | none yet | unimplemented |
-| M02-004 | Description p3 | M2 | P02 | P02.03 | test | none yet | unimplemented |
+| M02-003 | Description p3 | M2 | P02 | P02.03 | unit | services/profile/test_profile_cache.py | implemented |
+| M02-004 | Description p3 | M2 | P02 | P02.03 | test | services/profile/test_profile_cache.py, services/gateway/test_gateway_history.py | implemented |
 | M02-005 | Description p3 | M2 | P02 | P02.01 | inspection | none yet | in_progress |
 | M03-001 | Description p3 | M3 | P05 | P05.02 | unit | none yet | unimplemented |
 | M03-002 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
@@ -143,7 +143,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | IFC-002 | Guide p1 | M14 | P00, P02 | P00.03, P02 | contract | none yet | unimplemented |
 | DBS-001 | Guide p1 | M2 | P02 | P02.01 | integration | docs/evidence/phase2/m2-migrations.txt, contracts/database/entities.md | implemented |
 | DBS-002 | Guide p1 | M6 | P04 | P04.03 | integration | none yet | in_progress |
-| DBS-003 | Guide p1 | M13 | P02 | P02.03 | inspection | none yet | unimplemented |
+| DBS-003 | Guide p1 | M13 | P02 | P02.03 | inspection | none yet | in_progress |
 | SCH-001 | Guide p2 | M6 | P00, P04 | P00.03, P04.03 | contract | jobs/ingestion/test_ingestion_cards.py, docs/evidence/phase4/ingestion-counts.txt | implemented |
 | SCH-002 | Guide p2 | M2 | P00, P02 | P00.03, P02.02 | contract | services/profile/test_profile_records.py, docs/evidence/phase2/accounts-http.txt | implemented |
 | SCH-003 | Guide p2 | M6 | P00, P04 | P00.03, P04.04 | contract | docs/evidence/phase4/search.txt, services/kb/test_kb_search.py | implemented |
@@ -155,7 +155,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | API-003 | Guide p2 | M1 | P02 | P02.02 | contract | docs/evidence/phase2/accounts-http.txt, tests/integration/test_accounts_over_http.py | implemented |
 | API-004 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
 | API-005 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
-| API-006 | Guide p2 | M1 | P02 | P02.03 | contract | none yet | unimplemented |
+| API-006 | Guide p2 | M1 | P02 | P02.03 | contract | services/gateway/test_gateway_history.py | implemented |
 | API-007 | Guide p2 | M5 | P04 | P04.01 | test | services/tools/test_tools_fetch.py, services/tools/test_tools_politeness.py, tests/security/test_poisoned_page.py | implemented |
 | API-008 | Guide p3 | M6 | P04 | P04.04 | contract | docs/evidence/phase4/search.txt, services/kb/test_kb_search.py | implemented |
 | API-009 | Guide p3 | M10 | P05 | P05.01 | contract | none yet | unimplemented |
@@ -234,7 +234,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | LOG-001 | Guide p8 | M14 | P00 | P00.04 | ci | none yet | unimplemented |
 | LOG-002 | Guide p8 | M14 | P10 | P10.04 | inspection | none yet | unimplemented |
 | CMN-001 | Guide p8 | M3 | P05 | P05.02 | test | none yet | unimplemented |
-| CMN-002 | Guide p8 | M2 | P02 | P02.03 | unit | none yet | unimplemented |
+| CMN-002 | Guide p8 | M2 | P02 | P02.03 | unit | services/profile/test_profile_cache.py | implemented |
 | CMN-003 | Guide p8 | M11 | P03 | P03.01 | test | services/verdict/test_verdict_flow.py, tests/unit/test_verdict_contract.py | implemented |
 | CMN-004 | Guide p8 | M12 | P05 | P05.03 | test | none yet | unimplemented |
 | CMN-005 | Guide p8 | M1 | P01 | P01.03 | ci | tests/unit/test_no_local_addresses.py, docs/evidence/phase1/ui-runtime-api.txt | implemented |

@@ -19,7 +19,7 @@ TABLES = {
 
 
 def test_fresh_database_migrates_to_head(empty_database):
-    assert migrate(empty_database) == ["001_application_tables.sql"]
+    assert migrate(empty_database) == ["001_application_tables.sql", "002_verdict_order.sql"]
     for table, columns in TABLES.items():
         with empty_database.transaction() as tx:
             tx.run(f"SELECT {', '.join(columns.split())} FROM {table}")  # unknown names fail here

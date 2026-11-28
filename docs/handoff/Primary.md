@@ -49,3 +49,8 @@
 - Done: three connectors, on demand and CronJob; live run 679 Hacker News and 1000 GitHub items.
 - Open: Product Hunt needs `PRODUCT_HUNT_TOKEN` in `.env`, then `scripts/load_secrets.sh` and one more run. Recorded
   `in_review` until then. Deployment wiring for profile database settings and the gateway signing key is still open.
+
+## P02.03 (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/220)
+- Done: history, versions, comparison, cache with visible hits.
+- Open: cluster wiring for profile database, Redis, migrations and gateway signing key (no unblocked task covers
+  `k8s/`); not run against real Redis or PostgreSQL.

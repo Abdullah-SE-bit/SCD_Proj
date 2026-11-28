@@ -1,35 +1,49 @@
-# M6i ingestion on a daily schedule (K8S-003). The job is a skeleton until P04.03; scouts, evaluation and model
-# import schedules arrive with their tasks.
+# M6i ingestion on a daily schedule, after the scouts (K8S-003): reads the raw items, fills Postgres and Qdrant.
+# Evaluation and model import schedules arrive with their tasks.
 apiVersion: batch/v1
 kind: CronJob
 metadata: { name: ingestion, namespace: idea-validator, labels: { app: ingestion } }
 spec:
-  schedule: "0 2 * * *"
+  schedule: "0 3 * * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       backoffLimit: 2
-      activeDeadlineSeconds: 1800
+      activeDeadlineSeconds: 3600
       template:
         metadata: { labels: { app: ingestion } }
         spec:
           restartPolicy: Never
           automountServiceAccountToken: false
           enableServiceLinks: false
-          securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+          securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, fsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
           containers:
             - name: ingestion
               image: jobs-ingestion:dev
               imagePullPolicy: IfNotPresent
+              env:
+                - { name: POSTGRES_HOST, value: postgres }
+                - { name: POSTGRES_USER, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_USER } } }
+                - { name: POSTGRES_DB, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_DB } } }
+                - { name: POSTGRES_PASSWORD, valueFrom: { secretKeyRef: { name: db-secret, key: POSTGRES_PASSWORD } } }
+                - { name: VECTOR_STORE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: VECTOR_STORE_URL } } }
+                - { name: SCOUT_OUT, value: /data/raw }
+                - { name: SNAPSHOT, value: /data/raw/snapshot/cards.jsonl }
+              volumeMounts:
+                - { name: raw-items, mountPath: /data/raw }
+                - { name: tmp, mountPath: /tmp }
               resources:
-                requests: { cpu: 10m, memory: 32Mi }
-                limits: { cpu: 500m, memory: 256Mi }
+                requests: { cpu: 100m, memory: 256Mi }
+                limits: { cpu: "2", memory: 1Gi }
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities: { drop: [ALL] }
                 readOnlyRootFilesystem: true
+          volumes:
+            - { name: raw-items, persistentVolumeClaim: { claimName: raw-items } }
+            - { name: tmp, emptyDir: {} }
 ---
 # Raw items written by the scouts and read by the ingestion job (P04.03).
 apiVersion: v1

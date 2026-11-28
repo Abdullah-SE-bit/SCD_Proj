@@ -25,6 +25,13 @@ if ! k -n "$ns" get secret db-secret >/dev/null 2>&1; then
   echo "created secret db-secret"
 fi
 
+# The key that signs login tokens, generated once the same way.
+if ! k -n "$ns" get secret jwt-secret >/dev/null 2>&1; then
+  signing=$(od -An -N48 -tx1 /dev/urandom | tr -d ' \n')
+  k -n "$ns" create secret generic jwt-secret --from-literal=JWT_SIGNING_KEY="$signing" >/dev/null
+  echo "created secret jwt-secret"
+fi
+
 k kustomize k8s | sed -E "s#(image: (services|jobs)-[a-z]+):dev#\1:$tag#" | k apply -f -
 for workload in $(k -n "$ns" get deploy,statefulset -o name) ; do
   k -n "$ns" rollout status "$workload" --timeout=300s

@@ -4,10 +4,20 @@
 - [#223](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/223) from `feat/P02.04-screens`. Status: `done`.
 - [Profile](../evidence/screenshots/ui-profile.png), [history and comparison](../evidence/screenshots/ui-history-compare.png)
   (fixture ideas seeded through the profile service; no public route creates ideas yet).
-- P04.04 is in [#222](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/222), `in_review`.
+- P04.04 merged as [#222](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/222), `in_review`.
 - Waiting: **P04.05** for 20 or more hand-written queries (human). **P02 gate** for the cluster to get database
   settings, migrations and the signing key (`k8s/`, not this account's scope). **P05.01** for the P04 gate.
 - Next: report to the primary session.
+
+## Earlier: P04.04 hybrid search and reranking (2026-11-28)
+- [#222](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/222) from `feat/P04.04-retrieval`. Status: `in_review` (P04.03 is in review).
+- Done: `POST /search`, `GET /coverage`; [searches on the cluster](../evidence/phase4/search.txt).
+- **Open, deployment:** the `kb` Deployment needs database settings (as in
+  [kb-pod.yaml](../evidence/phase4/kb-pod.yaml)) and about 1.5 GiB.
+- **For P04.05:** `Search.query(text, filters, hybrid=..., reranked=...)` measures each step. It needs 20 or more
+  hand-written queries with relevant card ids (human work, H2).
+- **For P05.01:** call `POST /search`; each item's `evidence_id` is what a score cites.
+- Merged as #222 (`83a3e78`).
 
 ## Earlier: P04.03 ingestion (2026-11-28)
 - [#221](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/221) from `feat/P04.03-ingestion`. Status: `in_review`.
@@ -19,7 +29,7 @@
   (1 GiB limit used), and `k8s/` still expects the old small image. Apply `ingestion-job.yaml` to run it.
 - **For P04.04:** collection `chunks` (384, cosine), payload `chunk_id, card_id, text, date, source, niche, url`;
   cards as JSON in table `cards.document`; embed queries with `scd_ingestion/embed.py`'s model.
-- Next: P04.04.
+- Merged as #221 (`3f195c9`).
 - Messages: primary session, 2026-11-28: cluster and `raw-items` are this session's until it says it is done.
 
 ## Earlier: P02.02 accounts, limits and profile API (2026-11-28)

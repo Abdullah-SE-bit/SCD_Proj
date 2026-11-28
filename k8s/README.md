@@ -1,8 +1,20 @@
 # Kubernetes manifests
 
-Status: the cluster script, namespace and NetworkPolicies work and enforcement is tested with test pods
-([evidence](../docs/evidence/phase1/netpol-test.txt)). **No workload is deployed yet.**
+Status: the whole skeleton deploys with `sh scripts/deploy.sh`; `sh scripts/smoke_test.sh` probes it.
+Requests and limits are provisional until measured (P10.01).
 See [DeploymentArchitecture](../docs/architecture/DeploymentArchitecture.md).
+
+| File | Holds |
+|---|---|
+| `namespace.yaml`, `networkpolicy.yaml` | namespace and network rules |
+| `config.yaml` | non-secret settings |
+| `data.yaml` | Postgres and Qdrant with volume claims, Redis |
+| `apps.yaml` | one Deployment and Service per module, rolling update with `maxUnavailable: 0` |
+| `jobs.yaml` | ingestion CronJob |
+| `ingress.yaml`, `ingress-controller.yaml` | single entry point (Traefik) |
+
+Secrets are never in these files: `deploy.sh` generates `db-secret`; `load_secrets.sh` creates `api-keys` from
+`.env`. Undo a rollout with `kubectl -n idea-validator rollout undo deploy/<name>`.
 
 ## Cluster
 Needs Docker, kind 0.33.0 and kubectl. On Windows run the scripts from Git Bash.
@@ -16,10 +28,7 @@ context to `kind-idea-validator`. The node image is pinned by digest and the Cal
 Delete it with `kind delete cluster --name idea-validator`.
 
 ## Network policies
-
-```sh
-kubectl apply -k k8s
-```
+Applied by `deploy.sh`. To test them:
 
 ```sh
 sh scripts/netpol_test.sh

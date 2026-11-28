@@ -1,0 +1,12 @@
+# The single entry point (K8S-001). Everything goes to the UI, which forwards /api/ to the gateway.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: web, namespace: idea-validator }
+spec:
+  ingressClassName: traefik
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: ui, port: { number: 8080 } } }

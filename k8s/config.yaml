@@ -1,0 +1,10 @@
+# Non-secret settings (SET-003). Secrets are created by scripts/deploy.sh and scripts/load_secrets.sh, never stored here.
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: app-config, namespace: idea-validator }
+data:
+  API_URL: "http://gateway:8000"
+  POSTGRES_USER: app
+  POSTGRES_DB: idea_validator
+  REDIS_URL: "redis://redis:6379/0"
+  VECTOR_STORE_URL: "http://qdrant:6333"

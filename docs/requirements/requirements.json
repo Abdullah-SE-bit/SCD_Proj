@@ -88,7 +88,7 @@
    "acceptance": "Every module has its own container running in the cluster.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -1548,8 +1548,11 @@
    "acceptance": "Image list covers every module.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "tests/unit/test_images.py",
+    "docs/evidence/phase1/cluster-state.txt"
+   ]
   },
   {
    "id": "M14-005",
@@ -2244,8 +2247,11 @@
    "acceptance": "Both endpoints on every service.",
    "verification": "test",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "tests/unit/test_services.py",
+    "docs/evidence/phase1/smoke-test.txt"
+   ]
   },
   {
    "id": "API-003",
@@ -2424,8 +2430,11 @@
    "acceptance": "Dockerfile per module.",
    "verification": "ci",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "tests/unit/test_images.py",
+    "docs/evidence/phase1/cluster-state.txt"
+   ]
   },
   {
    "id": "GIT-001",
@@ -2518,8 +2527,11 @@
    "acceptance": "Compose brings up dependencies.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docker-compose.yml",
+    "docs/evidence/phase1/compose-check.txt"
+   ]
   },
   {
    "id": "SET-003",
@@ -2533,7 +2545,7 @@
    "acceptance": "Example file has no values.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2548,7 +2560,7 @@
    "acceptance": "Fresh-machine walkthrough succeeds.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -3163,8 +3175,11 @@
    "acceptance": "Objects present.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/cluster-state.txt",
+    "docs/evidence/phase1/smoke-test.txt"
+   ]
   },
   {
    "id": "K8S-002",
@@ -3178,8 +3193,11 @@
    "acceptance": "Each listed module deployed.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/cluster-state.txt",
+    "docs/evidence/phase1/smoke-test.txt"
+   ]
   },
   {
    "id": "K8S-003",
@@ -3193,7 +3211,7 @@
    "acceptance": "Objects run.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -3253,7 +3271,7 @@
    "acceptance": "Zero-unavailable update and rollback.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -3268,7 +3286,7 @@
    "acceptance": "Manifest policy passes.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {

@@ -1,0 +1,102 @@
+# Traefik 3.8 as the ingress controller, in its own namespace. It reads objects of idea-validator only; the two
+# cluster-wide read rights are for IngressClass and Node objects.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress
+  labels:
+    pod-security.kubernetes.io/enforce: baseline
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata: { name: traefik, namespace: ingress }
+---
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata: { name: traefik }
+spec: { controller: traefik.io/ingress-controller }
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: { name: traefik-cluster-read }
+rules:
+  - apiGroups: [networking.k8s.io]
+    resources: [ingressclasses]
+    verbs: [get, list, watch]
+  - apiGroups: [""]
+    resources: [nodes]
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata: { name: traefik-cluster-read }
+roleRef: { apiGroup: rbac.authorization.k8s.io, kind: ClusterRole, name: traefik-cluster-read }
+subjects: [{ kind: ServiceAccount, name: traefik, namespace: ingress }]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata: { name: traefik, namespace: idea-validator }
+rules:
+  - apiGroups: [""]
+    resources: [services, secrets]
+    verbs: [get, list, watch]
+  - apiGroups: [discovery.k8s.io]
+    resources: [endpointslices]
+    verbs: [get, list, watch]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses]
+    verbs: [get, list, watch]
+  - apiGroups: [networking.k8s.io]
+    resources: [ingresses/status]
+    verbs: [update]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: { name: traefik, namespace: idea-validator }
+roleRef: { apiGroup: rbac.authorization.k8s.io, kind: Role, name: traefik }
+subjects: [{ kind: ServiceAccount, name: traefik, namespace: ingress }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: traefik, namespace: ingress, labels: { app: traefik } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: traefik } }
+  template:
+    metadata: { labels: { app: traefik } }
+    spec:
+      serviceAccountName: traefik
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 65532, runAsGroup: 65532, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: traefik
+          image: traefik:v3@sha256:00c9734983e74ae35a1fc18eaee9e9da13f3dde95c4e45b3b8c3b60e0dbd2d17
+          args:
+            - --global.checknewversion=false
+            - --global.sendanonymoususage=false
+            - --entrypoints.web.address=:8000
+            - --entrypoints.ping.address=:8082
+            - --ping.entrypoint=ping
+            - --providers.kubernetesingress=true
+            - --providers.kubernetesingress.ingressclass=traefik
+            - --providers.kubernetesingress.namespaces=idea-validator
+            - --accesslog=true
+            - --accesslog.format=json
+          ports: [{ containerPort: 8000 }, { containerPort: 8082 }]
+          readinessProbe: { httpGet: { path: /ping, port: 8082 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /ping, port: 8082 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 20m, memory: 64Mi }
+            limits: { cpu: 500m, memory: 256Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: traefik, namespace: ingress }
+spec:
+  selector: { app: traefik }
+  ports: [{ port: 80, targetPort: 8000 }]

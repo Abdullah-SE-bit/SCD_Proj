@@ -1,0 +1,20 @@
+P01.04 smoke test, 2026-11-28T13:24:01+05:00, images :3191a00
+--- healthy
+OK: every workload is ready
+OK: 14 services answer /health and /ready
+OK: postgres, redis and qdrant answer
+OK: ingress serves the UI
+OK: UI to gateway through the ingress returns the labelled fixture verdict
+PASS: smoke test
+exit 0
+--- verdict scaled to 0 replicas (expected to fail)
+FAIL: deployment.apps/verdict: 0 of 0 replicas ready
+exit 1
+--- verdict restored
+OK: every workload is ready
+OK: 14 services answer /health and /ready
+OK: postgres, redis and qdrant answer
+OK: ingress serves the UI
+OK: UI to gateway through the ingress returns the labelled fixture verdict
+PASS: smoke test
+exit 0

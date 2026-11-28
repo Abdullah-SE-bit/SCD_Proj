@@ -1,0 +1,112 @@
+# Data stores (K8S-001): Postgres and Qdrant keep their data on persistent volume claims; Redis is a cache only.
+# Requests and limits are provisional until measured with kubectl top (P10.01).
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: { name: postgres, namespace: idea-validator, labels: { app: postgres } }
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector: { matchLabels: { app: postgres } }
+  template:
+    metadata: { labels: { app: postgres } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 70, runAsGroup: 70, fsGroup: 70, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: postgres
+          image: postgres:17-alpine@sha256:f9cf3e1f0066f0eb0c48707d864f0ac5941e9ff454a072077d97a4d278d07d73
+          ports: [{ containerPort: 5432 }]
+          env:
+            - name: POSTGRES_USER
+              valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_USER } }
+            - name: POSTGRES_DB
+              valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_DB } }
+            - name: POSTGRES_PASSWORD
+              valueFrom: { secretKeyRef: { name: db-secret, key: POSTGRES_PASSWORD } }
+            - { name: PGDATA, value: /var/lib/postgresql/data/pgdata }
+          volumeMounts: [{ name: data, mountPath: /var/lib/postgresql/data }]
+          readinessProbe: { exec: { command: [pg_isready, -h, 127.0.0.1, -U, app, -d, idea_validator] }, periodSeconds: 5 }
+          livenessProbe: { exec: { command: [pg_isready, -h, 127.0.0.1, -U, app] }, periodSeconds: 10, initialDelaySeconds: 30 }
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { cpu: 500m, memory: 512Mi }
+          securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: [ALL] } }
+  volumeClaimTemplates:
+    - metadata: { name: data }
+      spec: { accessModes: [ReadWriteOnce], resources: { requests: { storage: 1Gi } } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: postgres, namespace: idea-validator }
+spec:
+  selector: { app: postgres }
+  ports: [{ port: 5432, targetPort: 5432 }]
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: { name: qdrant, namespace: idea-validator, labels: { app: qdrant } }
+spec:
+  serviceName: qdrant
+  replicas: 1
+  selector: { matchLabels: { app: qdrant } }
+  template:
+    metadata: { labels: { app: qdrant } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: qdrant
+          image: qdrant/qdrant:v1.20.2-unprivileged@sha256:f60765106f26981dabc593d88fe4d0c8138893442c7c59d62257390891b65277
+          ports: [{ containerPort: 6333 }]
+          env: [{ name: QDRANT__TELEMETRY_DISABLED, value: "true" }]
+          volumeMounts: [{ name: storage, mountPath: /qdrant/storage }]
+          readinessProbe: { httpGet: { path: /readyz, port: 6333 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /livez, port: 6333 }, periodSeconds: 10, initialDelaySeconds: 10 }
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { cpu: 500m, memory: 512Mi }
+          securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: [ALL] } }
+  volumeClaimTemplates:
+    - metadata: { name: storage }
+      spec: { accessModes: [ReadWriteOnce], resources: { requests: { storage: 2Gi } } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: qdrant, namespace: idea-validator }
+spec:
+  selector: { app: qdrant }
+  ports: [{ port: 6333, targetPort: 6333 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: redis, namespace: idea-validator, labels: { app: redis } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: redis } }
+  template:
+    metadata: { labels: { app: redis } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 999, runAsGroup: 1000, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: redis
+          image: redis:7-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
+          command: [redis-server, --save, "", --appendonly, "no"]
+          ports: [{ containerPort: 6379 }]
+          readinessProbe: { exec: { command: [redis-cli, ping] }, periodSeconds: 5 }
+          livenessProbe: { exec: { command: [redis-cli, ping] }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext: { allowPrivilegeEscalation: false, capabilities: { drop: [ALL] } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: redis, namespace: idea-validator }
+spec:
+  selector: { app: redis }
+  ports: [{ port: 6379, targetPort: 6379 }]

@@ -18,3 +18,11 @@
 - Decision: standard-library services (`services/README.md`); decision record due with the P01 gate.
 - The harness replan was dropped: the existing registry stays; issues follow it.
 - Next: P01.04 once P01.01, P01.02 and P01.03 are merged.
+
+## P01.04 (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/209)
+- Done: everything deploys with `scripts/deploy.sh`; smoke test passes and fails when a service is removed; compose
+  data stores, gateway and UI start. Recorded `in_review`.
+- Not done: measured requests and limits, `rollout undo` demonstration, second-machine walkthrough.
+- Cluster `idea-validator` is running; namespace `ingress` holds Traefik.
+- Open question to the owner: `CLAUDE.md` still asks for a label on `done` records.
+- Next: P01.05 (secondary), then the P01 gate.

@@ -1,0 +1,495 @@
+# One Deployment and Service per module (K8S-002). Image tag "dev" is replaced with the commit SHA by
+# scripts/deploy.sh. Requests and limits are provisional until measured with kubectl top (P10.01).
+# scouts runs here for on-demand calls; its schedule arrives with P04.02.
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: ui, namespace: idea-validator, labels: { app: ui } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: ui } }
+  template:
+    metadata: { labels: { app: ui } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 101, runAsGroup: 101, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: ui
+          image: services-ui:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8080 }]
+          env:
+            - name: API_URL
+              valueFrom: { configMapKeyRef: { name: app-config, key: API_URL } }
+          readinessProbe: { httpGet: { path: /ready, port: 8080 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8080 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: false
+---
+apiVersion: v1
+kind: Service
+metadata: { name: ui, namespace: idea-validator, labels: { app: ui } }
+spec:
+  selector: { app: ui }
+  ports: [{ port: 8080, targetPort: 8080 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: gateway, namespace: idea-validator, labels: { app: gateway } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: gateway } }
+  template:
+    metadata: { labels: { app: gateway } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: gateway
+          image: services-gateway:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: gateway, namespace: idea-validator, labels: { app: gateway } }
+spec:
+  selector: { app: gateway }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: profile, namespace: idea-validator, labels: { app: profile } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: profile } }
+  template:
+    metadata: { labels: { app: profile } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: profile
+          image: services-profile:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: profile, namespace: idea-validator, labels: { app: profile } }
+spec:
+  selector: { app: profile }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: orchestrator, namespace: idea-validator, labels: { app: orchestrator } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: orchestrator } }
+  template:
+    metadata: { labels: { app: orchestrator } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: orchestrator
+          image: services-orchestrator:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: orchestrator, namespace: idea-validator, labels: { app: orchestrator } }
+spec:
+  selector: { app: orchestrator }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: tools, namespace: idea-validator, labels: { app: tools } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: tools } }
+  template:
+    metadata: { labels: { app: tools } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: tools
+          image: services-tools:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: tools, namespace: idea-validator, labels: { app: tools } }
+spec:
+  selector: { app: tools }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: scouts, namespace: idea-validator, labels: { app: scouts } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: scouts } }
+  template:
+    metadata: { labels: { app: scouts } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: scouts
+          image: services-scouts:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: scouts, namespace: idea-validator, labels: { app: scouts } }
+spec:
+  selector: { app: scouts }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: kb, namespace: idea-validator, labels: { app: kb } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: kb } }
+  template:
+    metadata: { labels: { app: kb } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: kb
+          image: services-kb:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: kb, namespace: idea-validator, labels: { app: kb } }
+spec:
+  selector: { app: kb }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: analyst, namespace: idea-validator, labels: { app: analyst } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: analyst } }
+  template:
+    metadata: { labels: { app: analyst } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: analyst
+          image: services-analyst:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: analyst, namespace: idea-validator, labels: { app: analyst } }
+spec:
+  selector: { app: analyst }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: ideation, namespace: idea-validator, labels: { app: ideation } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: ideation } }
+  template:
+    metadata: { labels: { app: ideation } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: ideation
+          image: services-ideation:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: ideation, namespace: idea-validator, labels: { app: ideation } }
+spec:
+  selector: { app: ideation }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: validators, namespace: idea-validator, labels: { app: validators } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: validators } }
+  template:
+    metadata: { labels: { app: validators } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: validators
+          image: services-validators:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: validators, namespace: idea-validator, labels: { app: validators } }
+spec:
+  selector: { app: validators }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: scorer, namespace: idea-validator, labels: { app: scorer } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: scorer } }
+  template:
+    metadata: { labels: { app: scorer } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: scorer
+          image: services-scorer:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: scorer, namespace: idea-validator, labels: { app: scorer } }
+spec:
+  selector: { app: scorer }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: verdict, namespace: idea-validator, labels: { app: verdict } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: verdict } }
+  template:
+    metadata: { labels: { app: verdict } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: verdict
+          image: services-verdict:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: verdict, namespace: idea-validator, labels: { app: verdict } }
+spec:
+  selector: { app: verdict }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: critic, namespace: idea-validator, labels: { app: critic } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: critic } }
+  template:
+    metadata: { labels: { app: critic } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: critic
+          image: services-critic:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: critic, namespace: idea-validator, labels: { app: critic } }
+spec:
+  selector: { app: critic }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: agentops, namespace: idea-validator, labels: { app: agentops } }
+spec:
+  replicas: 1
+  strategy: { type: RollingUpdate, rollingUpdate: { maxUnavailable: 0, maxSurge: 1 } }
+  selector: { matchLabels: { app: agentops } }
+  template:
+    metadata: { labels: { app: agentops } }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: agentops
+          image: services-agentops:dev
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 8000 }]
+          readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+          livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 250m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+---
+apiVersion: v1
+kind: Service
+metadata: { name: agentops, namespace: idea-validator, labels: { app: agentops } }
+spec:
+  selector: { app: agentops }
+  ports: [{ port: 8000, targetPort: 8000 }]

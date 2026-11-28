@@ -3,3 +3,9 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - networkpolicy.yaml
+  - config.yaml
+  - data.yaml
+  - apps.yaml
+  - jobs.yaml
+  - ingress.yaml
+  - ingress-controller.yaml

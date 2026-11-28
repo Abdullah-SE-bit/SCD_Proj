@@ -1,0 +1,32 @@
+# M6i ingestion on a daily schedule (K8S-003). The job is a skeleton until P04.03; scouts, evaluation and model
+# import schedules arrive with their tasks.
+apiVersion: batch/v1
+kind: CronJob
+metadata: { name: ingestion, namespace: idea-validator, labels: { app: ingestion } }
+spec:
+  schedule: "0 2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 1800
+      template:
+        metadata: { labels: { app: ingestion } }
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          enableServiceLinks: false
+          securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+          containers:
+            - name: ingestion
+              image: jobs-ingestion:dev
+              imagePullPolicy: IfNotPresent
+              resources:
+                requests: { cpu: 10m, memory: 32Mi }
+                limits: { cpu: 500m, memory: 256Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: [ALL] }
+                readOnlyRootFilesystem: true

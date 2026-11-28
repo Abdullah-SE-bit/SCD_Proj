@@ -1,4 +1,51 @@
 # Local development only (Guide 4.3); the deployment target is Kubernetes.
-# Status: not operational. Postgres, Redis, the vector store and module services are added with
-# pinned images in task P01.04, after the stack decisions are approved (D-03).
-services: {}
+# usage: copy .env.example to .env, set POSTGRES_PASSWORD, then
+#   docker compose up -d                      the data stores
+#   docker compose --profile app up -d --build   the data stores, gateway and UI
+# Other modules run from their directory with "python -m scd_<name>.app" or by adding them here.
+name: idea-validator-dev
+
+services:
+  postgres:
+    image: postgres:17-alpine@sha256:f9cf3e1f0066f0eb0c48707d864f0ac5941e9ff454a072077d97a4d278d07d73
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_DB: idea_validator
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    ports: ["127.0.0.1:${POSTGRES_PORT:-55432}:5432"]   # 5432 is often taken or reserved on Windows
+    volumes: ["postgres-data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "app", "-d", "idea_validator"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports: ["127.0.0.1:6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 20
+
+  qdrant:
+    image: qdrant/qdrant:v1.20.2-unprivileged@sha256:f60765106f26981dabc593d88fe4d0c8138893442c7c59d62257390891b65277
+    environment: { QDRANT__TELEMETRY_DISABLED: "true" }
+    ports: ["127.0.0.1:6333:6333"]
+    volumes: ["qdrant-data:/qdrant/storage"]
+
+  gateway:
+    profiles: [app]
+    build: services/gateway
+    ports: ["127.0.0.1:8000:8000"]
+
+  ui:
+    profiles: [app]
+    build: services/ui
+    environment: { API_URL: "http://gateway:8000" }
+    ports: ["127.0.0.1:8081:8080"]
+    depends_on: [gateway]
+
+volumes:
+  postgres-data:
+  qdrant-data:

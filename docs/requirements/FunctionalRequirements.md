@@ -21,10 +21,10 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 |---|---|---|---|---|---|---|
 | USR-001 | Desc p2 §2 U1 | mandatory | U1: Sign up, log in and save a profile. Done when the profile is stored, editable, and changes later recommendations. | Register, login, edit profile; a later recommendation differs accordingly. | e2e | unimplemented |
 | USR-009 | Desc p2 §2 U9 | mandatory | U9: Compare ideas and see history; past ideas and versions listed and two ideas compare on all six dimensions. | History, versions and six-dimension comparison shown. | e2e | unimplemented |
-| M02-001 | Desc p3 §4 | mandatory | Postgres stores users, profiles, ideas, versions and runs; Redis caches verdicts and retrieval. | Data persisted in Postgres; cache in Redis. | integration | unimplemented |
-| M02-002 | Desc p3 §4 | mandatory | Database migrations exist. | Fresh database migrates to head. | integration | unimplemented |
+| M02-001 | Desc p3 §4 | mandatory | Postgres stores users, profiles, ideas, versions and runs; Redis caches verdicts and retrieval. | Data persisted in Postgres; cache in Redis. | integration | in_progress |
+| M02-002 | Desc p3 §4 | mandatory | Database migrations exist. | Fresh database migrates to head. | integration | implemented |
 | M02-003 | Desc p3 §4 | mandatory | Cache keys include profile and rubric versions. | Changing either version misses cache. | unit | unimplemented |
-| DBS-001 | Guide p1 §2 Fig.1 | mandatory | Application records: users, profiles, ideas, idea_versions, verdicts, dimension_scores, approvals, traces_index, conversations with listed fields. | Migrations include listed entities and fields. | integration | unimplemented |
+| DBS-001 | Guide p1 §2 Fig.1 | mandatory | Application records: users, profiles, ideas, idea_versions, verdicts, dimension_scores, approvals, traces_index, conversations with listed fields. | Migrations include listed entities and fields. | integration | implemented |
 | SCH-002 | Guide p2 §2.1 | mandatory | Student profile schema with user_id, skills, hours_per_week, weeks_available, team_size, compute (laptop, free_gpu, paid), goal (startup, portfolio, course_project), interests. | Schema contains all fields and enums. | contract | unimplemented |
 | CMN-002 | Guide p8 §12 | mandatory | Cache verdicts with profile and rubric version in the key. | Same as M02-003. | unit | unimplemented |
 

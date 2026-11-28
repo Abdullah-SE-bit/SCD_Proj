@@ -1,0 +1,57 @@
+# P02.01: migrations and M2 layers, 2026-11-28T11:54Z. PostgreSQL 17 (the pinned compose image) in a throw-away container.
+
+$ docker run --rm --network p0201 -e DATABASE_URL=postgresql://postgres@p0201-pg:5432/fresh scd-profile:p0201 python -m scd_profile.migrate
+applied: 001_application_tables.sql
+exit=0
+$ docker run --rm --network p0201 -e DATABASE_URL=postgresql://postgres@p0201-pg:5432/fresh scd-profile:p0201 python -m scd_profile.migrate
+database already at head
+exit=0
+
+$ psql -d fresh -c '\dt'
+               List of relations
+ Schema |       Name        | Type  |  Owner   
+--------+-------------------+-------+----------
+ public | approvals         | table | postgres
+ public | conversations     | table | postgres
+ public | dimension_scores  | table | postgres
+ public | idea_versions     | table | postgres
+ public | ideas             | table | postgres
+ public | profiles          | table | postgres
+ public | schema_migrations | table | postgres
+ public | traces_index      | table | postgres
+ public | users             | table | postgres
+ public | verdicts          | table | postgres
+(10 rows)
+
+
+$ TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:55433/postgres python -m pytest services/profile -v
+collecting ... collected 26 items
+
+services/profile/test_profile_migrations.py::test_fresh_database_migrates_to_head PASSED [  3%]
+services/profile/test_profile_migrations.py::test_migrating_twice_changes_nothing PASSED [  7%]
+services/profile/test_profile_migrations.py::test_failed_migration_leaves_no_record PASSED [ 11%]
+services/profile/test_profile_migrations.py::test_database_address_comes_from_the_environment PASSED [ 15%]
+services/profile/test_profile_migrations.py::test_url_is_split_for_the_driver PASSED [ 19%]
+services/profile/test_profile_records.py::test_users_are_found_by_email_and_emails_are_unique PASSED [ 23%]
+services/profile/test_profile_records.py::test_profile_round_trip_raises_the_version_on_each_save PASSED [ 26%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change0] PASSED [ 30%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change1] PASSED [ 34%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change2] PASSED [ 38%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change3] PASSED [ 42%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change4] PASSED [ 46%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change5] PASSED [ 50%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change6] PASSED [ 53%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change7] PASSED [ 57%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change8] PASSED [ 61%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change9] PASSED [ 65%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change10] PASSED [ 69%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change11] PASSED [ 73%]
+services/profile/test_profile_records.py::test_invalid_profiles_are_rejected_and_not_stored[change12] PASSED [ 76%]
+services/profile/test_profile_records.py::test_a_missing_field_is_rejected PASSED [ 80%]
+services/profile/test_profile_records.py::test_ideas_keep_every_version_for_their_owner_only PASSED [ 84%]
+services/profile/test_profile_records.py::test_a_verdict_is_stored_whole_with_its_dimension_scores PASSED [ 88%]
+services/profile/test_profile_records.py::test_a_failed_unit_of_work_stores_nothing PASSED [ 92%]
+services/profile/test_profile_records.py::test_run_records_and_conversations PASSED [ 96%]
+services/profile/test_profile_records.py::test_ready_needs_a_reachable_database_when_one_is_configured PASSED [100%]
+
+============================= 26 passed in 11.05s =============================

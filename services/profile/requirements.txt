@@ -1,1 +1,6 @@
-# Runtime dependencies, each pinned with ==. None yet.
+# Runtime dependencies, each pinned with ==. The PostgreSQL driver and what it needs.
+asn1crypto==1.5.1
+pg8000==1.31.6
+python-dateutil==4.0.0
+scramp==1.5.0
+tzdata==2026.6

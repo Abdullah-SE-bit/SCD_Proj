@@ -30,7 +30,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | USR-011 | Description p2 | M11 | P03, P07 | P03.02, P07 | test | services/verdict/test_verdict_suggest.py | implemented |
 | ARC-001 | Description p2 | M1 | P01 | P01.03 | test | none yet | in_progress |
 | ARC-002 | Description p2 | M3 | P05 | P05.02 | inspection | none yet | unimplemented |
-| ARC-003 | Description p2 | M6 | P04 | P04.04 | inspection | none yet | unimplemented |
+| ARC-003 | Description p2 | M6 | P04 | P04.04 | inspection | none yet | in_progress |
 | ARC-004 | Description p2 | M11 | P05 | P05.02 | inspection | none yet | unimplemented |
 | ARC-005 | Description p2 | M10 | P06 | P06.02 | inspection | none yet | unimplemented |
 | ARC-006 | Description p2 | M13 | P05 | P05.05 | test | none yet | unimplemented |
@@ -65,11 +65,11 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M05-001 | Description p3 | M5 | P04 | P04.01 | test | services/tools/test_tools_fetch.py, services/tools/test_tools_politeness.py | implemented |
 | M05-002 | Description p3 | M5 | P04 | P04.01 | security-test | tests/security/test_poisoned_page.py | implemented |
 | M05-003 | Description p3 | M5 | P04 | P04.01 | infra-test | docs/evidence/phase4-egress.txt | implemented |
-| M06-001 | Description p3 | M6 | P04 | P04.04 | test | none yet | unimplemented |
-| M06-002 | Description p3 | M6 | P04 | P04.04 | eval | none yet | unimplemented |
-| M06-003 | Description p3 | M6 | P04 | P04.04 | test | none yet | unimplemented |
-| M06-004 | Description p3 | M6 | P04 | P04.04 | test | none yet | unimplemented |
-| M06-005 | Description p3 | M6 | P04 | P04.04 | test | none yet | unimplemented |
+| M06-001 | Description p3 | M6 | P04 | P04.04 | test | docs/evidence/phase4/search.txt, services/kb/test_kb_search.py | implemented |
+| M06-002 | Description p3 | M6 | P04 | P04.04 | eval | none yet | in_progress |
+| M06-003 | Description p3 | M6 | P04 | P04.04 | test | docs/evidence/phase4/search.txt, services/kb/test_kb_search.py | implemented |
+| M06-004 | Description p3 | M6 | P04 | P04.04 | test | docs/evidence/phase4/search.txt, services/kb/test_kb_search.py | implemented |
+| M06-005 | Description p3 | M6 | P04 | P04.04 | test | docs/evidence/phase4/search.txt, services/kb/test_kb_search.py | implemented |
 | M06-006 | Description p3 | M6 | P04 | P04.05 | eval | none yet | unimplemented |
 | M6I-001 | Description p4 | M6i | P04 | P04.03 | integration | docs/evidence/phase4/ingestion-counts.txt, jobs/ingestion/test_ingestion_job.py | implemented |
 | M6I-002 | Description p4 | M6i | P04 | P04.03 | test | docs/evidence/phase4/ingestion-counts.txt | implemented |
@@ -146,7 +146,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | DBS-003 | Guide p1 | M13 | P02 | P02.03 | inspection | none yet | unimplemented |
 | SCH-001 | Guide p2 | M6 | P00, P04 | P00.03, P04.03 | contract | jobs/ingestion/test_ingestion_cards.py, docs/evidence/phase4/ingestion-counts.txt | implemented |
 | SCH-002 | Guide p2 | M2 | P00, P02 | P00.03, P02.02 | contract | services/profile/test_profile_records.py, docs/evidence/phase2/accounts-http.txt | implemented |
-| SCH-003 | Guide p2 | M6 | P00, P04 | P00.03, P04.04 | contract | none yet | unimplemented |
+| SCH-003 | Guide p2 | M6 | P00, P04 | P00.03, P04.04 | contract | docs/evidence/phase4/search.txt, services/kb/test_kb_search.py | implemented |
 | SCH-004 | Guide p2 | M9 | P00, P05 | P00.03, P05.01 | contract | none yet | unimplemented |
 | SCH-005 | Guide p2 | M11 | P00, P03 | P00.03, P03.01 | contract | tests/unit/test_verdict_contract.py | implemented |
 | SCH-006 | Guide p2 | M13 | P00, P05 | P00.03, P05.05 | contract | none yet | unimplemented |
@@ -157,7 +157,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | API-005 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
 | API-006 | Guide p2 | M1 | P02 | P02.03 | contract | none yet | unimplemented |
 | API-007 | Guide p2 | M5 | P04 | P04.01 | test | services/tools/test_tools_fetch.py, services/tools/test_tools_politeness.py, tests/security/test_poisoned_page.py | implemented |
-| API-008 | Guide p3 | M6 | P04 | P04.04 | contract | none yet | unimplemented |
+| API-008 | Guide p3 | M6 | P04 | P04.04 | contract | docs/evidence/phase4/search.txt, services/kb/test_kb_search.py | implemented |
 | API-009 | Guide p3 | M10 | P05 | P05.01 | contract | none yet | unimplemented |
 | API-010 | Guide p3 | M11 | P03 | P03.01 | contract | tests/unit/test_verdict_whatif.py, tests/unit/test_verdict_contract.py | implemented |
 | API-011 | Guide p3 | M12 | P05 | P05.03 | contract | none yet | unimplemented |
@@ -178,7 +178,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | ETH-001 | Guide p4 | M5 | P04 | P04.01 | inspection | services/tools/scd_tools/sources.json | implemented |
 | ETH-002 | Guide p4 | M5 | P04 | P04.01 | test | services/tools/test_tools_politeness.py, services/tools/test_tools_fetch.py | implemented |
 | ETH-003 | Guide p4 | M6 | P04 | P04.03 | inspection | none yet | in_progress |
-| ETH-004 | Guide p4 | M6 | P04 | P04.04 | e2e | none yet | unimplemented |
+| ETH-004 | Guide p4 | M6 | P04 | P04.04 | e2e | none yet | in_progress |
 | ETH-005 | Guide p4 | M12 | P05 | P05.03 | security-test | none yet | unimplemented |
 | ETH-006 | Guide p4 | M6i | P04 | P04.03 | test | docs/evidence/phase4/ingestion-counts.txt, jobs/ingestion/test_ingestion_job.py | implemented |
 | FT-001 | Guide p4 | M10t | P06 | P06.01 | measurement | none yet | unimplemented |

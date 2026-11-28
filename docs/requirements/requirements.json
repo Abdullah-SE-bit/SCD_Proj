@@ -414,7 +414,7 @@
    "acceptance": "Data paths implemented as drawn.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -964,8 +964,11 @@
    "acceptance": "Every evidence id resolves to a card.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/search.txt",
+    "services/kb/test_kb_search.py"
+   ]
   },
   {
    "id": "M06-002",
@@ -979,7 +982,7 @@
    "acceptance": "Hybrid plus rerank pipeline evaluated.",
    "verification": "eval",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -994,8 +997,11 @@
    "acceptance": "Each filter tested.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/search.txt",
+    "services/kb/test_kb_search.py"
+   ]
   },
   {
    "id": "M06-004",
@@ -1009,8 +1015,11 @@
    "acceptance": "Results carry card ids.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/search.txt",
+    "services/kb/test_kb_search.py"
+   ]
   },
   {
    "id": "M06-005",
@@ -1024,8 +1033,11 @@
    "acceptance": "Freshness and coverage reported.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/search.txt",
+    "services/kb/test_kb_search.py"
+   ]
   },
   {
    "id": "M06-006",
@@ -2265,8 +2277,11 @@
    "acceptance": "Schema contains all fields.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/search.txt",
+    "services/kb/test_kb_search.py"
+   ]
   },
   {
    "id": "SCH-004",
@@ -2442,8 +2457,11 @@
    "acceptance": "Contract test.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/search.txt",
+    "services/kb/test_kb_search.py"
+   ]
   },
   {
    "id": "API-009",
@@ -2781,7 +2799,7 @@
    "acceptance": "Links present.",
    "verification": "e2e",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {

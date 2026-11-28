@@ -44,5 +44,6 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | P04.04: hybrid search, reranking, filters, coverage, tests and cluster searches | no edits by a human | task P04.04; code, documents and evidence capture by AI |
 | 2026-11-28 | Claude Code | P02.04: sign-in, profile, history and comparison screens, component tests, screenshots | no edits by a human | task P02.04; code, documents and evidence capture by AI |
 | 2026-11-28 | Claude Code | Wire database, cache, key and search settings into the cluster; extend the smoke test | no content edits by humans | later services could not run there |
+| 2026-11-28 | Claude Code | P02 gate: deploy dev, run the account, profile and history demonstration on the cluster, record the result | no edits by a human | gate; not recorded because history needs seeded records |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

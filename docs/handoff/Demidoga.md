@@ -1,6 +1,14 @@
 # Handoff: secondary (Demidoga)
 
-## Current: P02.04 profile and history screens (2026-11-28)
+## Current: P02 gate demonstrated, not recorded (2026-11-28)
+- [Demonstration](../evidence/phase2/gate-demo.txt) on the cluster at `dev` `7e42f3e` ([script](../evidence/phase2/gate-demo.py)).
+- Holds as a user action: register, log in (wrong password refused), save and edit the profile, history page answers.
+- **Does not hold as a user action:** history has content only because records were written to the profile service by
+  hand. No public route saves an idea; the Validate flow (P05) will. So no `status/P02.json`.
+- Owner decision needed: record the gate with that limit, or after an idea can be saved.
+- P02.04 merged as #223 (`5091cd7`). The cluster is no longer in use by this session.
+
+## Earlier: P02.04 profile and history screens (2026-11-28)
 - [#223](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/223) from `feat/P02.04-screens`. Status: `done`.
 - [Profile](../evidence/screenshots/ui-profile.png), [history and comparison](../evidence/screenshots/ui-history-compare.png)
   (fixture ideas seeded through the profile service; no public route creates ideas yet).

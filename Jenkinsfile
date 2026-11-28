@@ -1,5 +1,5 @@
-// Delivery pipeline foundation (Guide 8.2). Application stages stay unavailable until their
-// prerequisites exist; they never report success for something that did not run.
+// Delivery pipeline (Guide 8.2). A stage never reports success for something that did not run.
+// Start Jenkins with scripts/jenkins_up.sh.
 pipeline {
   agent any
   options { timestamps(); disableConcurrentBuilds(); timeout(time: 60, unit: 'MINUTES') }
@@ -7,9 +7,14 @@ pipeline {
     pollSCM('H/2 * * * *')   // webhooks cannot reach a laptop
     cron('H 2 * * *')        // nightly evaluation
   }
+  parameters {
+    booleanParam(name: 'FAIL_SMOKE', defaultValue: false,
+                 description: 'Deliberately fail the smoke test after deployment, to show the rollback.')
+  }
   environment {
     NAMESPACE = 'idea-validator'
-    REGISTRY  = 'ghcr.io/abdullah-se-bit'
+    // The local registry started by jenkins_up.sh. For ghcr.io, set REGISTRY and add the 'registry' credential.
+    REGISTRY  = "${env.REGISTRY_OVERRIDE ?: 'localhost:5001'}"
   }
   stages {
     stage('Checkout') {
@@ -36,9 +41,15 @@ pipeline {
     stage('Push') {
       when { environment name: 'DEPLOYABLE', value: 'true' }
       steps {
-        withCredentials([usernamePassword(credentialsId: 'registry', usernameVariable: 'REG_USER', passwordVariable: 'REG_TOKEN')]) {
-          sh 'echo "$REG_TOKEN" | docker login ghcr.io -u "$REG_USER" --password-stdin'
-          sh './scripts/ci/push_images.sh "$REGISTRY" "$TAG"'
+        script {
+          if (env.REGISTRY.startsWith('ghcr.io/')) {
+            withCredentials([usernamePassword(credentialsId: 'registry', usernameVariable: 'REG_USER', passwordVariable: 'REG_TOKEN')]) {
+              sh 'echo "$REG_TOKEN" | docker login ghcr.io -u "$REG_USER" --password-stdin'
+              sh './scripts/ci/push_images.sh "$REGISTRY" "$TAG"'
+            }
+          } else {
+            sh './scripts/ci/push_images.sh "$REGISTRY" "$TAG"'
+          }
         }
       }
     }
@@ -55,7 +66,9 @@ pipeline {
       when { environment name: 'DEPLOYABLE', value: 'true' }
       steps {
         withCredentials([file(credentialsId: 'kubeconfig-test', variable: 'KUBECONFIG')]) {
-          sh './scripts/smoke_test.sh "$NAMESPACE"'
+          // the cluster is named like the namespace; a deliberate failure expects a text the app never sends
+          sh '''if [ "$FAIL_SMOKE" = true ]; then export SMOKE_EXPECT="deliberate failure"; fi
+                ./scripts/smoke_test.sh "$NAMESPACE"'''
         }
       }
     }

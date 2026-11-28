@@ -1,9 +1,10 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
+import verdict from "../../../contracts/schemas/examples/verdict.valid.json";
 import { App } from "./App";
 
 const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status });
-const run = { run_id: "fixture-run", status: "completed", label: "FIXTURE DATA", verdict: { verdict: "GO" } };
+const run = { run_id: "fixture-run", status: "completed", label: "FIXTURE DATA", verdict };
 
 function submit(idea: string) {
   render(<App />);
@@ -27,7 +28,7 @@ test("calls only the API on its own origin and shows the run", async () => {
   vi.stubGlobal("fetch", fetch);
   submit("A study planner");
   expect(screen.getByRole("status").textContent).toBe("Checking your idea...");
-  expect(await screen.findByText("FIXTURE DATA")).toBeTruthy();
+  expect((await screen.findByRole("note")).textContent).toContain("FIXTURE DATA");
   expect(fetch.mock.calls.map((call) => call[0])).toEqual(["/api/validate", "/api/runs/fixture-run"]);
   expect(JSON.parse(fetch.mock.calls[0][1].body)).toEqual({ idea: "A study planner" });
 });

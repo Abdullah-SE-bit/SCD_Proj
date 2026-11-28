@@ -1,5 +1,6 @@
 import { type SubmitEvent, useState } from "react";
 import { checkIdea, type Run } from "./api";
+import { VerdictCard } from "./VerdictCard";
 
 type State = { step: "empty" } | { step: "loading" } | { step: "error"; message: string } | { step: "done"; run: Run };
 
@@ -30,12 +31,7 @@ export function App() {
       {state.step === "empty" && <p>No result yet.</p>}
       {state.step === "loading" && <p role="status">Checking your idea...</p>}
       {state.step === "error" && <p role="alert">{state.message} Try again.</p>}
-      {state.step === "done" && (
-        <section aria-label="Result">
-          {state.run.label && <p className="fixture">{state.run.label}</p>}
-          <p>Verdict: {state.run.verdict.verdict}</p>
-        </section>
-      )}
+      {state.step === "done" && <VerdictCard verdict={state.run.verdict} label={state.run.label} />}
     </main>
   );
 }

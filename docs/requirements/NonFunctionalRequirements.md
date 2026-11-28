@@ -6,13 +6,13 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| ARC-001 | Desc p2 §3 Fig.1 | mandatory | M1 is the browser's entry; chat and progress stream between user and M1; M1 talks to M3. | Browser only calls M1. | test | unimplemented |
+| ARC-001 | Desc p2 §3 Fig.1 | mandatory | M1 is the browser's entry; chat and progress stream between user and M1; M1 talks to M3. | Browser only calls M1. | test | in_progress |
 | M01-001 | Desc p3 §4 | mandatory | M1 Web UI and API Gateway is the only entrance: chat, live progress, verdict card, approval prompt, history. | All listed views exist behind M1. | e2e | unimplemented |
-| M01-002 | Desc p3 §4 | mandatory | UI API address is set at runtime. | Same image runs against two API addresses. | test | unimplemented |
+| M01-002 | Desc p3 §4 | mandatory | UI API address is set at runtime. | Same image runs against two API addresses. | test | implemented |
 | M01-003 | Desc p3 §4 | mandatory | M1 has login, rate limits and input validation. | Unauthenticated, over-limit and invalid requests rejected. | test | unimplemented |
 | SUB-007 | Desc p6 §6.3 | mandatory | Interface screenshots: profile, Discover results, verdict card, challenge, what-if version 2, INSUFFICIENT EVIDENCE. | Captured and captioned. | evidence | unimplemented |
 | K8S-010 | Guide p6 §9 Fig.3 | mandatory | UI reaches the API only. | NetworkPolicy blocks UI to other services. | infra-test | implemented |
-| CMN-005 | Guide p8 §12 | mandatory | Never call model or scouts from the browser; no hard-coded localhost in images. | Static check and NetworkPolicy. | ci | unimplemented |
+| CMN-005 | Guide p8 §12 | mandatory | Never call model or scouts from the browser; no hard-coded localhost in images. | Static check and NetworkPolicy. | ci | implemented |
 
 ## M2
 
@@ -177,4 +177,4 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | DDR-001 | Guide p8 §11.1 | mandatory | At least 3 design decision records, one page or less, in docs/decisions/, with Title, Status, Context, Options, Decision, Why, Cost, AI use. | >=3 conforming records. | inspection | unimplemented |
 | LOG-001 | Guide p8 §11.2 | mandatory | AI-usage log columns: Date, Tool, What you asked for, What you changed, Why. | Columns present. | ci | unimplemented |
 | LOG-002 | Guide p8 §11.2 | mandatory | Contribution table: modules owned, PRs authored/reviewed, approximate hours, signature, for both members with name and roll number. | Template complete and signed by students. | inspection | unimplemented |
-| CMN-008 | Guide p8 §12 | recommended | Get a thin end-to-end version on Kubernetes (with Docker and Jenkins) early, then improve. | Walking skeleton in Phase 1. | demo | unimplemented |
+| CMN-008 | Guide p8 §12 | recommended | Get a thin end-to-end version on Kubernetes (with Docker and Jenkins) early, then improve. | Walking skeleton in Phase 1. | demo | in_progress |

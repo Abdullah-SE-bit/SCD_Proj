@@ -379,7 +379,7 @@
    "acceptance": "Browser only calls M1.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -651,8 +651,11 @@
    "acceptance": "Same image runs against two API addresses.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/ui-runtime-api.txt",
+    "services/ui/nginx/default.conf.template"
+   ]
   },
   {
    "id": "M01-003",
@@ -681,8 +684,11 @@
    "acceptance": "UI component tests run in CI.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/ui/src/App.test.tsx",
+    "services/ui/src/VerdictCard.test.tsx"
+   ]
   },
   {
    "id": "M02-001",
@@ -3562,8 +3568,11 @@
    "acceptance": "Static check and NetworkPolicy.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "tests/unit/test_no_local_addresses.py",
+    "docs/evidence/phase1/ui-runtime-api.txt"
+   ]
   },
   {
    "id": "CMN-006",
@@ -3607,7 +3616,7 @@
    "acceptance": "Walking skeleton in Phase 1.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   }
  ]

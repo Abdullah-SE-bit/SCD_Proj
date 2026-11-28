@@ -1,0 +1,197 @@
+{
+  "dimension": "differentiation",
+  "version": 1,
+  "scale": "0-5",
+  "note": "Version 1. Anchors drafted by AI; student review is open. The worked examples are illustrative and invented to explain the levels: not real ideas, evidence or human labels, and not training data.",
+  "rules": "max_similarity (0 to 1) is to the closest existing product. A gap counts only when a card shows users missing it. Level 3 is the least that passes the duplicate gate for a same-user product.",
+  "anchors": {
+    "0": "The same product for the same user already exists.",
+    "1": "A near copy: only the name, look or technology differs.",
+    "2": "A minor extra feature that existing products could easily add.",
+    "3": "One real difference that matters to this user, though no card shows users asking for it strongly.",
+    "4": "A difference answering a gap that at least one card shows users missing.",
+    "5": "A clear gap that existing products do not address, shown by two or more independent cards."
+  },
+  "features": [
+    "max_similarity",
+    "n_similar_cards",
+    "uncovered_gap_count"
+  ],
+  "output_schema": [
+    "score",
+    "confidence",
+    "evidence_ids",
+    "reason"
+  ],
+  "examples": [
+    {
+      "input": {
+        "idea": "A link shortener with click counts",
+        "features": {
+          "max_similarity": 0.97,
+          "n_similar_cards": 8,
+          "uncovered_gap_count": 0
+        },
+        "evidence": [
+          {
+            "id": "example_differentiation_0#c0",
+            "summary": "An established product with the same features for the same users."
+          }
+        ]
+      },
+      "expected": {
+        "score": 0,
+        "confidence": 0.85,
+        "evidence_ids": [
+          "example_differentiation_0#c0"
+        ],
+        "reason": "Already exists."
+      }
+    },
+    {
+      "input": {
+        "idea": "The same shortener with a dark theme",
+        "features": {
+          "max_similarity": 0.92,
+          "n_similar_cards": 8,
+          "uncovered_gap_count": 0
+        },
+        "evidence": [
+          {
+            "id": "example_differentiation_1#c0",
+            "summary": "The established product."
+          },
+          {
+            "id": "example_differentiation_1#c1",
+            "summary": "Several near-identical clones."
+          }
+        ]
+      },
+      "expected": {
+        "score": 1,
+        "confidence": 0.8,
+        "evidence_ids": [
+          "example_differentiation_1#c0",
+          "example_differentiation_1#c1"
+        ],
+        "reason": "Only the look differs."
+      }
+    },
+    {
+      "input": {
+        "idea": "A shortener that also makes a QR code",
+        "features": {
+          "max_similarity": 0.85,
+          "n_similar_cards": 6,
+          "uncovered_gap_count": 0
+        },
+        "evidence": [
+          {
+            "id": "example_differentiation_2#c0",
+            "summary": "A product that shortens links."
+          },
+          {
+            "id": "example_differentiation_2#c1",
+            "summary": "A note that QR export is a common add-on."
+          }
+        ]
+      },
+      "expected": {
+        "score": 2,
+        "confidence": 0.7,
+        "evidence_ids": [
+          "example_differentiation_2#c0",
+          "example_differentiation_2#c1"
+        ],
+        "reason": "A small, easily added feature."
+      }
+    },
+    {
+      "input": {
+        "idea": "A shortener whose links expire when a course ends",
+        "features": {
+          "max_similarity": 0.7,
+          "n_similar_cards": 4,
+          "uncovered_gap_count": 0
+        },
+        "evidence": [
+          {
+            "id": "example_differentiation_3#c0",
+            "summary": "Products offering manual expiry only."
+          }
+        ]
+      },
+      "expected": {
+        "score": 3,
+        "confidence": 0.6,
+        "evidence_ids": [
+          "example_differentiation_3#c0"
+        ],
+        "reason": "A real difference without a shown demand."
+      }
+    },
+    {
+      "input": {
+        "idea": "A shortener that warns when a target page disappears",
+        "features": {
+          "max_similarity": 0.55,
+          "n_similar_cards": 3,
+          "uncovered_gap_count": 1
+        },
+        "evidence": [
+          {
+            "id": "example_differentiation_4#c0",
+            "summary": "Products that never check targets."
+          },
+          {
+            "id": "example_differentiation_4#c1",
+            "summary": "A comment asking to be told about dead targets."
+          }
+        ]
+      },
+      "expected": {
+        "score": 4,
+        "confidence": 0.7,
+        "evidence_ids": [
+          "example_differentiation_4#c0",
+          "example_differentiation_4#c1"
+        ],
+        "reason": "Answers one shown gap."
+      }
+    },
+    {
+      "input": {
+        "idea": "Link checking for printed posters, with replaceable targets and offline codes",
+        "features": {
+          "max_similarity": 0.35,
+          "n_similar_cards": 1,
+          "uncovered_gap_count": 3
+        },
+        "evidence": [
+          {
+            "id": "example_differentiation_5#c0",
+            "summary": "A complaint that printed codes cannot be changed."
+          },
+          {
+            "id": "example_differentiation_5#c1",
+            "summary": "An issue asking for offline codes."
+          },
+          {
+            "id": "example_differentiation_5#c2",
+            "summary": "A thread showing no product does both."
+          }
+        ]
+      },
+      "expected": {
+        "score": 5,
+        "confidence": 0.75,
+        "evidence_ids": [
+          "example_differentiation_5#c0",
+          "example_differentiation_5#c1",
+          "example_differentiation_5#c2"
+        ],
+        "reason": "A clear gap shown by several cards."
+      }
+    }
+  ]
+}

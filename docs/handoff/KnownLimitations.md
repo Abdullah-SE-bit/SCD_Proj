@@ -21,6 +21,8 @@
 13. Roll numbers, signatures, annotations and credentials are outstanding.
 14. Security-guidance commit review and Serena analysis are unverified.
 
+Rubrics (P03.03): student review is open and CI does not run their test.
+
 Open low review findings: [ReviewResponses](ReviewResponses.md).
 
 ## Found at the P01 gate

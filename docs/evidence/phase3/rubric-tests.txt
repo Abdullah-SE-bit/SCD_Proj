@@ -1,0 +1,20 @@
+# P03.03: rubric validation, 2026-11-28T11:05Z, commit 62d2cc3. CI does not run this directory.
+
+$ python -m pytest rubrics -v
+collecting ... collected 13 items
+
+rubrics/test_rubrics.py::test_there_is_one_file_per_dimension PASSED     [  7%]
+rubrics/test_rubrics.py::test_rubric[demand_pain] PASSED                 [ 15%]
+rubrics/test_rubrics.py::test_rubric[competition] PASSED                 [ 23%]
+rubrics/test_rubrics.py::test_rubric[differentiation] PASSED             [ 30%]
+rubrics/test_rubrics.py::test_rubric[feasibility] PASSED                 [ 38%]
+rubrics/test_rubrics.py::test_rubric[risk] PASSED                        [ 46%]
+rubrics/test_rubrics.py::test_rubric[learning] PASSED                    [ 53%]
+rubrics/test_rubrics.py::test_worked_examples_are_consistent[demand_pain] PASSED [ 61%]
+rubrics/test_rubrics.py::test_worked_examples_are_consistent[competition] PASSED [ 69%]
+rubrics/test_rubrics.py::test_worked_examples_are_consistent[differentiation] PASSED [ 76%]
+rubrics/test_rubrics.py::test_worked_examples_are_consistent[feasibility] PASSED [ 84%]
+rubrics/test_rubrics.py::test_worked_examples_are_consistent[risk] PASSED [ 92%]
+rubrics/test_rubrics.py::test_worked_examples_are_consistent[learning] PASSED [100%]
+
+============================= 13 passed in 0.32s ==============================

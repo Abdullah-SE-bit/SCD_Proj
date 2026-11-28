@@ -1,0 +1,184 @@
+{
+  "dimension": "feasibility",
+  "version": 1,
+  "scale": "0-5",
+  "note": "Version 1. Anchors drafted by AI; student review is open. The worked examples are illustrative and invented to explain the levels: not real ideas, evidence or human labels, and not training data.",
+  "rules": "available_hours = hours per week x weeks x team size, from the profile. compute_fit is true when the student's compute can build and run it. The hours gate itself is applied by the Verdict Engine.",
+  "anchors": {
+    "0": "Cannot be built: needs several times the available hours or compute the student cannot get.",
+    "1": "Needs far more than the available hours, or major skills and compute are missing.",
+    "2": "Needs somewhat more than the available hours, or a hard skill must be learned first.",
+    "3": "Fits the hours with almost no margin, with some skills to learn.",
+    "4": "Fits the hours with some margin; at most one modest skill to learn.",
+    "5": "Fits the student's hours, skills and compute with margin: at most about two thirds of the available hours, no missing core skill."
+  },
+  "features": [
+    "estimated_hours",
+    "available_hours",
+    "skill_gap_count",
+    "compute_fit"
+  ],
+  "output_schema": [
+    "score",
+    "confidence",
+    "evidence_ids",
+    "reason"
+  ],
+  "examples": [
+    {
+      "input": {
+        "idea": "Train a large language model from scratch",
+        "features": {
+          "estimated_hours": 4000,
+          "available_hours": 240,
+          "skill_gap_count": 5,
+          "compute_fit": false
+        },
+        "evidence": [
+          {
+            "id": "example_feasibility_0#c0",
+            "summary": "A report of the cluster and months such training needed."
+          }
+        ]
+      },
+      "expected": {
+        "score": 0,
+        "confidence": 0.9,
+        "evidence_ids": [
+          "example_feasibility_0#c0"
+        ],
+        "reason": "Hours and compute far out of reach."
+      }
+    },
+    {
+      "input": {
+        "idea": "A video editing suite for browsers",
+        "features": {
+          "estimated_hours": 900,
+          "available_hours": 240,
+          "skill_gap_count": 4,
+          "compute_fit": true
+        },
+        "evidence": [
+          {
+            "id": "example_feasibility_1#c0",
+            "summary": "A repository history showing years of work on a comparable editor."
+          }
+        ]
+      },
+      "expected": {
+        "score": 1,
+        "confidence": 0.8,
+        "evidence_ids": [
+          "example_feasibility_1#c0"
+        ],
+        "reason": "Several times the available hours."
+      }
+    },
+    {
+      "input": {
+        "idea": "Mobile app with live sync, new to the team",
+        "features": {
+          "estimated_hours": 300,
+          "available_hours": 240,
+          "skill_gap_count": 2,
+          "compute_fit": true
+        },
+        "evidence": [
+          {
+            "id": "example_feasibility_2#c0",
+            "summary": "A comparable project's reported effort."
+          }
+        ]
+      },
+      "expected": {
+        "score": 2,
+        "confidence": 0.6,
+        "evidence_ids": [
+          "example_feasibility_2#c0"
+        ],
+        "reason": "Above the hours, with a hard skill to learn."
+      }
+    },
+    {
+      "input": {
+        "idea": "Web app with sign-in and a small recommender",
+        "features": {
+          "estimated_hours": 225,
+          "available_hours": 240,
+          "skill_gap_count": 2,
+          "compute_fit": true
+        },
+        "evidence": [
+          {
+            "id": "example_feasibility_3#c0",
+            "summary": "Comparable repositories of similar size."
+          }
+        ]
+      },
+      "expected": {
+        "score": 3,
+        "confidence": 0.6,
+        "evidence_ids": [
+          "example_feasibility_3#c0"
+        ],
+        "reason": "Fits, with almost no margin."
+      }
+    },
+    {
+      "input": {
+        "idea": "Dashboard over a public API",
+        "features": {
+          "estimated_hours": 180,
+          "available_hours": 240,
+          "skill_gap_count": 1,
+          "compute_fit": true
+        },
+        "evidence": [
+          {
+            "id": "example_feasibility_4#c0",
+            "summary": "Comparable dashboards."
+          },
+          {
+            "id": "example_feasibility_4#c1",
+            "summary": "The API's documented limits."
+          }
+        ]
+      },
+      "expected": {
+        "score": 4,
+        "confidence": 0.7,
+        "evidence_ids": [
+          "example_feasibility_4#c0",
+          "example_feasibility_4#c1"
+        ],
+        "reason": "Margin of a quarter; one skill."
+      }
+    },
+    {
+      "input": {
+        "idea": "Command line tool that checks README links",
+        "features": {
+          "estimated_hours": 80,
+          "available_hours": 240,
+          "skill_gap_count": 0,
+          "compute_fit": true
+        },
+        "evidence": [
+          {
+            "id": "example_feasibility_5#c0",
+            "summary": "Small comparable tools built by one or two people."
+          }
+        ]
+      },
+      "expected": {
+        "score": 5,
+        "confidence": 0.8,
+        "evidence_ids": [
+          "example_feasibility_5#c0"
+        ],
+        "reason": "A third of the hours, known skills."
+      }
+    }
+  ]
+}

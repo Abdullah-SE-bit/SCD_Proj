@@ -367,8 +367,10 @@
    "acceptance": "Test with two profiles yields differing verdicts for a large idea.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_suggest.py"
+   ]
   },
   {
    "id": "ARC-001",
@@ -1357,8 +1359,13 @@
    "acceptance": "Tests enumerate each case and pass.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_sensitivity.py",
+    "services/verdict/test_verdict_suggest.py",
+    "services/verdict/test_verdict_challenge.py",
+    "tests/unit/test_verdict_whatif.py"
+   ]
   },
   {
    "id": "M12-001",
@@ -1764,8 +1771,11 @@
    "acceptance": "Order covered by tests.",
    "verification": "unit",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_sensitivity.py",
+    "services/verdict/test_verdict_flow.py"
+   ]
   },
   {
    "id": "SCR-001",
@@ -1886,8 +1896,11 @@
    "acceptance": "Adjustment and cap tests.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_challenge.py",
+    "tests/unit/test_verdict_whatif.py"
+   ]
   },
   {
    "id": "SCR-008",
@@ -1901,8 +1914,10 @@
    "acceptance": "Run enumeration tested.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_sensitivity.py"
+   ]
   },
   {
    "id": "SCR-009",
@@ -1918,8 +1933,11 @@
    "depends_on": [
     "SCR-008"
    ],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_sensitivity.py",
+    "tests/unit/test_verdict_whatif.py"
+   ]
   },
   {
    "id": "SCR-010",
@@ -1935,7 +1953,7 @@
    "depends_on": [
     "SCR-004"
    ],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -1950,8 +1968,11 @@
    "acceptance": "Fixtures with the stated inputs reproduce the four numbers and the stated flip.",
    "verification": "unit",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_sensitivity.py",
+    "tests/unit/test_verdict_whatif.py"
+   ]
   },
   {
    "id": "SUB-001",
@@ -2426,8 +2447,11 @@
    "acceptance": "Contract test.",
    "verification": "contract",
    "depends_on": [],
-   "status": "in_progress",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "tests/unit/test_verdict_whatif.py",
+    "tests/unit/test_verdict_contract.py"
+   ]
   },
   {
    "id": "API-011",

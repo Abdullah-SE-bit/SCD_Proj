@@ -1,6 +1,19 @@
 # Handoff: secondary (Demidoga)
 
-## Current: P02.02 accounts, limits and profile API (2026-11-28)
+## Current: P04.03 ingestion (2026-11-28)
+- [#221](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/221) from `feat/P04.03-ingestion`. Status: `in_review`.
+- Done: 1,667 cards (GitHub 1000, Hacker News 667), 1,748 chunks indexed, snapshot on volume `raw-items`
+  (`snapshot/cards.jsonl`), rerun adds nothing, restore into an empty database;
+  [counts](../evidence/phase4/ingestion-counts.txt).
+- **Open:** the third source (M6I-003). Product Hunt needs a working token; then one scouts run and a re-ingest.
+- **Open, deployment:** the `ingestion` CronJob passes no database settings, volume, snapshot path or memory
+  (1 GiB limit used), and `k8s/` still expects the old small image. Apply `ingestion-job.yaml` to run it.
+- **For P04.04:** collection `chunks` (384, cosine), payload `chunk_id, card_id, text, date, source, niche, url`;
+  cards as JSON in table `cards.document`; embed queries with `scd_ingestion/embed.py`'s model.
+- Next: P04.04.
+- Messages: primary session, 2026-11-28: cluster and `raw-items` are this session's until it says it is done.
+
+## Earlier: P02.02 accounts, limits and profile API (2026-11-28)
 - [#218](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/218) from `feat/P02.02-auth`. Status: `done`.
 - Done: register, login, tokens, rate limits, validation, profile read and update;
   [evidence](../evidence/phase2/accounts-http.txt). Settings and limits: `services/gateway/README.md`.
@@ -8,7 +21,7 @@
   gateway, and nothing runs the migration, so account routes answer 503 there.
 - **For P02.04:** `POST /auth/login` returns a token; send it as `Authorization: Bearer`. Once the UI signs in,
   `/validate` can require it (the smoke test must then log in).
-- Next: P04.03 when P04.02 is merged; P02.04 after P02.03.
+- Merged as #218 (`7207f49`).
 
 ## Earlier: P02.01 migrations and repositories (2026-11-28)
 - [#216](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/216) from `feat/P02.01-migrations`. Status: `done`.

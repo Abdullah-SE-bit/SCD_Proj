@@ -1,0 +1,40 @@
+# One-off run of the ingestion job for P04.03, applied by hand with kubectl. The scheduled CronJob in k8s/ does not
+# pass these settings yet (k8s/ is outside this task's scope).
+apiVersion: batch/v1
+kind: Job
+metadata: { name: ingest-p0403, namespace: idea-validator, labels: { app: ingestion } }
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 3600
+  template:
+    metadata: { labels: { app: ingestion } }
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, fsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      containers:
+        - name: ingestion
+          image: jobs-ingestion:p0403
+          imagePullPolicy: Never
+          env:
+            - { name: POSTGRES_HOST, value: postgres }
+            - { name: POSTGRES_USER, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_USER } } }
+            - { name: POSTGRES_DB, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_DB } } }
+            - { name: POSTGRES_PASSWORD, valueFrom: { secretKeyRef: { name: db-secret, key: POSTGRES_PASSWORD } } }
+            - { name: VECTOR_STORE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: VECTOR_STORE_URL } } }
+            - { name: SCOUT_OUT, value: /data/raw }
+            - { name: SNAPSHOT, value: /data/raw/snapshot/cards.jsonl }
+          volumeMounts:
+            - { name: raw-items, mountPath: /data/raw }
+            - { name: tmp, mountPath: /tmp }
+          resources:
+            requests: { cpu: 100m, memory: 256Mi }
+            limits: { cpu: "2", memory: 1Gi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
+      volumes:
+        - { name: raw-items, persistentVolumeClaim: { claimName: raw-items } }
+        - { name: tmp, emptyDir: {} }

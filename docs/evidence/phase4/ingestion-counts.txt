@@ -1,0 +1,30 @@
+# P04.03: ingestion on the idea-validator cluster, captured 2026-11-28T12:56Z, commit a3b73e4.
+# The image of the second run and restore also had the one-line model file permission change in the Dockerfile.
+# Input: the scout files of docs/evidence/phase4-scouts.txt on volume raw-items. Job: ingestion-job.yaml.
+
+## First run
+{"job": "ingestion", "status": "completed", "read": 1679, "unreadable": 0, "added": 1667, "dropped": 12, "indexed": 1667, "cards": {"github": 1000, "hackernews": 667}, "snapshot_cards": 1667}
+
+## Second run on the same files: adds nothing
+{"job": "ingestion", "status": "completed", "read": 1679, "unreadable": 0, "added": 0, "dropped": 1679, "indexed": 0, "cards": {"github": 1000, "hackernews": 667}, "snapshot_cards": 1667}
+
+## Counts in PostgreSQL
+$ SELECT source, COUNT(*) FROM cards GROUP BY source
+github|1000
+hackernews|667
+$ SELECT COUNT(*), COUNT(DISTINCT url), SUM(indexed) FROM cards
+1667|1667|1667
+$ SELECT source, added, dropped FROM ingestion_runs ORDER BY finished_at, source
+github|1000|0
+hackernews|667|12
+github|0|1000
+hackernews|0|679
+
+## Vector index
+$ POST http://qdrant:6333/collections/chunks/points/count {"exact": true}   (from the gateway pod)
+{"result":{"count":1748},"status":"ok","time":0.010740938}
+
+## Restore from the snapshot into an empty database (the job pod has no internet access)
+{"job": "ingestion", "status": "restored", "read": 1667, "added": 1667, "indexed": 1667, "cards": {"github": 1000, "hackernews": 667}}
+$ SELECT COUNT(*) FROM cards   -- database kb_restore_check
+1667

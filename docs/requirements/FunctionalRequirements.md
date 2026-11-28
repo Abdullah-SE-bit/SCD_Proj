@@ -45,7 +45,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| M04-001 | Desc p3 §4 | mandatory | Scouts bring in new data from at least 3 sources. | Three connectors produce cards. | integration | unimplemented |
+| M04-001 | Desc p3 §4 | mandatory | Scouts bring in new data from at least 3 sources. | Three connectors produce cards. | integration | in_progress |
 
 ## M5
 

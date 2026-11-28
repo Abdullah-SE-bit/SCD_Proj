@@ -30,3 +30,46 @@ spec:
                 allowPrivilegeEscalation: false
                 capabilities: { drop: [ALL] }
                 readOnlyRootFilesystem: true
+---
+# Raw items written by the scouts and read by the ingestion job (P04.03).
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: { name: raw-items, namespace: idea-validator }
+spec: { accessModes: [ReadWriteOnce], resources: { requests: { storage: 1Gi } } }
+---
+# M4 scouts on a daily schedule (M04-002, K8S-003). Run once by hand with:
+#   kubectl -n idea-validator create job --from=cronjob/scouts scouts-now
+# The label differs from the scouts Deployment so the Service never routes requests to a job pod.
+apiVersion: batch/v1
+kind: CronJob
+metadata: { name: scouts, namespace: idea-validator, labels: { app: scouts-job } }
+spec:
+  schedule: "0 1 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 1800
+      template:
+        metadata: { labels: { app: scouts-job } }
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          enableServiceLinks: false
+          securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, fsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+          containers:
+            - name: scouts
+              image: services-scouts:dev
+              imagePullPolicy: IfNotPresent
+              command: [python, -m, scd_scouts.run, --limit, "1000", --out, /data/raw]
+              volumeMounts: [{ name: raw-items, mountPath: /data/raw }]
+              resources:
+                requests: { cpu: 10m, memory: 64Mi }
+                limits: { cpu: 500m, memory: 256Mi }
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities: { drop: [ALL] }
+                readOnlyRootFilesystem: true
+          volumes: [{ name: raw-items, persistentVolumeClaim: { claimName: raw-items } }]

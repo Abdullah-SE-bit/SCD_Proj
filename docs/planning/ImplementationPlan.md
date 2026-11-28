@@ -258,7 +258,7 @@ Register, login, profile endpoints at the gateway.
 
 Idea versions, compare, Redis cache keyed by profile, rubric, engine and snapshot versions.
 
-- Module M2; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status not done
+- Module M2; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status done
 - Depends on: P02.01
 - Requirements: USR-009, M02-003, M02-004, CMN-002, API-006, DBS-003
 - File scope: `services/profile/**`, `services/gateway/**`, `tests/**`

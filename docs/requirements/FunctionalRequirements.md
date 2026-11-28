@@ -13,20 +13,20 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | API-003 | Guide p2 §3 | mandatory | Public: POST /auth/register, /auth/login; GET, PUT /profile. | Endpoints exist. | contract | implemented |
 | API-004 | Guide p2 §3 | mandatory | Public: POST /discover, /validate return a run id; GET /runs/{id} and live /runs/{id}/events (SSE or WebSocket). | Endpoints exist; stream works. | contract | unimplemented |
 | API-005 | Guide p2 §3 | mandatory | Public: POST /runs/{id}/answer, /approve; POST /ideas/{id}/challenge, /whatif. | Endpoints exist. | contract | unimplemented |
-| API-006 | Guide p2 §3 | mandatory | Public: GET /ideas, /ideas/{id}/versions, /compare; GET /metrics (Prometheus-style or JSON). | Endpoints exist. | contract | unimplemented |
+| API-006 | Guide p2 §3 | mandatory | Public: GET /ideas, /ideas/{id}/versions, /compare; GET /metrics (Prometheus-style or JSON). | Endpoints exist. | contract | implemented |
 
 ## M2
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
 | USR-001 | Desc p2 §2 U1 | mandatory | U1: Sign up, log in and save a profile. Done when the profile is stored, editable, and changes later recommendations. | Register, login, edit profile; a later recommendation differs accordingly. | e2e | unimplemented |
-| USR-009 | Desc p2 §2 U9 | mandatory | U9: Compare ideas and see history; past ideas and versions listed and two ideas compare on all six dimensions. | History, versions and six-dimension comparison shown. | e2e | unimplemented |
+| USR-009 | Desc p2 §2 U9 | mandatory | U9: Compare ideas and see history; past ideas and versions listed and two ideas compare on all six dimensions. | History, versions and six-dimension comparison shown. | e2e | implemented |
 | M02-001 | Desc p3 §4 | mandatory | Postgres stores users, profiles, ideas, versions and runs; Redis caches verdicts and retrieval. | Data persisted in Postgres; cache in Redis. | integration | in_progress |
 | M02-002 | Desc p3 §4 | mandatory | Database migrations exist. | Fresh database migrates to head. | integration | implemented |
-| M02-003 | Desc p3 §4 | mandatory | Cache keys include profile and rubric versions. | Changing either version misses cache. | unit | unimplemented |
+| M02-003 | Desc p3 §4 | mandatory | Cache keys include profile and rubric versions. | Changing either version misses cache. | unit | implemented |
 | DBS-001 | Guide p1 §2 Fig.1 | mandatory | Application records: users, profiles, ideas, idea_versions, verdicts, dimension_scores, approvals, traces_index, conversations with listed fields. | Migrations include listed entities and fields. | integration | implemented |
 | SCH-002 | Guide p2 §2.1 | mandatory | Student profile schema with user_id, skills, hours_per_week, weeks_available, team_size, compute (laptop, free_gpu, paid), goal (startup, portfolio, course_project), interests. | Schema contains all fields and enums. | contract | implemented |
-| CMN-002 | Guide p8 §12 | mandatory | Cache verdicts with profile and rubric version in the key. | Same as M02-003. | unit | unimplemented |
+| CMN-002 | Guide p8 §12 | mandatory | Cache verdicts with profile and rubric version in the key. | Same as M02-003. | unit | implemented |
 
 ## M3
 
@@ -194,7 +194,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | M13-004 | Desc p4 §4 | mandatory | Evaluation harness. | Harness runs and stores results. | eval | unimplemented |
 | M13-005 | Desc p4 §4 | mandatory | Drift reports. | Report generated after ingestion. | test | unimplemented |
 | M13-006 | Desc p4 §4 | mandatory | Dashboard. | Dashboard shows required metrics. | demo | unimplemented |
-| DBS-003 | Guide p1 §2 Fig.1 | mandatory | Files on volumes: traces/*.jsonl, prompts/ and rubrics/ versioned in git, eval/results/*.json; Redis only holds cache entries with TTL. | Layout implemented; Redis TTL set. | inspection | unimplemented |
+| DBS-003 | Guide p1 §2 Fig.1 | mandatory | Files on volumes: traces/*.jsonl, prompts/ and rubrics/ versioned in git, eval/results/*.json; Redis only holds cache entries with TTL. | Layout implemented; Redis TTL set. | inspection | in_progress |
 | SCH-006 | Guide p2 §2.3 | mandatory | Trace record per step with run_id, step_id, parent_step, agent, kind, tool, input, output, tokens, cost_usd, latency_ms, retries, model, cache_hit, error, ts. | Schema contains all fields. | contract | unimplemented |
 | API-012 | Guide p3 §3 | mandatory | M13 POST /trace and GET /runs/{id}/trace write and read traces. | Contract test. | contract | unimplemented |
 | OPS-001 | Guide p4 §7 | mandatory | Every agent step, tool call and model call writes a trace record under one run id. | Completeness test. | test | unimplemented |

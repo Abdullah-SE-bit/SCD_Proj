@@ -44,3 +44,8 @@
 ## P03.02 (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/217)
 - Done: challenge adjustments, sensitivity, suggestions, `/whatif`; worked example reproduced.
 - Open: AMB-24 (flip count) for the instructor; applying a suggestion arrives with the run workflow.
+
+## P04.02 (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/219)
+- Done: three connectors, on demand and CronJob; live run 679 Hacker News and 1000 GitHub items.
+- Open: Product Hunt needs `PRODUCT_HUNT_TOKEN` in `.env`, then `scripts/load_secrets.sh` and one more run. Recorded
+  `in_review` until then. Deployment wiring for profile database settings and the gateway signing key is still open.

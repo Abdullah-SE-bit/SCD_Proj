@@ -13,7 +13,7 @@ ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 HF_HUB_OFFLINE=1
 WORKDIR /app
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 COPY --from=build /install /usr/local
-COPY --from=build /src/model ./model
+COPY --from=build --chmod=755 /src/model ./model
 COPY --from=build /src/scd_ingestion ./scd_ingestion
 USER 10001:10001
 CMD ["python", "-m", "scd_ingestion.job"]

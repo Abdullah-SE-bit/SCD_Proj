@@ -1,0 +1,182 @@
+{
+  "dimension": "learning",
+  "version": 1,
+  "scale": "0-5",
+  "note": "Version 1. Anchors drafted by AI; student review is open. The worked examples are illustrative and invented to explain the levels: not real ideas, evidence or human labels, and not training data.",
+  "rules": "wanted_skill_overlap is the share (0 to 1) of the profile's interests and wanted skills the work uses. Evidence is cards showing the technologies involved; without them, abstain.",
+  "anchors": {
+    "0": "Teaches nothing new and shows nothing for the student's goal.",
+    "1": "Almost only repeats what the student already does well.",
+    "2": "A little new practice, weakly related to the student's goal.",
+    "3": "Some wanted skills and a presentable result.",
+    "4": "Several wanted skills and a result that fits the student's goal.",
+    "5": "Teaches skills the student wants and shows well on a CV: most wanted skills, a demonstrable result matching the goal."
+  },
+  "features": [
+    "wanted_skill_overlap",
+    "new_skill_count",
+    "goal_match"
+  ],
+  "output_schema": [
+    "score",
+    "confidence",
+    "evidence_ids",
+    "reason"
+  ],
+  "examples": [
+    {
+      "input": {
+        "idea": "Retyping a tutorial's sample site",
+        "features": {
+          "wanted_skill_overlap": 0.0,
+          "new_skill_count": 0,
+          "goal_match": false
+        },
+        "evidence": [
+          {
+            "id": "example_learning_0#c0",
+            "summary": "The tutorial whose steps the work copies."
+          }
+        ]
+      },
+      "expected": {
+        "score": 0,
+        "confidence": 0.7,
+        "evidence_ids": [
+          "example_learning_0#c0"
+        ],
+        "reason": "Nothing new to learn or show."
+      }
+    },
+    {
+      "input": {
+        "idea": "Another static portfolio page",
+        "features": {
+          "wanted_skill_overlap": 0.1,
+          "new_skill_count": 0,
+          "goal_match": false
+        },
+        "evidence": [
+          {
+            "id": "example_learning_1#c0",
+            "summary": "A template using only skills already listed."
+          }
+        ]
+      },
+      "expected": {
+        "score": 1,
+        "confidence": 0.7,
+        "evidence_ids": [
+          "example_learning_1#c0"
+        ],
+        "reason": "Repeats known work."
+      }
+    },
+    {
+      "input": {
+        "idea": "Script that renames photos",
+        "features": {
+          "wanted_skill_overlap": 0.2,
+          "new_skill_count": 1,
+          "goal_match": false
+        },
+        "evidence": [
+          {
+            "id": "example_learning_2#c0",
+            "summary": "A small library used for the task."
+          }
+        ]
+      },
+      "expected": {
+        "score": 2,
+        "confidence": 0.6,
+        "evidence_ids": [
+          "example_learning_2#c0"
+        ],
+        "reason": "Little new practice."
+      }
+    },
+    {
+      "input": {
+        "idea": "REST service with tests",
+        "features": {
+          "wanted_skill_overlap": 0.5,
+          "new_skill_count": 1,
+          "goal_match": true
+        },
+        "evidence": [
+          {
+            "id": "example_learning_3#c0",
+            "summary": "Repositories showing the framework in use."
+          }
+        ]
+      },
+      "expected": {
+        "score": 3,
+        "confidence": 0.65,
+        "evidence_ids": [
+          "example_learning_3#c0"
+        ],
+        "reason": "Half the wanted skills, presentable."
+      }
+    },
+    {
+      "input": {
+        "idea": "Search over course notes with a web front end",
+        "features": {
+          "wanted_skill_overlap": 0.75,
+          "new_skill_count": 2,
+          "goal_match": true
+        },
+        "evidence": [
+          {
+            "id": "example_learning_4#c0",
+            "summary": "Projects combining search and a web front end."
+          },
+          {
+            "id": "example_learning_4#c1",
+            "summary": "The search library's documentation."
+          }
+        ]
+      },
+      "expected": {
+        "score": 4,
+        "confidence": 0.7,
+        "evidence_ids": [
+          "example_learning_4#c0",
+          "example_learning_4#c1"
+        ],
+        "reason": "Most wanted skills and fits the goal."
+      }
+    },
+    {
+      "input": {
+        "idea": "Deployed retrieval service with CI and monitoring",
+        "features": {
+          "wanted_skill_overlap": 0.9,
+          "new_skill_count": 3,
+          "goal_match": true
+        },
+        "evidence": [
+          {
+            "id": "example_learning_5#c0",
+            "summary": "Projects showing retrieval in production."
+          },
+          {
+            "id": "example_learning_5#c1",
+            "summary": "Pipeline and monitoring documentation."
+          }
+        ]
+      },
+      "expected": {
+        "score": 5,
+        "confidence": 0.75,
+        "evidence_ids": [
+          "example_learning_5#c0",
+          "example_learning_5#c1"
+        ],
+        "reason": "Wanted skills end to end with a result to demonstrate."
+      }
+    }
+  ]
+}

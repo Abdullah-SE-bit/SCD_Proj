@@ -108,9 +108,9 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M14-004 | Description p4 | M14 | P01 | P01.02 | inspection | tests/unit/test_images.py, docs/evidence/phase1/cluster-state.txt | implemented |
 | M14-005 | Description p4 | M14 | P10 | P10.01 | demo | none yet | unimplemented |
 | VER-001 | Description p4 | M11 | P03 | P03.01 | inspection | none yet | unimplemented |
-| VER-002 | Description p4 | M9 | P03 | P03.03 | contract | none yet | unimplemented |
-| DIM-001 | Description p4 | M9 | P03 | P03.03 | contract | none yet | unimplemented |
-| DIM-002 | Description p4 | M9 | P03 | P03.03 | inspection | none yet | unimplemented |
+| VER-002 | Description p4 | M9 | P03 | P03.03 | contract | none yet | in_progress |
+| DIM-001 | Description p4 | M9 | P03 | P03.03 | contract | none yet | in_progress |
+| DIM-002 | Description p4 | M9 | P03 | P03.03 | inspection | none yet | in_progress |
 | DIM-003 | Description p4 | M9 | P05 | P05.01 | test | none yet | unimplemented |
 | GAT-001 | Description p5 | M11 | P03 | P03.01 | unit | none yet | unimplemented |
 | GAT-002 | Description p5 | M11 | P03 | P03.01 | unit | none yet | unimplemented |
@@ -229,7 +229,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | TUN-003 | Guide p7 | M11 | P09 | P09.02 | eval | none yet | unimplemented |
 | TUN-004 | Guide p7 | M11 | P09 | P09.02 | eval | none yet | unimplemented |
 | TUN-005 | Guide p7 | M11 | P09 | P09.02 | inspection | none yet | unimplemented |
-| RUB-001 | Guide p7 | M9 | P03 | P03.03 | contract | none yet | unimplemented |
+| RUB-001 | Guide p7 | M9 | P03 | P03.03 | contract | docs/evidence/phase3/rubric-tests.txt, rubrics/test_rubrics.py | implemented |
 | DDR-001 | Guide p8 | M14 | P00, P10 | P00.01, P10.03 | inspection | none yet | unimplemented |
 | LOG-001 | Guide p8 | M14 | P00 | P00.04 | ci | none yet | unimplemented |
 | LOG-002 | Guide p8 | M14 | P10 | P10.04 | inspection | none yet | unimplemented |

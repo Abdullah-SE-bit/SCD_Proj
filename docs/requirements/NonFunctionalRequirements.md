@@ -66,7 +66,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| RUB-001 | Guide p7 §10 | mandatory | One versioned rubric file per dimension with an anchor for every score 0 to 5, at least one worked example per level, features and output schema. | Six rubric files validate. | contract | unimplemented |
+| RUB-001 | Guide p7 §10 | mandatory | One versioned rubric file per dimension with an anchor for every score 0 to 5, at least one worked example per level, features and output schema. | Six rubric files validate. | contract | implemented |
 
 ## M10
 

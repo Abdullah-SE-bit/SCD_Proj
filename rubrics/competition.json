@@ -1,0 +1,204 @@
+{
+  "dimension": "competition",
+  "version": 1,
+  "scale": "0-5",
+  "note": "Version 1. Anchors drafted by AI; student review is open. The worked examples are illustrative and invented to explain the levels: not real ideas, evidence or human labels, and not training data.",
+  "rules": "A direct competitor serves the same user with the same job. Strong means actively maintained and widely used on the cards' own numbers. niche_saturation is 0 (empty) to 1 (crowded).",
+  "anchors": {
+    "0": "Many strong direct competitors; the niche is saturated.",
+    "1": "Several strong direct competitors and new launches keep arriving.",
+    "2": "Two or three strong direct competitors hold most of the attention.",
+    "3": "One strong direct competitor, or several weak ones.",
+    "4": "One or two weak direct competitors.",
+    "5": "Few or weak direct competitors, so there is room to enter: none found, or one weak one, in a searched niche."
+  },
+  "features": [
+    "n_direct_competitors",
+    "strong_competitor_count",
+    "recent_launch_count",
+    "niche_saturation"
+  ],
+  "output_schema": [
+    "score",
+    "confidence",
+    "evidence_ids",
+    "reason"
+  ],
+  "examples": [
+    {
+      "input": {
+        "idea": "Yet another to-do list",
+        "features": {
+          "n_direct_competitors": 14,
+          "strong_competitor_count": 6,
+          "recent_launch_count": 5,
+          "niche_saturation": 0.95
+        },
+        "evidence": [
+          {
+            "id": "example_competition_0#c0",
+            "summary": "Six popular to-do products."
+          },
+          {
+            "id": "example_competition_0#c1",
+            "summary": "Five to-do launches in recent months."
+          }
+        ]
+      },
+      "expected": {
+        "score": 0,
+        "confidence": 0.85,
+        "evidence_ids": [
+          "example_competition_0#c0",
+          "example_competition_0#c1"
+        ],
+        "reason": "Saturated niche."
+      }
+    },
+    {
+      "input": {
+        "idea": "Pomodoro timer for students",
+        "features": {
+          "n_direct_competitors": 9,
+          "strong_competitor_count": 4,
+          "recent_launch_count": 4,
+          "niche_saturation": 0.8
+        },
+        "evidence": [
+          {
+            "id": "example_competition_1#c0",
+            "summary": "Four well-used timer apps."
+          },
+          {
+            "id": "example_competition_1#c1",
+            "summary": "Four recent timer launches."
+          }
+        ]
+      },
+      "expected": {
+        "score": 1,
+        "confidence": 0.8,
+        "evidence_ids": [
+          "example_competition_1#c0",
+          "example_competition_1#c1"
+        ],
+        "reason": "Several strong products and steady new entrants."
+      }
+    },
+    {
+      "input": {
+        "idea": "Habit tracker with streaks",
+        "features": {
+          "n_direct_competitors": 5,
+          "strong_competitor_count": 3,
+          "recent_launch_count": 1,
+          "niche_saturation": 0.65
+        },
+        "evidence": [
+          {
+            "id": "example_competition_2#c0",
+            "summary": "Three established habit trackers."
+          },
+          {
+            "id": "example_competition_2#c1",
+            "summary": "Two small clones."
+          }
+        ]
+      },
+      "expected": {
+        "score": 2,
+        "confidence": 0.75,
+        "evidence_ids": [
+          "example_competition_2#c0",
+          "example_competition_2#c1"
+        ],
+        "reason": "Three strong products lead."
+      }
+    },
+    {
+      "input": {
+        "idea": "Flashcards generated from lecture slides",
+        "features": {
+          "n_direct_competitors": 4,
+          "strong_competitor_count": 1,
+          "recent_launch_count": 1,
+          "niche_saturation": 0.45
+        },
+        "evidence": [
+          {
+            "id": "example_competition_3#c0",
+            "summary": "One widely used generator."
+          },
+          {
+            "id": "example_competition_3#c1",
+            "summary": "Three small unmaintained tools."
+          }
+        ]
+      },
+      "expected": {
+        "score": 3,
+        "confidence": 0.65,
+        "evidence_ids": [
+          "example_competition_3#c0",
+          "example_competition_3#c1"
+        ],
+        "reason": "One strong competitor; the rest are weak."
+      }
+    },
+    {
+      "input": {
+        "idea": "Timetable clash finder for one university format",
+        "features": {
+          "n_direct_competitors": 2,
+          "strong_competitor_count": 0,
+          "recent_launch_count": 0,
+          "niche_saturation": 0.2
+        },
+        "evidence": [
+          {
+            "id": "example_competition_4#c0",
+            "summary": "A small unmaintained script."
+          },
+          {
+            "id": "example_competition_4#c1",
+            "summary": "A prototype with few users."
+          }
+        ]
+      },
+      "expected": {
+        "score": 4,
+        "confidence": 0.65,
+        "evidence_ids": [
+          "example_competition_4#c0",
+          "example_competition_4#c1"
+        ],
+        "reason": "Only two weak competitors."
+      }
+    },
+    {
+      "input": {
+        "idea": "Checker for citation formats required by one department",
+        "features": {
+          "n_direct_competitors": 0,
+          "strong_competitor_count": 0,
+          "recent_launch_count": 0,
+          "niche_saturation": 0.05
+        },
+        "evidence": [
+          {
+            "id": "example_competition_5#c0",
+            "summary": "Cards from the niche show general citation managers, none doing this check."
+          }
+        ]
+      },
+      "expected": {
+        "score": 5,
+        "confidence": 0.6,
+        "evidence_ids": [
+          "example_competition_5#c0"
+        ],
+        "reason": "The searched niche shows no direct competitor."
+      }
+    }
+  ]
+}

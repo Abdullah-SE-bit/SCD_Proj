@@ -1,6 +1,17 @@
 # Handoff: secondary (Demidoga)
 
-## Current: P01.05 Jenkins delivery (2026-11-28)
+## Current: P03.03 rubrics (2026-11-28)
+- [#213](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/213) from `feat/P03.03-rubrics`. Status: `in_review`.
+- Done: six version 1 rubrics in `rubrics/` (JSON) with a validation test;
+  [test output](../evidence/phase3/rubric-tests.txt).
+- **Open, human:** both members review anchors and examples and record it in `rubrics/README.md`. The P03 gate needs
+  this task `done`.
+- **Open, code:** CI does not run `rubrics/test_rubrics.py`. A test under `tests/` or a scorer test (P05.01) can.
+- Worked examples are invented illustrations: do not use them as training or evaluation data.
+- Next: P02.01.
+- Messages: primary session, 2026-11-28: P01 gate merged; order P03.03, P02.01, P02.02, P02.04, P04.03 to P05.01.
+
+## Earlier: P01.05 Jenkins delivery (2026-11-28)
 - [#211](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/211) from `feat/P01.05-jenkins-pipeline`. Status: `in_review`. It replaces #210, where
   gitleaks read plugin version pins as API keys (false positives; pins moved to `plugins.yaml`).
   The scan reads every branch, so it kept failing until the owner deleted the #210 branch (2026-11-28).
@@ -13,7 +24,7 @@
   owner's token); rollback leaves ConfigMaps, replica counts and the CronJob image.
 - The cluster now runs images from the local registry, so `scd-registry` must be running when pods are recreated on a
   node that has not cached them. `scripts/deploy.sh` still works without it.
-- Next: report to the primary session, which runs the P01 gate.
+- Merged as #211 (`c808e99`); the P01 gate recorded it `done`.
 - Messages: primary session released the cluster for this task (2026-11-28).
 
 ## Earlier: P01.03 thin UI and gateway path

@@ -378,7 +378,7 @@ Demonstrable result: Search 1,500+ real cards with citations and measured retrie
 
 Allow-list, robots.txt, rate limit, cache, sanitiser, egress.
 
-- Module M5; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status not done
+- Module M5; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status done
 - Depends on: P01
 - Requirements: M05-001, M05-002, M05-003, API-007, DAT-001, ETH-001, ETH-002, ARC-007, NET-003
 - File scope: `services/tools/**`, `k8s/**`, `tests/**`, `config/**`

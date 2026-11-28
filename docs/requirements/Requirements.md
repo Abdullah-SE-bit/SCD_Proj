@@ -67,15 +67,15 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| DAT-001 | Desc p1 §1.3 | mandatory | Collect data only through official APIs or pages that allow it; respect robots.txt and rate limits. | Every source has a recorded permission basis; robots.txt and rate limits enforced by M5. | test | unimplemented |
+| DAT-001 | Desc p1 §1.3 | mandatory | Collect data only through official APIs or pages that allow it; respect robots.txt and rate limits. | Every source has a recorded permission basis; robots.txt and rate limits enforced by M5. | test | implemented |
 | SEC-001 | Desc p1 §1.3 | mandatory | Keep no private data. | Stored cards contain only public idea data. | inspection | unimplemented |
-| ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | unimplemented |
-| M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | unimplemented |
-| M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | unimplemented |
-| M05-003 | Desc p3 §4 | mandatory | A NetworkPolicy ensures only M5 reaches the internet. | Non-M5 pod egress fails; M5 egress works. | infra-test | unimplemented |
-| API-007 | Guide p2 §3 | mandatory | M5 POST /fetch applies allow-list, rate limit, robots.txt, cache, sanitiser. | Behaviour tested. | test | unimplemented |
-| ETH-001 | Guide p4 §5 | mandatory | Official APIs first (HN Firebase, GitHub REST, Reddit and Product Hunt with keys); avoid scraping HTML where an API exists; read terms and robots.txt. | Source register with basis. | inspection | unimplemented |
-| ETH-002 | Guide p4 §5 | mandatory | Per-domain rate limits, clear User-Agent, caching, back-off on errors. | Tests for each. | test | unimplemented |
+| ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | implemented |
+| M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | implemented |
+| M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | implemented |
+| M05-003 | Desc p3 §4 | mandatory | A NetworkPolicy ensures only M5 reaches the internet. | Non-M5 pod egress fails; M5 egress works. | infra-test | implemented |
+| API-007 | Guide p2 §3 | mandatory | M5 POST /fetch applies allow-list, rate limit, robots.txt, cache, sanitiser. | Behaviour tested. | test | implemented |
+| ETH-001 | Guide p4 §5 | mandatory | Official APIs first (HN Firebase, GitHub REST, Reddit and Product Hunt with keys); avoid scraping HTML where an API exists; read terms and robots.txt. | Source register with basis. | inspection | implemented |
+| ETH-002 | Guide p4 §5 | mandatory | Per-domain rate limits, clear User-Agent, caching, back-off on errors. | Tests for each. | test | implemented |
 
 ## M6
 
@@ -313,7 +313,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | K8S-008 | Guide p6 §9 Fig.3 | mandatory | Every workload: probes, measured requests and limits, non-root, pinned image. | Manifest policy passes. | ci | in_progress |
 | NET-001 | Guide p7 §9.3 | mandatory | Default-deny egress for the namespace; allow DNS, traffic between services, and internet egress only for M5 pods selected by label. | Policies applied and tested. | infra-test | implemented |
 | NET-002 | Guide p7 §9.3 | mandatory | Network plugin enforces NetworkPolicy (e.g. Calico or Cilium). | Enforcement proven. | infra-test | implemented |
-| NET-003 | Guide p7 §9.3 | mandatory | Show external access failing from a non-M5 pod and working from M5. | Recorded test. | evidence | unimplemented |
+| NET-003 | Guide p7 §9.3 | mandatory | Show external access failing from a non-M5 pod and working from M5. | Recorded test. | evidence | implemented |
 | DDR-001 | Guide p8 §11.1 | mandatory | At least 3 design decision records, one page or less, in docs/decisions/, with Title, Status, Context, Options, Decision, Why, Cost, AI use. | >=3 conforming records. | inspection | unimplemented |
 | LOG-001 | Guide p8 §11.2 | mandatory | AI-usage log columns: Date, Tool, What you asked for, What you changed, Why. | Columns present. | ci | unimplemented |
 | LOG-002 | Guide p8 §11.2 | mandatory | Contribution table: modules owned, PRs authored/reviewed, approximate hours, signature, for both members with name and roll number. | Template complete and signed by students. | inspection | unimplemented |

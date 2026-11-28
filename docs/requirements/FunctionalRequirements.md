@@ -51,9 +51,9 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| DAT-001 | Desc p1 §1.3 | mandatory | Collect data only through official APIs or pages that allow it; respect robots.txt and rate limits. | Every source has a recorded permission basis; robots.txt and rate limits enforced by M5. | test | unimplemented |
-| API-007 | Guide p2 §3 | mandatory | M5 POST /fetch applies allow-list, rate limit, robots.txt, cache, sanitiser. | Behaviour tested. | test | unimplemented |
-| ETH-001 | Guide p4 §5 | mandatory | Official APIs first (HN Firebase, GitHub REST, Reddit and Product Hunt with keys); avoid scraping HTML where an API exists; read terms and robots.txt. | Source register with basis. | inspection | unimplemented |
+| DAT-001 | Desc p1 §1.3 | mandatory | Collect data only through official APIs or pages that allow it; respect robots.txt and rate limits. | Every source has a recorded permission basis; robots.txt and rate limits enforced by M5. | test | implemented |
+| API-007 | Guide p2 §3 | mandatory | M5 POST /fetch applies allow-list, rate limit, robots.txt, cache, sanitiser. | Behaviour tested. | test | implemented |
+| ETH-001 | Guide p4 §5 | mandatory | Official APIs first (HN Firebase, GitHub REST, Reddit and Product Hunt with keys); avoid scraping HTML where an API exists; read terms and robots.txt. | Source register with basis. | inspection | implemented |
 
 ## M6
 
@@ -210,4 +210,4 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| NET-003 | Guide p7 §9.3 | mandatory | Show external access failing from a non-M5 pod and working from M5. | Recorded test. | evidence | unimplemented |
+| NET-003 | Guide p7 §9.3 | mandatory | Show external access failing from a non-M5 pod and working from M5. | Recorded test. | evidence | implemented |

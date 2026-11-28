@@ -45,7 +45,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | VAL-004 | Description p3 | M7 | P05 | P05.01 | unit | none yet | unimplemented |
 | VAL-005 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
 | VAL-006 | Description p3 | M11 | P05 | P05.02, P05 | test | none yet | unimplemented |
-| M01-001 | Description p3 | M1 | P02 | P02.04 | e2e | none yet | unimplemented |
+| M01-001 | Description p3 | M1 | P02 | P02.04 | e2e | none yet | in_progress |
 | M01-002 | Description p3 | M1 | P01 | P01.03 | test | docs/evidence/phase1/ui-runtime-api.txt, services/ui/nginx/default.conf.template | implemented |
 | M01-003 | Description p3 | M1 | P02 | P02.02 | test | docs/evidence/phase2/accounts-http.txt, services/gateway/test_gateway_auth.py | implemented |
 | M01-004 | Description p3 | M1 | P02 | P02.04 | ci | services/ui/src/App.test.tsx, services/ui/src/VerdictCard.test.tsx | implemented |

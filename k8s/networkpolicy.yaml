@@ -1,5 +1,5 @@
 # Guide 9.3. Egress is denied by default; DNS and in-namespace traffic are allowed;
-# only pods labelled app=tools (M5) may reach the internet.
+# only pods labelled app=tools (M5) may reach the internet. Tested by scripts/netpol_test.sh.
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata: { name: default-deny-egress, namespace: idea-validator }
@@ -25,11 +25,25 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata: { name: allow-within-namespace, namespace: idea-validator }
 spec:
-  podSelector: {}
+  # Every pod except the UI. Policies only add permissions, so the UI has to be left out here.
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: NotIn, values: [ui] }
   policyTypes: [Egress]
   egress:
     - to:
         - podSelector: {}
+---
+# Guide Figure 3: the UI reaches the API only (plus DNS, from allow-dns).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: { name: allow-ui-to-api, namespace: idea-validator }
+spec:
+  podSelector: { matchLabels: { app: ui } }
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - podSelector: { matchLabels: { app: gateway } }
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy

@@ -19,7 +19,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | API-004 | Guide p2 §3 | mandatory | Public: POST /discover, /validate return a run id; GET /runs/{id} and live /runs/{id}/events (SSE or WebSocket). | Endpoints exist; stream works. | contract | unimplemented |
 | API-005 | Guide p2 §3 | mandatory | Public: POST /runs/{id}/answer, /approve; POST /ideas/{id}/challenge, /whatif. | Endpoints exist. | contract | unimplemented |
 | API-006 | Guide p2 §3 | mandatory | Public: GET /ideas, /ideas/{id}/versions, /compare; GET /metrics (Prometheus-style or JSON). | Endpoints exist. | contract | unimplemented |
-| K8S-010 | Guide p6 §9 Fig.3 | mandatory | UI reaches the API only. | NetworkPolicy blocks UI to other services. | infra-test | unimplemented |
+| K8S-010 | Guide p6 §9 Fig.3 | mandatory | UI reaches the API only. | NetworkPolicy blocks UI to other services. | infra-test | implemented |
 | CMN-005 | Guide p8 §12 | mandatory | Never call model or scouts from the browser; no hard-coded localhost in images. | Static check and NetworkPolicy. | ci | unimplemented |
 
 ## M2
@@ -287,7 +287,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | GIT-002 | Guide p3 §4.2 | mandatory | One issue per task linked to its PR; small single-purpose branches. | PRs link issues. | git-history | unimplemented |
 | GIT-003 | Guide p3 §4.2 | mandatory | Conventional commits. | Commit messages conform. | ci | unimplemented |
 | GIT-004 | Guide p3 §4.2 | mandatory | Create one deliberate merge conflict, resolve it in a PR and keep the screenshot. | PR and screenshot exist. | evidence | unimplemented |
-| SET-001 | Guide p3 §4.3 | mandatory | Local Kubernetes (kind, minikube or k3d) whose network plugin enforces NetworkPolicy. | Enforcement proven. | infra-test | unimplemented |
+| SET-001 | Guide p3 §4.3 | mandatory | Local Kubernetes (kind, minikube or k3d) whose network plugin enforces NetworkPolicy. | Enforcement proven. | infra-test | implemented |
 | SET-002 | Guide p3 §4.3 | mandatory | docker-compose.yml for development only (Postgres, Redis, vector store, services); deployment target is Kubernetes. | Compose brings up dependencies. | demo | unimplemented |
 | SET-003 | Guide p3 §4.3 | mandatory | Settings in environment variables or ConfigMaps; commit .env.example with names and no secrets. | Example file has no values. | ci | unimplemented |
 | SET-004 | Guide p3 §4.3 | mandatory | README lets a new person start the system with a short list of commands. | Fresh-machine walkthrough succeeds. | demo | unimplemented |
@@ -303,7 +303,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | JNK-002 | Guide p5 §8.2 | mandatory | A failure stops the pipeline and nothing is deployed; rollback uses kubectl rollout undo. | Failing run shown; rollback shown. | demo | unimplemented |
 | JNK-003 | Guide p5 §8.2 | mandatory | Jenkins runs in a container with Docker and cluster access; kubeconfig is a Jenkins credential, never in the repository. | No credential in repo. | inspection | unimplemented |
 | JNK-004 | Guide p6 §8.2 | mandatory | Use SCM polling (e.g. every 2 minutes) or a tunnel since webhooks cannot reach a laptop. | Trigger configured. | inspection | unimplemented |
-| K8S-001 | Guide p6 §9 Fig.3 | mandatory | Namespace idea-validator with Ingress as single entry point; stateless Deployments; postgres and vector-store PVCs and redis. | Objects present. | infra-test | unimplemented |
+| K8S-001 | Guide p6 §9 Fig.3 | mandatory | Namespace idea-validator with Ingress as single entry point; stateless Deployments; postgres and vector-store PVCs and redis. | Objects present. | infra-test | in_progress |
 | K8S-002 | Guide p6 §9.1 | mandatory | Deployments and Services for M1, M3, M5, M6, M7, M8 and M9, M10, M11, M12, M13. | Each listed module deployed. | infra-test | unimplemented |
 | K8S-003 | Guide p6 §9.1 | mandatory | CronJobs for scouts (hourly or daily) and ingestion with freshness check; Job for evaluation; fine-tuned model import job (Fig.3). | Objects run. | infra-test | unimplemented |
 | K8S-004 | Guide p6 §9.1 | mandatory | ConfigMaps for weights, thresholds, floors, rubric versions, budgets; Secrets for API keys and DB password. | Config separated from secrets. | inspection | unimplemented |
@@ -311,8 +311,8 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | K8S-006 | Guide p6 §9.1 | mandatory | Autoscaler on the API gateway. | HPA scales under load. | demo | unimplemented |
 | K8S-007 | Guide p6 §9 Fig.3 | mandatory | Rollout: RollingUpdate with maxUnavailable 0; kubectl rollout undo demonstrated. | Zero-unavailable update and rollback. | demo | unimplemented |
 | K8S-008 | Guide p6 §9 Fig.3 | mandatory | Every workload: probes, measured requests and limits, non-root, pinned image. | Manifest policy passes. | ci | unimplemented |
-| NET-001 | Guide p7 §9.3 | mandatory | Default-deny egress for the namespace; allow DNS, traffic between services, and internet egress only for M5 pods selected by label. | Policies applied and tested. | infra-test | unimplemented |
-| NET-002 | Guide p7 §9.3 | mandatory | Network plugin enforces NetworkPolicy (e.g. Calico or Cilium). | Enforcement proven. | infra-test | unimplemented |
+| NET-001 | Guide p7 §9.3 | mandatory | Default-deny egress for the namespace; allow DNS, traffic between services, and internet egress only for M5 pods selected by label. | Policies applied and tested. | infra-test | implemented |
+| NET-002 | Guide p7 §9.3 | mandatory | Network plugin enforces NetworkPolicy (e.g. Calico or Cilium). | Enforcement proven. | infra-test | implemented |
 | NET-003 | Guide p7 §9.3 | mandatory | Show external access failing from a non-M5 pod and working from M5. | Recorded test. | evidence | unimplemented |
 | DDR-001 | Guide p8 §11.1 | mandatory | At least 3 design decision records, one page or less, in docs/decisions/, with Title, Status, Context, Options, Decision, Why, Cost, AI use. | >=3 conforming records. | inspection | unimplemented |
 | LOG-001 | Guide p8 §11.2 | mandatory | AI-usage log columns: Date, Tool, What you asked for, What you changed, Why. | Columns present. | ci | unimplemented |

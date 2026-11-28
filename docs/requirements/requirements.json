@@ -2495,8 +2495,10 @@
    "acceptance": "Enforcement proven.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/netpol-test.txt"
+   ]
   },
   {
    "id": "SET-002",
@@ -3155,7 +3157,7 @@
    "acceptance": "Objects present.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -3290,8 +3292,10 @@
    "acceptance": "NetworkPolicy blocks UI to other services.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/netpol-test.txt"
+   ]
   },
   {
    "id": "NET-001",
@@ -3305,8 +3309,10 @@
    "acceptance": "Policies applied and tested.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/netpol-test.txt"
+   ]
   },
   {
    "id": "NET-002",
@@ -3320,8 +3326,10 @@
    "acceptance": "Enforcement proven.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/netpol-test.txt"
+   ]
   },
   {
    "id": "NET-003",

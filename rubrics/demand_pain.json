@@ -1,0 +1,229 @@
+{
+  "dimension": "demand_pain",
+  "version": 1,
+  "scale": "0-5",
+  "note": "Version 1. Anchors drafted by AI; student review is open. The worked examples are illustrative and invented to explain the levels: not real ideas, evidence or human labels, and not training data.",
+  "rules": "Count a source once however often it repeats. trend_growth is the change over the last 6 months.",
+  "anchors": {
+    "0": "The retrieved cards show no sign of the problem.",
+    "1": "A single weak or old mention.",
+    "2": "One clear recent mention, or two weak ones from the same platform.",
+    "3": "Two or three sources show the problem, no clear growth.",
+    "4": "Three or four independent sources on 2+ platforms show the recurring problem, with little or no growth.",
+    "5": "Many independent sources show the same strong, recurring problem: five or more on 2+ platforms, with growth in the last 6 months."
+  },
+  "features": [
+    "n_sources",
+    "n_platforms",
+    "complaint_count",
+    "trend_growth"
+  ],
+  "output_schema": [
+    "score",
+    "confidence",
+    "evidence_ids",
+    "reason"
+  ],
+  "examples": [
+    {
+      "input": {
+        "idea": "App that names house plants from a photo",
+        "features": {
+          "n_sources": 0,
+          "n_platforms": 0,
+          "complaint_count": 0,
+          "trend_growth": 0.0
+        },
+        "evidence": [
+          {
+            "id": "example_demand_pain_0#c0",
+            "summary": "A launch post about a gardening shop; nobody describes the problem."
+          }
+        ]
+      },
+      "expected": {
+        "score": 0,
+        "confidence": 0.5,
+        "evidence_ids": [
+          "example_demand_pain_0#c0"
+        ],
+        "reason": "The only card found does not mention the problem."
+      }
+    },
+    {
+      "input": {
+        "idea": "Tool that renames screenshot files",
+        "features": {
+          "n_sources": 1,
+          "n_platforms": 1,
+          "complaint_count": 1,
+          "trend_growth": 0.0
+        },
+        "evidence": [
+          {
+            "id": "example_demand_pain_1#c0",
+            "summary": "One two-year-old comment wishing screenshots had better names."
+          }
+        ]
+      },
+      "expected": {
+        "score": 1,
+        "confidence": 0.4,
+        "evidence_ids": [
+          "example_demand_pain_1#c0"
+        ],
+        "reason": "One old, weak mention."
+      }
+    },
+    {
+      "input": {
+        "idea": "Shared grocery list for flatmates",
+        "features": {
+          "n_sources": 2,
+          "n_platforms": 1,
+          "complaint_count": 2,
+          "trend_growth": 0.0
+        },
+        "evidence": [
+          {
+            "id": "example_demand_pain_2#c0",
+            "summary": "A thread where someone says lists get duplicated."
+          },
+          {
+            "id": "example_demand_pain_2#c1",
+            "summary": "A second comment in the same community agrees."
+          }
+        ]
+      },
+      "expected": {
+        "score": 2,
+        "confidence": 0.5,
+        "evidence_ids": [
+          "example_demand_pain_2#c0",
+          "example_demand_pain_2#c1"
+        ],
+        "reason": "Two weak mentions on one platform."
+      }
+    },
+    {
+      "input": {
+        "idea": "Deadline tracker for lab groups",
+        "features": {
+          "n_sources": 3,
+          "n_platforms": 2,
+          "complaint_count": 3,
+          "trend_growth": 0.02
+        },
+        "evidence": [
+          {
+            "id": "example_demand_pain_3#c0",
+            "summary": "A forum post about missed lab deadlines."
+          },
+          {
+            "id": "example_demand_pain_3#c1",
+            "summary": "An issue asking for group due dates."
+          },
+          {
+            "id": "example_demand_pain_3#c2",
+            "summary": "A comment describing a spreadsheet workaround."
+          }
+        ]
+      },
+      "expected": {
+        "score": 3,
+        "confidence": 0.65,
+        "evidence_ids": [
+          "example_demand_pain_3#c0",
+          "example_demand_pain_3#c1",
+          "example_demand_pain_3#c2"
+        ],
+        "reason": "Three sources, flat over six months."
+      }
+    },
+    {
+      "input": {
+        "idea": "Merging lecture notes written by several students",
+        "features": {
+          "n_sources": 4,
+          "n_platforms": 3,
+          "complaint_count": 6,
+          "trend_growth": 0.05
+        },
+        "evidence": [
+          {
+            "id": "example_demand_pain_4#c0",
+            "summary": "A thread about conflicting shared notes."
+          },
+          {
+            "id": "example_demand_pain_4#c1",
+            "summary": "An issue asking to merge note files."
+          },
+          {
+            "id": "example_demand_pain_4#c2",
+            "summary": "A product comment complaining about overwrites."
+          },
+          {
+            "id": "example_demand_pain_4#c3",
+            "summary": "A second thread with the same complaint."
+          }
+        ]
+      },
+      "expected": {
+        "score": 4,
+        "confidence": 0.75,
+        "evidence_ids": [
+          "example_demand_pain_4#c0",
+          "example_demand_pain_4#c1",
+          "example_demand_pain_4#c2",
+          "example_demand_pain_4#c3"
+        ],
+        "reason": "Four independent sources on three platforms; growth is slight."
+      }
+    },
+    {
+      "input": {
+        "idea": "Catching broken links in course project READMEs",
+        "features": {
+          "n_sources": 7,
+          "n_platforms": 3,
+          "complaint_count": 12,
+          "trend_growth": 0.35
+        },
+        "evidence": [
+          {
+            "id": "example_demand_pain_5#c0",
+            "summary": "A thread with many replies about dead links."
+          },
+          {
+            "id": "example_demand_pain_5#c1",
+            "summary": "An issue requesting link checks in CI."
+          },
+          {
+            "id": "example_demand_pain_5#c2",
+            "summary": "A launch comment asking for the same."
+          },
+          {
+            "id": "example_demand_pain_5#c3",
+            "summary": "A recent thread repeating the problem."
+          },
+          {
+            "id": "example_demand_pain_5#c4",
+            "summary": "An issue from another project with the same request."
+          }
+        ]
+      },
+      "expected": {
+        "score": 5,
+        "confidence": 0.85,
+        "evidence_ids": [
+          "example_demand_pain_5#c0",
+          "example_demand_pain_5#c1",
+          "example_demand_pain_5#c2",
+          "example_demand_pain_5#c3",
+          "example_demand_pain_5#c4"
+        ],
+        "reason": "Seven sources on three platforms and clear recent growth."
+      }
+    }
+  ]
+}

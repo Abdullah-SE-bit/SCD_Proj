@@ -1,0 +1,179 @@
+{
+  "dimension": "risk",
+  "version": 1,
+  "scale": "0-5",
+  "note": "Version 1. Anchors drafted by AI; student review is open. The worked examples are illustrative and invented to explain the levels: not real ideas, evidence or human labels, and not training data.",
+  "rules": "Higher is safer. A legal or safety blocker also fails the risk gate in the Verdict Engine.",
+  "anchors": {
+    "0": "A clear blocker: illegal, unsafe, or forbidden by a platform the idea cannot work without.",
+    "1": "A serious legal, privacy or safety concern with no realistic way round it.",
+    "2": "A significant concern that needs a change of design, such as personal data or scraping behind a login.",
+    "3": "A manageable concern, such as total dependence on one platform's free API.",
+    "4": "A minor concern with a straightforward mitigation.",
+    "5": "No legal, privacy, safety or platform-dependency concern: public or user-owned data, replaceable services."
+  },
+  "features": [
+    "sensitive_data",
+    "platform_dependency_count",
+    "legal_concern_count",
+    "safety_concern"
+  ],
+  "output_schema": [
+    "score",
+    "confidence",
+    "evidence_ids",
+    "reason"
+  ],
+  "examples": [
+    {
+      "input": {
+        "idea": "Tool that downloads paid courses for free",
+        "features": {
+          "sensitive_data": false,
+          "platform_dependency_count": 1,
+          "legal_concern_count": 2,
+          "safety_concern": false
+        },
+        "evidence": [
+          {
+            "id": "example_risk_0#c0",
+            "summary": "Terms that forbid downloading and a notice about takedowns."
+          }
+        ]
+      },
+      "expected": {
+        "score": 0,
+        "confidence": 0.85,
+        "evidence_ids": [
+          "example_risk_0#c0"
+        ],
+        "reason": "Breaks law and terms."
+      }
+    },
+    {
+      "input": {
+        "idea": "Diagnosing illness from chat messages",
+        "features": {
+          "sensitive_data": true,
+          "platform_dependency_count": 0,
+          "legal_concern_count": 1,
+          "safety_concern": true
+        },
+        "evidence": [
+          {
+            "id": "example_risk_1#c0",
+            "summary": "Guidance warning against unqualified medical advice."
+          }
+        ]
+      },
+      "expected": {
+        "score": 1,
+        "confidence": 0.75,
+        "evidence_ids": [
+          "example_risk_1#c0"
+        ],
+        "reason": "Serious safety and privacy concern."
+      }
+    },
+    {
+      "input": {
+        "idea": "Analytics from profiles behind a login",
+        "features": {
+          "sensitive_data": true,
+          "platform_dependency_count": 1,
+          "legal_concern_count": 1,
+          "safety_concern": false
+        },
+        "evidence": [
+          {
+            "id": "example_risk_2#c0",
+            "summary": "Terms forbidding automated collection after sign-in."
+          }
+        ]
+      },
+      "expected": {
+        "score": 2,
+        "confidence": 0.75,
+        "evidence_ids": [
+          "example_risk_2#c0"
+        ],
+        "reason": "Needs a different data source."
+      }
+    },
+    {
+      "input": {
+        "idea": "A client built entirely on one social network's API",
+        "features": {
+          "sensitive_data": false,
+          "platform_dependency_count": 1,
+          "legal_concern_count": 0,
+          "safety_concern": false
+        },
+        "evidence": [
+          {
+            "id": "example_risk_3#c0",
+            "summary": "A report of that API's free tier being withdrawn."
+          }
+        ]
+      },
+      "expected": {
+        "score": 3,
+        "confidence": 0.65,
+        "evidence_ids": [
+          "example_risk_3#c0"
+        ],
+        "reason": "One platform can end the product."
+      }
+    },
+    {
+      "input": {
+        "idea": "Study planner storing task titles",
+        "features": {
+          "sensitive_data": false,
+          "platform_dependency_count": 1,
+          "legal_concern_count": 0,
+          "safety_concern": false
+        },
+        "evidence": [
+          {
+            "id": "example_risk_4#c0",
+            "summary": "Documentation of an optional calendar service with alternatives."
+          }
+        ]
+      },
+      "expected": {
+        "score": 4,
+        "confidence": 0.65,
+        "evidence_ids": [
+          "example_risk_4#c0"
+        ],
+        "reason": "Small, replaceable dependency."
+      }
+    },
+    {
+      "input": {
+        "idea": "Local tool that formats the user's own files",
+        "features": {
+          "sensitive_data": false,
+          "platform_dependency_count": 0,
+          "legal_concern_count": 0,
+          "safety_concern": false
+        },
+        "evidence": [
+          {
+            "id": "example_risk_5#c0",
+            "summary": "A comparable offline tool with no data leaving the machine."
+          }
+        ]
+      },
+      "expected": {
+        "score": 5,
+        "confidence": 0.75,
+        "evidence_ids": [
+          "example_risk_5#c0"
+        ],
+        "reason": "No concern found."
+      }
+    }
+  ]
+}

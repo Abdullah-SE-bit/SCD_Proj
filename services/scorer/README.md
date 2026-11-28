@@ -1,3 +1,5 @@
 # services/scorer (M10)
 
-**Not implemented.** Planned: fine-tuned model serving. Specification: `docs/architecture/ModuleSpecifications.md`. Code is blocked until the Phase 0 gate passes.
+Skeleton: `/health`, `/ready`, `/info`. Behaviour arrives with P06.03. Specification: `docs/architecture/ModuleSpecifications.md`.
+
+Run from this directory: `python -m scd_scorer.app` (port from `PORT`, default 8000).

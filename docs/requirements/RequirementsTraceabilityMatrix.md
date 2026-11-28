@@ -9,7 +9,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | GEN-003 | Description p1 | M11 | P05 | P05.04 | e2e | none yet | unimplemented |
 | GEN-004 | Description p1 | M14 | P10 | P10 | demo | none yet | unimplemented |
 | GEN-005 | Description p1 | M14 | P10 | P10 | inspection | none yet | unimplemented |
-| GEN-006 | Description p1 | M14 | P01 | P01.02 | demo | none yet | unimplemented |
+| GEN-006 | Description p1 | M14 | P01 | P01.02 | demo | none yet | in_progress |
 | COL-001 | Description p1 | M14 | P10 | P10.04 | git-history | none yet | unimplemented |
 | COL-002 | Description p1 | M14 | P00, P10 | P00.06, P10.04 | git-history | none yet | unimplemented |
 | COL-003 | Description p1 | M14 | P10 | P10.04 | viva | none yet | unimplemented |
@@ -105,7 +105,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M14-001 | Description p4 | M14 | P00 | P00.02 | inspection | docs/evidence/phase0/github-protection.md | implemented |
 | M14-002 | Description p4 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
 | M14-003 | Description p4 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
-| M14-004 | Description p4 | M14 | P01 | P01.02 | inspection | none yet | in_progress |
+| M14-004 | Description p4 | M14 | P01 | P01.02 | inspection | tests/unit/test_images.py, docs/evidence/phase1/cluster-state.txt | implemented |
 | M14-005 | Description p4 | M14 | P10 | P10.01 | demo | none yet | unimplemented |
 | VER-001 | Description p4 | M11 | P03 | P03.01 | inspection | none yet | unimplemented |
 | VER-002 | Description p4 | M9 | P03 | P03.03 | contract | none yet | unimplemented |
@@ -151,7 +151,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | SCH-005 | Guide p2 | M11 | P00, P03 | P00.03, P03.01 | contract | none yet | unimplemented |
 | SCH-006 | Guide p2 | M13 | P00, P05 | P00.03, P05.05 | contract | none yet | unimplemented |
 | API-001 | Guide p2 | M14 | P00 | P00.03 | inspection | none yet | unimplemented |
-| API-002 | Guide p2 | M14 | P01 | P01.02 | test | none yet | in_progress |
+| API-002 | Guide p2 | M14 | P01 | P01.02 | test | tests/unit/test_services.py, docs/evidence/phase1/smoke-test.txt | implemented |
 | API-003 | Guide p2 | M1 | P02 | P02.02 | contract | none yet | unimplemented |
 | API-004 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
 | API-005 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
@@ -163,15 +163,15 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | API-011 | Guide p3 | M12 | P05 | P05.03 | contract | none yet | unimplemented |
 | API-012 | Guide p3 | M13 | P05 | P05.05 | contract | none yet | unimplemented |
 | REP-001 | Guide p3 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
-| REP-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | in_progress |
+| REP-002 | Guide p3 | M14 | P01 | P01.02 | ci | tests/unit/test_images.py, docs/evidence/phase1/cluster-state.txt | implemented |
 | GIT-001 | Guide p3 | M14 | P00 | P00.02, P00 | inspection | docs/evidence/phase0/github-protection.md | implemented |
 | GIT-002 | Guide p3 | M14 | P00 | P00.02 | git-history | none yet | unimplemented |
 | GIT-003 | Guide p3 | M14 | P10 | P10.02 | ci | none yet | unimplemented |
 | GIT-004 | Guide p3 | M14 | P10 | P10.02 | evidence | none yet | unimplemented |
 | SET-001 | Guide p3 | M14 | P01 | P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
-| SET-002 | Guide p3 | M14 | P01 | P01.04 | demo | none yet | unimplemented |
-| SET-003 | Guide p3 | M14 | P00, P10 | P00.05, P10.03 | ci | none yet | unimplemented |
-| SET-004 | Guide p3 | M14 | P01 | P01.04 | demo | none yet | unimplemented |
+| SET-002 | Guide p3 | M14 | P01 | P01.04 | demo | docker-compose.yml, docs/evidence/phase1/compose-check.txt | implemented |
+| SET-003 | Guide p3 | M14 | P00, P10 | P00.05, P10.03 | ci | none yet | in_progress |
+| SET-004 | Guide p3 | M14 | P01 | P01.04 | demo | none yet | in_progress |
 | DKR-001 | Guide p3 | M14 | P01 | P01.02 | ci | tests/unit/test_images.py, docs/evidence/P01.02-probes.txt | implemented |
 | DKR-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | in_progress |
 | DKR-003 | Guide p3 | M14 | P01 | P01.05 | ci | none yet | unimplemented |
@@ -211,14 +211,14 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | JNK-002 | Guide p5 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
 | JNK-003 | Guide p5 | M14 | P01 | P01.05 | inspection | none yet | unimplemented |
 | JNK-004 | Guide p6 | M14 | P01 | P01.05 | inspection | none yet | unimplemented |
-| K8S-001 | Guide p6 | M14 | P01 | P01.01 | infra-test | none yet | in_progress |
-| K8S-002 | Guide p6 | M14 | P01 | P01.04 | infra-test | none yet | unimplemented |
-| K8S-003 | Guide p6 | M14 | P04 | P04.02 | infra-test | none yet | unimplemented |
+| K8S-001 | Guide p6 | M14 | P01 | P01.01 | infra-test | docs/evidence/phase1/cluster-state.txt, docs/evidence/phase1/smoke-test.txt | implemented |
+| K8S-002 | Guide p6 | M14 | P01 | P01.04 | infra-test | docs/evidence/phase1/cluster-state.txt, docs/evidence/phase1/smoke-test.txt | implemented |
+| K8S-003 | Guide p6 | M14 | P04 | P04.02 | infra-test | none yet | in_progress |
 | K8S-004 | Guide p6 | M14 | P10 | P10.01 | inspection | none yet | unimplemented |
 | K8S-005 | Guide p6 | M14 | P06 | P06 | inspection | none yet | unimplemented |
 | K8S-006 | Guide p6 | M14 | P10 | P10.01 | demo | none yet | unimplemented |
-| K8S-007 | Guide p6 | M14 | P01 | P01.04 | demo | none yet | unimplemented |
-| K8S-008 | Guide p6 | M14 | P01 | P01.04 | ci | none yet | unimplemented |
+| K8S-007 | Guide p6 | M14 | P01 | P01.04 | demo | none yet | in_progress |
+| K8S-008 | Guide p6 | M14 | P01 | P01.04 | ci | none yet | in_progress |
 | K8S-009 | Guide p6 | M13 | P05 | P05.05 | demo | none yet | unimplemented |
 | K8S-010 | Guide p6 | M1 | P01 | P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |
 | NET-001 | Guide p7 | M14 | P00, P01 | P00.05, P01.01 | infra-test | docs/evidence/phase1/netpol-test.txt | implemented |

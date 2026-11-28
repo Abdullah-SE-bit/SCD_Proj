@@ -1,0 +1,71 @@
+kubectl get, 2026-11-28T13:24:59+05:00
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/agentops-fdcf48bd-mcgr5         1/1     Running   0          6m36s
+pod/analyst-7698cc8cc9-xsl85        1/1     Running   0          6m36s
+pod/critic-686654f7d9-csfcq         1/1     Running   0          6m36s
+pod/gateway-66fb9677ff-pkkwf        1/1     Running   0          6m36s
+pod/ideation-6fb89dd746-8x7xj       1/1     Running   0          6m36s
+pod/kb-5bf67c7b54-qvwdq             1/1     Running   0          6m36s
+pod/orchestrator-676559c657-vfbmh   1/1     Running   0          6m36s
+pod/postgres-0                      1/1     Running   0          6m35s
+pod/profile-67fd445f64-fxx4t        1/1     Running   0          6m36s
+pod/qdrant-0                        1/1     Running   0          6m35s
+pod/redis-5974b6d4df-x5t4s          1/1     Running   0          6m36s
+pod/scorer-5677b54ffc-f9hl4         1/1     Running   0          6m35s
+pod/scouts-6c5585488d-ftnb4         1/1     Running   0          6m35s
+pod/tools-794974c558-xk9mn          1/1     Running   0          6m35s
+pod/ui-bf95f4f86-kk474              1/1     Running   0          6m35s
+pod/validators-786cc6bfb8-hkzv7     1/1     Running   0          6m35s
+pod/verdict-7df94bc876-gkhml        1/1     Running   0          27s
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/agentops       1/1     1            1           6m37s
+deployment.apps/analyst        1/1     1            1           6m37s
+deployment.apps/critic         1/1     1            1           6m37s
+deployment.apps/gateway        1/1     1            1           6m37s
+deployment.apps/ideation       1/1     1            1           6m37s
+deployment.apps/kb             1/1     1            1           6m37s
+deployment.apps/orchestrator   1/1     1            1           6m37s
+deployment.apps/profile        1/1     1            1           6m37s
+deployment.apps/redis          1/1     1            1           6m37s
+deployment.apps/scorer         1/1     1            1           6m37s
+deployment.apps/scouts         1/1     1            1           6m37s
+deployment.apps/tools          1/1     1            1           6m37s
+deployment.apps/ui             1/1     1            1           6m37s
+deployment.apps/validators     1/1     1            1           6m37s
+deployment.apps/verdict        1/1     1            1           6m36s
+
+NAME                        READY   AGE
+statefulset.apps/postgres   1/1     6m36s
+statefulset.apps/qdrant     1/1     6m36s
+
+NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/agentops       ClusterIP   10.96.240.27    <none>        8000/TCP   6m38s
+service/analyst        ClusterIP   10.96.33.143    <none>        8000/TCP   6m38s
+service/critic         ClusterIP   10.96.90.233    <none>        8000/TCP   6m38s
+service/gateway        ClusterIP   10.96.167.135   <none>        8000/TCP   6m38s
+service/ideation       ClusterIP   10.96.193.221   <none>        8000/TCP   6m38s
+service/kb             ClusterIP   10.96.63.18     <none>        8000/TCP   6m38s
+service/orchestrator   ClusterIP   10.96.141.138   <none>        8000/TCP   6m38s
+service/postgres       ClusterIP   10.96.117.30    <none>        5432/TCP   6m38s
+service/profile        ClusterIP   10.96.182.35    <none>        8000/TCP   6m38s
+service/qdrant         ClusterIP   10.96.255.42    <none>        6333/TCP   6m38s
+service/redis          ClusterIP   10.96.142.250   <none>        6379/TCP   6m38s
+service/scorer         ClusterIP   10.96.99.129    <none>        8000/TCP   6m38s
+service/scouts         ClusterIP   10.96.139.207   <none>        8000/TCP   6m38s
+service/tools          ClusterIP   10.96.196.70    <none>        8000/TCP   6m38s
+service/ui             ClusterIP   10.96.30.40     <none>        8080/TCP   6m38s
+service/validators     ClusterIP   10.96.94.27     <none>        8000/TCP   6m38s
+service/verdict        ClusterIP   10.96.8.197     <none>        8000/TCP   6m38s
+
+NAME                                     STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/data-postgres-0    Bound    pvc-bcc1e442-e720-4e91-a8a3-2618ac5d545c   1Gi        RWO            standard       <unset>                 6m36s
+persistentvolumeclaim/storage-qdrant-0   Bound    pvc-8e480238-55db-4ecb-9171-41b13c064513   2Gi        RWO            standard       <unset>                 6m36s
+
+NAME                            CLASS     HOSTS   ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/web   traefik   *                 80      6m36s
+
+NAME                      SCHEDULE    TIMEZONE   SUSPEND   ACTIVE   LAST SCHEDULE   AGE
+cronjob.batch/ingestion   0 2 * * *   <none>     False     0        <none>          6m36s
+NAME                      READY   STATUS    RESTARTS   AGE
+traefik-69cdc5fb6-k5qnt   1/1     Running   0          6m35s

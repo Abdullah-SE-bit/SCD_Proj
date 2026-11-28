@@ -119,7 +119,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 |---|---|---|---|---|---|---|
 | GEN-004 | Desc p1 §1.1 | mandatory | Complete product: web interface, multi-agent backend, RAG knowledge base, fine-tuned scoring model, AgenticOps, and a delivery pipeline that builds, tests and deploys everything on Kubernetes. | All named parts run on the cluster from the pipeline. | demo | unimplemented |
 | GEN-005 | Desc p1 §1.2 | mandatory | Required technology: GitHub, GitHub Actions, Jenkins, Docker, Kubernetes, RAG, fine-tuning, AgenticOps. | Each technology has working evidence. | inspection | unimplemented |
-| GEN-006 | Desc p1 §1.2 | mandatory | The whole system runs on Kubernetes, one container per module. | Every module has its own container running in the cluster. | demo | unimplemented |
+| GEN-006 | Desc p1 §1.2 | mandatory | The whole system runs on Kubernetes, one container per module. | Every module has its own container running in the cluster. | demo | in_progress |
 | COL-001 | Desc p1 §1.3 | mandatory | Group of 2; both members commit code. | Git history shows meaningful commits from both members. | git-history | unimplemented |
 | COL-002 | Desc p1 §1.3 | mandatory | Both members review each other's pull requests. | Each member has genuine reviews on the other's PRs. | git-history | unimplemented |
 | COL-003 | Desc p1 §1.3 | mandatory | Both members must be able to explain the whole system. | Viva preparation completed by both. | viva | unimplemented |
@@ -128,7 +128,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | M14-001 | Desc p4 §4 | mandatory | GitHub with protected main and pull requests. | Protection verified through GitHub API. | inspection | implemented |
 | M14-002 | Desc p4 §4 | mandatory | GitHub Actions on every pull request. | Workflow runs on each PR. | ci | unimplemented |
 | M14-003 | Desc p4 §4 | mandatory | Jenkins for delivery. | Jenkins deploys merged code. | demo | unimplemented |
-| M14-004 | Desc p4 §4 | mandatory | One Docker image per module. | Image list covers every module. | inspection | in_progress |
+| M14-004 | Desc p4 §4 | mandatory | One Docker image per module. | Image list covers every module. | inspection | implemented |
 | M14-005 | Desc p4 §4 | mandatory | Full Kubernetes deployment with rollout and rollback. | Rollout and rollback demonstrated. | demo | unimplemented |
 | SUB-001 | Desc p6 §6.1 | mandatory | Submit through GCR a GitHub repository link containing code, Dockerfiles, workflows, Jenkinsfile, k8s/, fine-tuning data and scripts, rubrics, evaluation sets and a README that lets someone else start the system. | Checklist complete. | inspection | unimplemented |
 | SUB-002 | Desc p6 §6.1 | mandatory | The people marking can open the repository. | Access verified from a signed-out browser or grant. | inspection | unimplemented |
@@ -141,17 +141,17 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | IFC-001 | Guide p1 §1 | mandatory | Guide field lists and numbers are minimums; module names M1 to M14 are shared. | No documented minimum is dropped. | contract | unimplemented |
 | IFC-002 | Guide p1 §2 | mandatory | All modules exchange JSON; define each schema once, validate every input and output, keep schema files in the repository. | Shared schemas validated at every boundary. | contract | unimplemented |
 | API-001 | Guide p2 §3 | mandatory | Names may differ if documented but every capability must exist. | Capability map documented. | inspection | unimplemented |
-| API-002 | Guide p2 §3 | mandatory | Every service exposes /health (process alive) and /ready (can serve now). | Both endpoints on every service. | test | in_progress |
+| API-002 | Guide p2 §3 | mandatory | Every service exposes /health (process alive) and /ready (can serve now). | Both endpoints on every service. | test | implemented |
 | REP-001 | Guide p3 §4.1 | recommended | Repository layout: README, docs, services, jobs, rubrics, config, eval, k8s, workflows, Jenkinsfile, docker-compose.yml. | Layout present. | ci | unimplemented |
-| REP-002 | Guide p3 §4.1 | mandatory | Services may be grouped differently but each module is its own deployable unit with its own Dockerfile. | Dockerfile per module. | ci | in_progress |
+| REP-002 | Guide p3 §4.1 | mandatory | Services may be grouped differently but each module is its own deployable unit with its own Dockerfile. | Dockerfile per module. | ci | implemented |
 | GIT-001 | Guide p3 §4.2 | mandatory | Create repository on day 1; protect main: no direct pushes, PRs only, required status checks, one review from the other member. | Verified protection settings. | inspection | implemented |
 | GIT-002 | Guide p3 §4.2 | mandatory | One issue per task linked to its PR; small single-purpose branches. | PRs link issues. | git-history | unimplemented |
 | GIT-003 | Guide p3 §4.2 | mandatory | Conventional commits. | Commit messages conform. | ci | unimplemented |
 | GIT-004 | Guide p3 §4.2 | mandatory | Create one deliberate merge conflict, resolve it in a PR and keep the screenshot. | PR and screenshot exist. | evidence | unimplemented |
 | SET-001 | Guide p3 §4.3 | mandatory | Local Kubernetes (kind, minikube or k3d) whose network plugin enforces NetworkPolicy. | Enforcement proven. | infra-test | implemented |
-| SET-002 | Guide p3 §4.3 | mandatory | docker-compose.yml for development only (Postgres, Redis, vector store, services); deployment target is Kubernetes. | Compose brings up dependencies. | demo | unimplemented |
-| SET-003 | Guide p3 §4.3 | mandatory | Settings in environment variables or ConfigMaps; commit .env.example with names and no secrets. | Example file has no values. | ci | unimplemented |
-| SET-004 | Guide p3 §4.3 | mandatory | README lets a new person start the system with a short list of commands. | Fresh-machine walkthrough succeeds. | demo | unimplemented |
+| SET-002 | Guide p3 §4.3 | mandatory | docker-compose.yml for development only (Postgres, Redis, vector store, services); deployment target is Kubernetes. | Compose brings up dependencies. | demo | implemented |
+| SET-003 | Guide p3 §4.3 | mandatory | Settings in environment variables or ConfigMaps; commit .env.example with names and no secrets. | Example file has no values. | ci | in_progress |
+| SET-004 | Guide p3 §4.3 | mandatory | README lets a new person start the system with a short list of commands. | Fresh-machine walkthrough succeeds. | demo | in_progress |
 | DKR-001 | Guide p3 §4.4 | mandatory | One image per module, at least 6 distinct images. | >=6 distinct images, one per module. | ci | implemented |
 | DKR-002 | Guide p3 §4.4 | mandatory | Images are multi-stage, non-root, with pinned versions and a .dockerignore. | Static checks pass. | ci | in_progress |
 | DKR-003 | Guide p3 §4.4 | mandatory | Images tagged by commit SHA (never only latest) and scanned in CI. | Tags use SHA; scan job passes. | ci | unimplemented |
@@ -164,14 +164,14 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | JNK-002 | Guide p5 §8.2 | mandatory | A failure stops the pipeline and nothing is deployed; rollback uses kubectl rollout undo. | Failing run shown; rollback shown. | demo | unimplemented |
 | JNK-003 | Guide p5 §8.2 | mandatory | Jenkins runs in a container with Docker and cluster access; kubeconfig is a Jenkins credential, never in the repository. | No credential in repo. | inspection | unimplemented |
 | JNK-004 | Guide p6 §8.2 | mandatory | Use SCM polling (e.g. every 2 minutes) or a tunnel since webhooks cannot reach a laptop. | Trigger configured. | inspection | unimplemented |
-| K8S-001 | Guide p6 §9 Fig.3 | mandatory | Namespace idea-validator with Ingress as single entry point; stateless Deployments; postgres and vector-store PVCs and redis. | Objects present. | infra-test | in_progress |
-| K8S-002 | Guide p6 §9.1 | mandatory | Deployments and Services for M1, M3, M5, M6, M7, M8 and M9, M10, M11, M12, M13. | Each listed module deployed. | infra-test | unimplemented |
-| K8S-003 | Guide p6 §9.1 | mandatory | CronJobs for scouts (hourly or daily) and ingestion with freshness check; Job for evaluation; fine-tuned model import job (Fig.3). | Objects run. | infra-test | unimplemented |
+| K8S-001 | Guide p6 §9 Fig.3 | mandatory | Namespace idea-validator with Ingress as single entry point; stateless Deployments; postgres and vector-store PVCs and redis. | Objects present. | infra-test | implemented |
+| K8S-002 | Guide p6 §9.1 | mandatory | Deployments and Services for M1, M3, M5, M6, M7, M8 and M9, M10, M11, M12, M13. | Each listed module deployed. | infra-test | implemented |
+| K8S-003 | Guide p6 §9.1 | mandatory | CronJobs for scouts (hourly or daily) and ingestion with freshness check; Job for evaluation; fine-tuned model import job (Fig.3). | Objects run. | infra-test | in_progress |
 | K8S-004 | Guide p6 §9.1 | mandatory | ConfigMaps for weights, thresholds, floors, rubric versions, budgets; Secrets for API keys and DB password. | Config separated from secrets. | inspection | unimplemented |
 | K8S-005 | Guide p6 §9.1 | mandatory | Liveness and readiness probes on every service; requests and limits from measurements (kubectl top). | Measurement record backs each limit. | inspection | unimplemented |
 | K8S-006 | Guide p6 §9.1 | mandatory | Autoscaler on the API gateway. | HPA scales under load. | demo | unimplemented |
-| K8S-007 | Guide p6 §9 Fig.3 | mandatory | Rollout: RollingUpdate with maxUnavailable 0; kubectl rollout undo demonstrated. | Zero-unavailable update and rollback. | demo | unimplemented |
-| K8S-008 | Guide p6 §9 Fig.3 | mandatory | Every workload: probes, measured requests and limits, non-root, pinned image. | Manifest policy passes. | ci | unimplemented |
+| K8S-007 | Guide p6 §9 Fig.3 | mandatory | Rollout: RollingUpdate with maxUnavailable 0; kubectl rollout undo demonstrated. | Zero-unavailable update and rollback. | demo | in_progress |
+| K8S-008 | Guide p6 §9 Fig.3 | mandatory | Every workload: probes, measured requests and limits, non-root, pinned image. | Manifest policy passes. | ci | in_progress |
 | NET-001 | Guide p7 §9.3 | mandatory | Default-deny egress for the namespace; allow DNS, traffic between services, and internet egress only for M5 pods selected by label. | Policies applied and tested. | infra-test | implemented |
 | NET-002 | Guide p7 §9.3 | mandatory | Network plugin enforces NetworkPolicy (e.g. Calico or Cilium). | Enforcement proven. | infra-test | implemented |
 | DDR-001 | Guide p8 §11.1 | mandatory | At least 3 design decision records, one page or less, in docs/decisions/, with Title, Status, Context, Options, Decision, Why, Cost, AI use. | >=3 conforming records. | inspection | unimplemented |

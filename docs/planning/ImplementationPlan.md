@@ -206,7 +206,7 @@ Jenkins in container, SCM polling, build, push, deploy, smoke, rollback.
 
 All Phase 1 tasks merged and demonstrated.
 
-- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity S; status not done
+- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity S; status done
 - Depends on: P00, P01.01, P01.02, P01.03, P01.04, P01.05
 - Requirements: CMN-008
 - File scope: `docs/**`, `harness/task-registry/status/**`

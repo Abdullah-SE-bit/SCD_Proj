@@ -32,3 +32,7 @@
 - P01.01 to P01.05 recorded `done`. The browser showed fixture data only; nothing is evaluated yet.
 - Open: nightly evaluation, measured resources, rollback demonstration on `dev`, second-machine walkthrough.
 - Jenkins is stopped. Next: Phase 2 (P02.01) and Phase 3 (P03.01, P03.03).
+
+## P03.01 (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/214)
+- Done: gates, score, confidence, thresholds, floor, abstention, `/verdict`, rules ConfigMap shown live.
+- Not done: sensitivity, challenge, what-if (P03.02). Gate facts wait for the scorers (P05.01).

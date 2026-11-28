@@ -1,3 +1,5 @@
 # services/agentops (M13)
 
-**Not implemented.** Planned: traces, budgets, replay, drift. Specification: `docs/architecture/ModuleSpecifications.md`. Code is blocked until the Phase 0 gate passes.
+Skeleton: `/health`, `/ready`, `/info`. Behaviour arrives with P05.05. Specification: `docs/architecture/ModuleSpecifications.md`.
+
+Run from this directory: `python -m scd_agentops.app` (port from `PORT`, default 8000).

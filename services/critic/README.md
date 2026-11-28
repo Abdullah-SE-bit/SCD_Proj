@@ -1,3 +1,5 @@
 # services/critic (M12)
 
-**Not implemented.** Planned: claim check and guardrails. Specification: `docs/architecture/ModuleSpecifications.md`. Code is blocked until the Phase 0 gate passes.
+Skeleton: `/health`, `/ready`, `/info`. Behaviour arrives with P05.03. Specification: `docs/architecture/ModuleSpecifications.md`.
+
+Run from this directory: `python -m scd_critic.app` (port from `PORT`, default 8000).

@@ -702,7 +702,7 @@
    "acceptance": "Data persisted in Postgres; cache in Redis.",
    "verification": "integration",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -717,8 +717,10 @@
    "acceptance": "Fresh database migrates to head.",
    "verification": "integration",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase2/m2-migrations.txt"
+   ]
   },
   {
    "id": "M02-003",
@@ -762,7 +764,7 @@
    "acceptance": "Layering enforced by structure and review.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2099,8 +2101,11 @@
    "acceptance": "Migrations include listed entities and fields.",
    "verification": "integration",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase2/m2-migrations.txt",
+    "contracts/database/entities.md"
+   ]
   },
   {
    "id": "DBS-002",

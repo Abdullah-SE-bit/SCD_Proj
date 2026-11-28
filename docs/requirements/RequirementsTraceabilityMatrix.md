@@ -49,11 +49,11 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M01-002 | Description p3 | M1 | P01 | P01.03 | test | docs/evidence/phase1/ui-runtime-api.txt, services/ui/nginx/default.conf.template | implemented |
 | M01-003 | Description p3 | M1 | P02 | P02.02 | test | none yet | unimplemented |
 | M01-004 | Description p3 | M1 | P02 | P02.04 | ci | services/ui/src/App.test.tsx, services/ui/src/VerdictCard.test.tsx | implemented |
-| M02-001 | Description p3 | M2 | P02 | P02.01 | integration | none yet | unimplemented |
-| M02-002 | Description p3 | M2 | P02 | P02.01 | integration | none yet | unimplemented |
+| M02-001 | Description p3 | M2 | P02 | P02.01 | integration | none yet | in_progress |
+| M02-002 | Description p3 | M2 | P02 | P02.01 | integration | docs/evidence/phase2/m2-migrations.txt | implemented |
 | M02-003 | Description p3 | M2 | P02 | P02.03 | unit | none yet | unimplemented |
 | M02-004 | Description p3 | M2 | P02 | P02.03 | test | none yet | unimplemented |
-| M02-005 | Description p3 | M2 | P02 | P02.01 | inspection | none yet | unimplemented |
+| M02-005 | Description p3 | M2 | P02 | P02.01 | inspection | none yet | in_progress |
 | M03-001 | Description p3 | M3 | P05 | P05.02 | unit | none yet | unimplemented |
 | M03-002 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
 | M03-003 | Description p3 | M3 | P05 | P05.02 | test | none yet | unimplemented |
@@ -141,7 +141,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | SUB-010 | Description p6 | M14 | P10 | P10.04 | inspection | none yet | unimplemented |
 | IFC-001 | Guide p1 | M14 | P00 | P00.01 | contract | none yet | unimplemented |
 | IFC-002 | Guide p1 | M14 | P00, P02 | P00.03, P02 | contract | none yet | unimplemented |
-| DBS-001 | Guide p1 | M2 | P02 | P02.01 | integration | none yet | unimplemented |
+| DBS-001 | Guide p1 | M2 | P02 | P02.01 | integration | docs/evidence/phase2/m2-migrations.txt, contracts/database/entities.md | implemented |
 | DBS-002 | Guide p1 | M6 | P04 | P04.03 | integration | none yet | unimplemented |
 | DBS-003 | Guide p1 | M13 | P02 | P02.03 | inspection | none yet | unimplemented |
 | SCH-001 | Guide p2 | M6 | P00, P04 | P00.03, P04.03 | contract | none yet | unimplemented |

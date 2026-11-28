@@ -19,7 +19,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
 | M02-004 | Desc p3 §4 | mandatory | Cache hits are visible. | Hits shown in trace and metrics. | test | unimplemented |
-| M02-005 | Desc p3 §4 | mandatory | Layered backend (routes, services, repositories) as in Assignment 1. | Layering enforced by structure and review. | inspection | unimplemented |
+| M02-005 | Desc p3 §4 | mandatory | Layered backend (routes, services, repositories) as in Assignment 1. | Layering enforced by structure and review. | inspection | in_progress |
 
 ## M3
 

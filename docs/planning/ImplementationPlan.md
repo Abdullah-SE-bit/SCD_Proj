@@ -226,7 +226,7 @@ Demonstrable result: Register, log in, edit profile, see idea history.
 
 Postgres schema and layered M2 backend.
 
-- Module M2; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status not done
+- Module M2; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status done
 - Depends on: P01
 - Requirements: M02-001, M02-002, M02-005, DBS-001
 - File scope: `services/profile/**`, `contracts/database/**`, `tests/**`

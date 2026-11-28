@@ -162,6 +162,12 @@ spec:
           image: services-tools:dev
           imagePullPolicy: IfNotPresent
           ports: [{ containerPort: 8000 }]
+          env:
+            - { name: HOSTED_LLM_API_KEY, valueFrom: { secretKeyRef: { name: api-keys, key: HOSTED_LLM_API_KEY, optional: true } } }
+            - { name: HOSTED_LLM_BASE_URL, valueFrom: { secretKeyRef: { name: api-keys, key: HOSTED_LLM_BASE_URL, optional: true } } }
+            - { name: HOSTED_LLM_MODEL, valueFrom: { secretKeyRef: { name: api-keys, key: HOSTED_LLM_MODEL, optional: true } } }
+            - { name: GITHUB_API_TOKEN, valueFrom: { secretKeyRef: { name: api-keys, key: GITHUB_API_TOKEN, optional: true } } }
+            - { name: PRODUCT_HUNT_TOKEN, valueFrom: { secretKeyRef: { name: api-keys, key: PRODUCT_HUNT_TOKEN, optional: true } } }
           readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
           livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
           resources:

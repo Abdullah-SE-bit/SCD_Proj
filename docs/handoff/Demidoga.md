@@ -1,6 +1,16 @@
 # Handoff: secondary (Demidoga)
 
-## Current: P02.01 migrations and repositories (2026-11-28)
+## Current: P02.02 accounts, limits and profile API (2026-11-28)
+- [#218](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/218) from `feat/P02.02-auth`. Status: `done`.
+- Done: register, login, tokens, rate limits, validation, profile read and update;
+  [evidence](../evidence/phase2/accounts-http.txt). Settings and limits: `services/gateway/README.md`.
+- **Open, deployment:** the cluster and compose pass no database settings to `profile`, no `JWT_SIGNING_KEY` to the
+  gateway, and nothing runs the migration, so account routes answer 503 there.
+- **For P02.04:** `POST /auth/login` returns a token; send it as `Authorization: Bearer`. Once the UI signs in,
+  `/validate` can require it (the smoke test must then log in).
+- Next: P04.03 when P04.02 is merged; P02.04 after P02.03.
+
+## Earlier: P02.01 migrations and repositories (2026-11-28)
 - [#216](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/216) from `feat/P02.01-migrations`. Status: `done`.
 - Done: M2 tables, `python -m scd_profile.migrate`, repositories and services;
   [evidence](../evidence/phase2/m2-migrations.txt).
@@ -8,7 +18,7 @@
   `ProfileService`. Tests get a migrated database from `services/profile/conftest.py`.
 - **Open, deployment:** `k8s/apps.yaml` and compose pass no database settings to `profile` and nothing runs the
   migration in the cluster (outside this task's scope).
-- Next: P02.02.
+- Merged as #216 (`419158c`).
 
 ## Earlier: P03.03 rubrics (2026-11-28)
 - [#213](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/213) from `feat/P03.03-rubrics`. Status: `in_review`.

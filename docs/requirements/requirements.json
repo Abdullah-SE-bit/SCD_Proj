@@ -181,7 +181,7 @@
    "acceptance": "Stored cards contain only public idea data.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -676,8 +676,11 @@
    "acceptance": "Unauthenticated, over-limit and invalid requests rejected.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase2/accounts-http.txt",
+    "services/gateway/test_gateway_auth.py"
+   ]
   },
   {
    "id": "M01-004",
@@ -2233,8 +2236,11 @@
    "acceptance": "Schema contains all fields and enums.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/profile/test_profile_records.py",
+    "docs/evidence/phase2/accounts-http.txt"
+   ]
   },
   {
    "id": "SCH-003",
@@ -2343,8 +2349,11 @@
    "acceptance": "Endpoints exist.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase2/accounts-http.txt",
+    "tests/integration/test_accounts_over_http.py"
+   ]
   },
   {
    "id": "API-004",

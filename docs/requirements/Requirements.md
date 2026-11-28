@@ -12,10 +12,10 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | ARC-001 | Desc p2 §3 Fig.1 | mandatory | M1 is the browser's entry; chat and progress stream between user and M1; M1 talks to M3. | Browser only calls M1. | test | in_progress |
 | M01-001 | Desc p3 §4 | mandatory | M1 Web UI and API Gateway is the only entrance: chat, live progress, verdict card, approval prompt, history. | All listed views exist behind M1. | e2e | unimplemented |
 | M01-002 | Desc p3 §4 | mandatory | UI API address is set at runtime. | Same image runs against two API addresses. | test | implemented |
-| M01-003 | Desc p3 §4 | mandatory | M1 has login, rate limits and input validation. | Unauthenticated, over-limit and invalid requests rejected. | test | unimplemented |
+| M01-003 | Desc p3 §4 | mandatory | M1 has login, rate limits and input validation. | Unauthenticated, over-limit and invalid requests rejected. | test | implemented |
 | M01-004 | Desc p3 §4 | mandatory | M1 has component tests. | UI component tests run in CI. | ci | implemented |
 | SUB-007 | Desc p6 §6.3 | mandatory | Interface screenshots: profile, Discover results, verdict card, challenge, what-if version 2, INSUFFICIENT EVIDENCE. | Captured and captioned. | evidence | unimplemented |
-| API-003 | Guide p2 §3 | mandatory | Public: POST /auth/register, /auth/login; GET, PUT /profile. | Endpoints exist. | contract | unimplemented |
+| API-003 | Guide p2 §3 | mandatory | Public: POST /auth/register, /auth/login; GET, PUT /profile. | Endpoints exist. | contract | implemented |
 | API-004 | Guide p2 §3 | mandatory | Public: POST /discover, /validate return a run id; GET /runs/{id} and live /runs/{id}/events (SSE or WebSocket). | Endpoints exist; stream works. | contract | unimplemented |
 | API-005 | Guide p2 §3 | mandatory | Public: POST /runs/{id}/answer, /approve; POST /ideas/{id}/challenge, /whatif. | Endpoints exist. | contract | unimplemented |
 | API-006 | Guide p2 §3 | mandatory | Public: GET /ideas, /ideas/{id}/versions, /compare; GET /metrics (Prometheus-style or JSON). | Endpoints exist. | contract | unimplemented |
@@ -34,7 +34,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | M02-004 | Desc p3 §4 | mandatory | Cache hits are visible. | Hits shown in trace and metrics. | test | unimplemented |
 | M02-005 | Desc p3 §4 | mandatory | Layered backend (routes, services, repositories) as in Assignment 1. | Layering enforced by structure and review. | inspection | in_progress |
 | DBS-001 | Guide p1 §2 Fig.1 | mandatory | Application records: users, profiles, ideas, idea_versions, verdicts, dimension_scores, approvals, traces_index, conversations with listed fields. | Migrations include listed entities and fields. | integration | implemented |
-| SCH-002 | Guide p2 §2.1 | mandatory | Student profile schema with user_id, skills, hours_per_week, weeks_available, team_size, compute (laptop, free_gpu, paid), goal (startup, portfolio, course_project), interests. | Schema contains all fields and enums. | contract | unimplemented |
+| SCH-002 | Guide p2 §2.1 | mandatory | Student profile schema with user_id, skills, hours_per_week, weeks_available, team_size, compute (laptop, free_gpu, paid), goal (startup, portfolio, course_project), interests. | Schema contains all fields and enums. | contract | implemented |
 | CMN-002 | Guide p8 §12 | mandatory | Cache verdicts with profile and rubric version in the key. | Same as M02-003. | unit | unimplemented |
 
 ## M3
@@ -68,7 +68,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
 | DAT-001 | Desc p1 §1.3 | mandatory | Collect data only through official APIs or pages that allow it; respect robots.txt and rate limits. | Every source has a recorded permission basis; robots.txt and rate limits enforced by M5. | test | implemented |
-| SEC-001 | Desc p1 §1.3 | mandatory | Keep no private data. | Stored cards contain only public idea data. | inspection | unimplemented |
+| SEC-001 | Desc p1 §1.3 | mandatory | Keep no private data. | Stored cards contain only public idea data. | inspection | in_progress |
 | ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | implemented |
 | M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | implemented |
 | M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | implemented |

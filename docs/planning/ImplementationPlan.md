@@ -242,7 +242,7 @@ Postgres schema and layered M2 backend.
 
 Register, login, profile endpoints at the gateway.
 
-- Module M1; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status not done
+- Module M1; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status done
 - Depends on: P02.01
 - Requirements: M01-003, API-003, SCH-002, SEC-001
 - File scope: `services/gateway/**`, `services/profile/**`, `tests/**`

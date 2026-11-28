@@ -15,7 +15,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | COL-003 | Description p1 | M14 | P10 | P10.04 | viva | none yet | unimplemented |
 | DOC-001 | Description p1 | M14 | P00 | P00.04 | inspection | none yet | unimplemented |
 | DAT-001 | Description p1 | M5 | P04 | P04.01 | test | services/tools/scd_tools/sources.json, services/tools/test_tools_politeness.py | implemented |
-| SEC-001 | Description p1 | M5 | P02 | P02.02 | inspection | none yet | unimplemented |
+| SEC-001 | Description p1 | M5 | P02 | P02.02 | inspection | none yet | in_progress |
 | SEC-002 | Description p1 | M14 | P00, P10 | P00.04, P10.03 | ci | none yet | unimplemented |
 | USR-001 | Description p2 | M2 | P07 | P07.03 | e2e | none yet | unimplemented |
 | USR-002 | Description p2 | M8 | P07 | P07.03 | e2e | none yet | unimplemented |
@@ -47,7 +47,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | VAL-006 | Description p3 | M11 | P05 | P05.02, P05 | test | none yet | unimplemented |
 | M01-001 | Description p3 | M1 | P02 | P02.04 | e2e | none yet | unimplemented |
 | M01-002 | Description p3 | M1 | P01 | P01.03 | test | docs/evidence/phase1/ui-runtime-api.txt, services/ui/nginx/default.conf.template | implemented |
-| M01-003 | Description p3 | M1 | P02 | P02.02 | test | none yet | unimplemented |
+| M01-003 | Description p3 | M1 | P02 | P02.02 | test | docs/evidence/phase2/accounts-http.txt, services/gateway/test_gateway_auth.py | implemented |
 | M01-004 | Description p3 | M1 | P02 | P02.04 | ci | services/ui/src/App.test.tsx, services/ui/src/VerdictCard.test.tsx | implemented |
 | M02-001 | Description p3 | M2 | P02 | P02.01 | integration | none yet | in_progress |
 | M02-002 | Description p3 | M2 | P02 | P02.01 | integration | docs/evidence/phase2/m2-migrations.txt | implemented |
@@ -145,14 +145,14 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | DBS-002 | Guide p1 | M6 | P04 | P04.03 | integration | none yet | unimplemented |
 | DBS-003 | Guide p1 | M13 | P02 | P02.03 | inspection | none yet | unimplemented |
 | SCH-001 | Guide p2 | M6 | P00, P04 | P00.03, P04.03 | contract | none yet | unimplemented |
-| SCH-002 | Guide p2 | M2 | P00, P02 | P00.03, P02.02 | contract | none yet | unimplemented |
+| SCH-002 | Guide p2 | M2 | P00, P02 | P00.03, P02.02 | contract | services/profile/test_profile_records.py, docs/evidence/phase2/accounts-http.txt | implemented |
 | SCH-003 | Guide p2 | M6 | P00, P04 | P00.03, P04.04 | contract | none yet | unimplemented |
 | SCH-004 | Guide p2 | M9 | P00, P05 | P00.03, P05.01 | contract | none yet | unimplemented |
 | SCH-005 | Guide p2 | M11 | P00, P03 | P00.03, P03.01 | contract | tests/unit/test_verdict_contract.py | implemented |
 | SCH-006 | Guide p2 | M13 | P00, P05 | P00.03, P05.05 | contract | none yet | unimplemented |
 | API-001 | Guide p2 | M14 | P00 | P00.03 | inspection | none yet | unimplemented |
 | API-002 | Guide p2 | M14 | P01 | P01.02 | test | tests/unit/test_services.py, docs/evidence/phase1/smoke-test.txt | implemented |
-| API-003 | Guide p2 | M1 | P02 | P02.02 | contract | none yet | unimplemented |
+| API-003 | Guide p2 | M1 | P02 | P02.02 | contract | docs/evidence/phase2/accounts-http.txt, tests/integration/test_accounts_over_http.py | implemented |
 | API-004 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
 | API-005 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
 | API-006 | Guide p2 | M1 | P02 | P02.03 | contract | none yet | unimplemented |

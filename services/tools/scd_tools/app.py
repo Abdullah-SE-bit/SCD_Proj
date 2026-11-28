@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from scd_tools import fetch, policy
+from scd_tools import fetch, limits, policy
 from scd_tools.base import Request, Service
 
 service = Service("tools", "M5")
@@ -16,6 +16,8 @@ def post_fetch(request: Request) -> tuple[int, Any]:
         return 200, fetcher.fetch(body.get("url"), body.get("method", "GET"), body.get("payload"))
     except policy.Refused as error:
         return 403, {"error": str(error)}
+    except limits.RateLimited as error:
+        return 429, {"error": str(error), "retry_after": error.retry_after}
     except fetch.Upstream as error:
         return 502, {"error": str(error)}
 

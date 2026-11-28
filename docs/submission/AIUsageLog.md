@@ -24,5 +24,6 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | Record the new merge and review rules in the documents (A-06, A-07) | rule set by the owner; no edits by humans | review loop on dev was blocking progress |
 | 2026-11-28 | Claude Code | Restore the human label on completion records; record the Phase 0 tasks and gate | owner added labels and set the merge rules; no content edits by humans | close Phase 0 |
 | 2026-11-28 | Claude Code | Add the existing reviews to the Phase 0 completion records so the promotion passes the rules on main | no content edits by humans | checks on #22 failed |
+| 2026-11-28 | Claude Code | Correct the review cited by the P00.01 record | owner asked for the fix before approving; no content edits by humans | the cited approval did not review that task |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

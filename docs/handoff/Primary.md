@@ -8,3 +8,4 @@
 - Final promotion #22: `main` still judges with the earlier rules, so each record now names its review.
 - Rules: no review into `dev`; merge conflict-free pull requests; review only into `main`.
 - Processed message ids: 20261128-secondary-001 to 20261128-secondary-010.
+- Correction: the P00.01 record cited the #16 approval, which did not review that task; it now cites #8.

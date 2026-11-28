@@ -54,7 +54,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
 | ARC-003 | Desc p2 §3 Fig.1 | mandatory | M7, M8 and M9 read from and write to M6; M6i feeds M6; M4 feeds M6i. | Data paths implemented as drawn. | inspection | unimplemented |
-| ETH-003 | Guide p4 §5 | mandatory | No logins and no private data; keep only what an idea card needs. | Field review. | inspection | unimplemented |
+| ETH-003 | Guide p4 §5 | mandatory | No logins and no private data; keep only what an idea card needs. | Field review. | inspection | in_progress |
 
 ## M8
 

@@ -71,9 +71,9 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M06-004 | Description p3 | M6 | P04 | P04.04 | test | none yet | unimplemented |
 | M06-005 | Description p3 | M6 | P04 | P04.04 | test | none yet | unimplemented |
 | M06-006 | Description p3 | M6 | P04 | P04.05 | eval | none yet | unimplemented |
-| M6I-001 | Description p4 | M6i | P04 | P04.03 | integration | none yet | unimplemented |
-| M6I-002 | Description p4 | M6i | P04 | P04.03 | test | none yet | unimplemented |
-| M6I-003 | Description p4 | M6i | P04 | P04.03, P04 | measurement | none yet | unimplemented |
+| M6I-001 | Description p4 | M6i | P04 | P04.03 | integration | docs/evidence/phase4/ingestion-counts.txt, jobs/ingestion/test_ingestion_job.py | implemented |
+| M6I-002 | Description p4 | M6i | P04 | P04.03 | test | docs/evidence/phase4/ingestion-counts.txt | implemented |
+| M6I-003 | Description p4 | M6i | P04 | P04.03, P04 | measurement | none yet | in_progress |
 | M07-001 | Description p4 | M7 | P07 | P07.01 | test | none yet | unimplemented |
 | M07-002 | Description p4 | M7 | P07 | P07.01 | integration | none yet | unimplemented |
 | M08-001 | Description p4 | M8 | P07 | P07.02 | test | none yet | unimplemented |
@@ -142,9 +142,9 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | IFC-001 | Guide p1 | M14 | P00 | P00.01 | contract | none yet | unimplemented |
 | IFC-002 | Guide p1 | M14 | P00, P02 | P00.03, P02 | contract | none yet | unimplemented |
 | DBS-001 | Guide p1 | M2 | P02 | P02.01 | integration | docs/evidence/phase2/m2-migrations.txt, contracts/database/entities.md | implemented |
-| DBS-002 | Guide p1 | M6 | P04 | P04.03 | integration | none yet | unimplemented |
+| DBS-002 | Guide p1 | M6 | P04 | P04.03 | integration | none yet | in_progress |
 | DBS-003 | Guide p1 | M13 | P02 | P02.03 | inspection | none yet | unimplemented |
-| SCH-001 | Guide p2 | M6 | P00, P04 | P00.03, P04.03 | contract | none yet | unimplemented |
+| SCH-001 | Guide p2 | M6 | P00, P04 | P00.03, P04.03 | contract | jobs/ingestion/test_ingestion_cards.py, docs/evidence/phase4/ingestion-counts.txt | implemented |
 | SCH-002 | Guide p2 | M2 | P00, P02 | P00.03, P02.02 | contract | services/profile/test_profile_records.py, docs/evidence/phase2/accounts-http.txt | implemented |
 | SCH-003 | Guide p2 | M6 | P00, P04 | P00.03, P04.04 | contract | none yet | unimplemented |
 | SCH-004 | Guide p2 | M9 | P00, P05 | P00.03, P05.01 | contract | none yet | unimplemented |
@@ -177,10 +177,10 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | DKR-003 | Guide p3 | M14 | P01 | P01.05 | ci | docs/evidence/phase1/jenkins-runs.txt, .github/workflows/pr-checks.yml | implemented |
 | ETH-001 | Guide p4 | M5 | P04 | P04.01 | inspection | services/tools/scd_tools/sources.json | implemented |
 | ETH-002 | Guide p4 | M5 | P04 | P04.01 | test | services/tools/test_tools_politeness.py, services/tools/test_tools_fetch.py | implemented |
-| ETH-003 | Guide p4 | M6 | P04 | P04.03 | inspection | none yet | unimplemented |
+| ETH-003 | Guide p4 | M6 | P04 | P04.03 | inspection | none yet | in_progress |
 | ETH-004 | Guide p4 | M6 | P04 | P04.04 | e2e | none yet | unimplemented |
 | ETH-005 | Guide p4 | M12 | P05 | P05.03 | security-test | none yet | unimplemented |
-| ETH-006 | Guide p4 | M6i | P04 | P04.03 | test | none yet | unimplemented |
+| ETH-006 | Guide p4 | M6i | P04 | P04.03 | test | docs/evidence/phase4/ingestion-counts.txt, jobs/ingestion/test_ingestion_job.py | implemented |
 | FT-001 | Guide p4 | M10t | P06 | P06.01 | measurement | none yet | unimplemented |
 | FT-002 | Guide p4 | M10t | P06 | P06.01 | inspection | none yet | unimplemented |
 | FT-003 | Guide p4 | M10t | P06 | P06.01 | test | none yet | unimplemented |

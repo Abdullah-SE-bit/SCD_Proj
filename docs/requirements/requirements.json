@@ -1054,8 +1054,11 @@
    "acceptance": "Pipeline stages tested.",
    "verification": "integration",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/ingestion-counts.txt",
+    "jobs/ingestion/test_ingestion_job.py"
+   ]
   },
   {
    "id": "M6I-002",
@@ -1069,8 +1072,10 @@
    "acceptance": "Re-run adds zero duplicates.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/ingestion-counts.txt"
+   ]
   },
   {
    "id": "M6I-003",
@@ -1086,7 +1091,7 @@
    "depends_on": [
     "M04-001"
    ],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2194,7 +2199,7 @@
    "acceptance": "Schema includes entities and links.",
    "verification": "integration",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2224,8 +2229,11 @@
    "acceptance": "Schema contains all fields.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "jobs/ingestion/test_ingestion_cards.py",
+    "docs/evidence/phase4/ingestion-counts.txt"
+   ]
   },
   {
    "id": "SCH-002",
@@ -2758,7 +2766,7 @@
    "acceptance": "Field review.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2803,8 +2811,11 @@
    "acceptance": "Restore from snapshot works offline.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4/ingestion-counts.txt",
+    "jobs/ingestion/test_ingestion_job.py"
+   ]
   },
   {
    "id": "FT-001",

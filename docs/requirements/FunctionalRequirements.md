@@ -65,8 +65,8 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 | M06-004 | Desc p3 §4 | mandatory | Card ids for citations. | Results carry card ids. | test | unimplemented |
 | M06-005 | Desc p3 §4 | mandatory | Freshness and coverage tracking. | Freshness and coverage reported. | test | unimplemented |
 | M06-006 | Desc p3 §4 | mandatory | Retrieval quality measured on at least 20 hand-written queries. | >=20 human-written queries with results. | eval | unimplemented |
-| DBS-002 | Guide p1 §2 Fig.1 | mandatory | Knowledge records: cards, card_sources, niches, vector store chunks, niche_stats, ingestion_runs; cards link to niches, chunks to cards, claims to card ids. | Schema includes entities and links. | integration | unimplemented |
-| SCH-001 | Guide p2 §2.1 | mandatory | Idea card schema with id, name, summary, problem, customer, niche_tags, stage, funding_usd, source, url, published_at, fetched_at, text. | Schema contains all fields. | contract | unimplemented |
+| DBS-002 | Guide p1 §2 Fig.1 | mandatory | Knowledge records: cards, card_sources, niches, vector store chunks, niche_stats, ingestion_runs; cards link to niches, chunks to cards, claims to card ids. | Schema includes entities and links. | integration | in_progress |
+| SCH-001 | Guide p2 §2.1 | mandatory | Idea card schema with id, name, summary, problem, customer, niche_tags, stage, funding_usd, source, url, published_at, fetched_at, text. | Schema contains all fields. | contract | implemented |
 | SCH-003 | Guide p2 §2.2 | mandatory | Evidence item schema with evidence_id, card_id, quote, source, url, retrieved_at. | Schema contains all fields. | contract | unimplemented |
 | API-008 | Guide p3 §3 | mandatory | M6 POST /search with filters returns ranked evidence items with ids. | Contract test. | contract | unimplemented |
 | ETH-004 | Guide p4 §5 | mandatory | Every card keeps source and URL and the verdict card links to them. | Links present. | e2e | unimplemented |
@@ -77,10 +77,10 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 130 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| M6I-001 | Desc p4 §4 | mandatory | Ingestion turns fetched pages into idea cards: dedupe, chunk, embed, index. | Pipeline stages tested. | integration | unimplemented |
-| M6I-002 | Desc p4 §4 | mandatory | Ingestion is repeatable without duplicates. | Re-run adds zero duplicates. | test | unimplemented |
-| M6I-003 | Desc p4 §4 | mandatory | At least 1,500 cards from at least 3 sources. | Counted card total >=1500 across >=3 sources. | measurement | unimplemented |
-| ETH-006 | Guide p4 §5 | mandatory | Keep a snapshot of card data so the system does not depend on a website being up. | Restore from snapshot works offline. | test | unimplemented |
+| M6I-001 | Desc p4 §4 | mandatory | Ingestion turns fetched pages into idea cards: dedupe, chunk, embed, index. | Pipeline stages tested. | integration | implemented |
+| M6I-002 | Desc p4 §4 | mandatory | Ingestion is repeatable without duplicates. | Re-run adds zero duplicates. | test | implemented |
+| M6I-003 | Desc p4 §4 | mandatory | At least 1,500 cards from at least 3 sources. | Counted card total >=1500 across >=3 sources. | measurement | in_progress |
+| ETH-006 | Guide p4 §5 | mandatory | Keep a snapshot of card data so the system does not depend on a website being up. | Restore from snapshot works offline. | test | implemented |
 
 ## M7
 

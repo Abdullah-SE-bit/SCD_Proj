@@ -1,7 +1,8 @@
 # services/ui (M1)
 
-Web interface: React and TypeScript, built with Vite, served by unprivileged nginx. **Walking skeleton** (P01.03):
-one form and its result. No login, history or live progress yet.
+Web interface: React and TypeScript, built with Vite, served by unprivileged nginx. Pages: check an idea (fixture verdict), sign in or create an
+account, edit the profile, and history with versions and a two-idea comparison. The login token is kept for the
+browser tab only. No live progress or approval prompt yet.
 
 ## API address at run time
 The app calls only `/api/...` on its own origin. nginx forwards `/api/` to `API_URL`, read when the container

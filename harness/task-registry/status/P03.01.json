@@ -1,0 +1,9 @@
+{
+ "status": "done",
+ "pr": "https://github.com/Abdullah-SE-bit/SCD_Proj/pull/214",
+ "evidence": [
+  "docs/evidence/P03.01-configmap.txt",
+  "services/verdict/test_verdict_flow.py",
+  "tests/unit/test_verdict_contract.py"
+ ]
+}

@@ -310,7 +310,7 @@ Demonstrable result: POST scores to the engine and get gates, verdict, stability
 
 Pure functions with config from ConfigMap.
 
-- Module M11; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status not done
+- Module M11; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status done
 - Depends on: P01
 - Requirements: M11-001, M11-002, M11-003, GAT-001, GAT-002, GAT-003, GAT-004, GAT-005, FLW-001, SCR-001, SCR-002, SCR-003, SCR-004, SCR-005, SCR-006, SCH-005, API-010, VER-001, CMN-003
 - File scope: `services/verdict/**`, `config/**`, `tests/**`, `k8s/**`

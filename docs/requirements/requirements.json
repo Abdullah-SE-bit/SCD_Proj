@@ -1291,8 +1291,11 @@
    "acceptance": "No model dependency in M11.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_flow.py",
+    "tests/unit/test_verdict_contract.py"
+   ]
   },
   {
    "id": "M11-002",
@@ -1306,8 +1309,11 @@
    "acceptance": "Determinism test passes.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_flow.py",
+    "tests/unit/test_verdict_contract.py"
+   ]
   },
   {
    "id": "M11-003",
@@ -1321,8 +1327,11 @@
    "acceptance": "Changing ConfigMap changes thresholds without rebuild.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/P03.01-configmap.txt",
+    "tests/unit/test_verdict_contract.py"
+   ]
   },
   {
    "id": "M11-004",
@@ -1583,7 +1592,7 @@
    "acceptance": "UI wording and code satisfy this.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -1658,8 +1667,10 @@
    "acceptance": "Gate precedence tests.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_flow.py"
+   ]
   },
   {
    "id": "GAT-002",
@@ -1673,8 +1684,10 @@
    "acceptance": "Edge tests 2/3 sources and 1/2 platforms.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_gates.py"
+   ]
   },
   {
    "id": "GAT-003",
@@ -1688,8 +1701,10 @@
    "acceptance": "Edge test; gap stated.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_gates.py"
+   ]
   },
   {
    "id": "GAT-004",
@@ -1703,8 +1718,10 @@
    "acceptance": "Blocker named.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_gates.py"
+   ]
   },
   {
    "id": "GAT-005",
@@ -1718,8 +1735,10 @@
    "acceptance": "Edge tests at differentiation 3.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_gates.py"
+   ]
   },
   {
    "id": "FLW-001",
@@ -1733,7 +1752,7 @@
    "acceptance": "Order covered by tests.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -1748,8 +1767,10 @@
    "acceptance": "Worked example reproduces 70.5.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_scoring.py"
+   ]
   },
   {
    "id": "SCR-002",
@@ -1763,8 +1784,11 @@
    "acceptance": "ConfigMap holds presets; changes have a decision record.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "config/verdict.defaults.json",
+    "tests/unit/test_verdict_contract.py"
+   ]
   },
   {
    "id": "SCR-003",
@@ -1778,8 +1802,11 @@
    "acceptance": "Floor and threshold edge tests.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_scoring.py",
+    "services/verdict/test_verdict_flow.py"
+   ]
   },
   {
    "id": "SCR-004",
@@ -1793,8 +1820,11 @@
    "acceptance": "Edge tests at T_no and T_go.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_scoring.py",
+    "services/verdict/test_verdict_flow.py"
+   ]
   },
   {
    "id": "SCR-005",
@@ -1808,8 +1838,11 @@
    "acceptance": "Defaults in config.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "config/verdict.defaults.json",
+    "tests/unit/test_verdict_contract.py"
+   ]
   },
   {
    "id": "SCR-006",
@@ -1823,8 +1856,11 @@
    "acceptance": "Formula and 0.5 edge tested.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_scoring.py",
+    "services/verdict/test_verdict_flow.py"
+   ]
   },
   {
    "id": "SCR-007",
@@ -1902,7 +1938,7 @@
    "acceptance": "Fixtures with the stated inputs reproduce the four numbers and the stated flip.",
    "verification": "unit",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2204,8 +2240,10 @@
    "acceptance": "Schema contains all fields.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "tests/unit/test_verdict_contract.py"
+   ]
   },
   {
    "id": "SCH-006",
@@ -2372,7 +2410,7 @@
    "acceptance": "Contract test.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -3573,8 +3611,11 @@
    "acceptance": "Only M11 writes verdicts.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/verdict/test_verdict_flow.py",
+    "tests/unit/test_verdict_contract.py"
+   ]
   },
   {
    "id": "CMN-004",

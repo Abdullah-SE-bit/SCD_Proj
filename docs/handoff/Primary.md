@@ -9,3 +9,4 @@
 - Rules: no review into `dev`; merge conflict-free pull requests; review only into `main`.
 - Processed message ids: 20261128-secondary-001 to 20261128-secondary-010.
 - Correction: the P00.01 record cited the #16 approval, which did not review that task; it now cites #8.
+- Correction: the P00.04 record now cites the #15 approval of the harness fixes instead of the one-line #17.

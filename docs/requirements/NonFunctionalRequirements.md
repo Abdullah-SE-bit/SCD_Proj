@@ -43,11 +43,11 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
 | SEC-001 | Desc p1 §1.3 | mandatory | Keep no private data. | Stored cards contain only public idea data. | inspection | unimplemented |
-| ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | unimplemented |
-| M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | unimplemented |
-| M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | unimplemented |
-| M05-003 | Desc p3 §4 | mandatory | A NetworkPolicy ensures only M5 reaches the internet. | Non-M5 pod egress fails; M5 egress works. | infra-test | unimplemented |
-| ETH-002 | Guide p4 §5 | mandatory | Per-domain rate limits, clear User-Agent, caching, back-off on errors. | Tests for each. | test | unimplemented |
+| ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | implemented |
+| M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | implemented |
+| M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | implemented |
+| M05-003 | Desc p3 §4 | mandatory | A NetworkPolicy ensures only M5 reaches the internet. | Non-M5 pod egress fails; M5 egress works. | infra-test | implemented |
+| ETH-002 | Guide p4 §5 | mandatory | Per-domain rate limits, clear User-Agent, caching, back-off on errors. | Tests for each. | test | implemented |
 
 ## M6
 
@@ -89,11 +89,11 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 107 r
 |---|---|---|---|---|---|---|
 | ARC-004 | Desc p2 §3 Fig.1 | mandatory | M9 sends scores via M10 to M11; M11's verdict goes to M12. | Scores flow to M11; verdict passes critic/guardrail path. | inspection | unimplemented |
 | VAL-006 | Desc p3 §3.2 Fig.3 | mandatory | The language model gives scores with evidence; only the Verdict Engine decides the verdict. | No model output can set a verdict. | test | unimplemented |
-| M11-001 | Desc p4 §4 | mandatory | Verdict Engine turns six scores into a verdict by fixed rules; plain code with no LLM. | No model dependency in M11. | inspection | unimplemented |
-| M11-002 | Desc p4 §4 | mandatory | Same input gives same output. | Determinism test passes. | unit | unimplemented |
-| M11-003 | Desc p4 §4 | mandatory | Rules are in a ConfigMap. | Changing ConfigMap changes thresholds without rebuild. | infra-test | unimplemented |
-| VER-001 | Desc p4 §5 | mandatory | The language model never outputs the verdict; M11 is deterministic and unit-tested; it is decision support, not a success prediction. | UI wording and code satisfy this. | inspection | unimplemented |
-| CMN-003 | Guide p8 §12 | mandatory | No model may decide or adjust the verdict. | Only M11 writes verdicts. | test | unimplemented |
+| M11-001 | Desc p4 §4 | mandatory | Verdict Engine turns six scores into a verdict by fixed rules; plain code with no LLM. | No model dependency in M11. | inspection | implemented |
+| M11-002 | Desc p4 §4 | mandatory | Same input gives same output. | Determinism test passes. | unit | implemented |
+| M11-003 | Desc p4 §4 | mandatory | Rules are in a ConfigMap. | Changing ConfigMap changes thresholds without rebuild. | infra-test | implemented |
+| VER-001 | Desc p4 §5 | mandatory | The language model never outputs the verdict; M11 is deterministic and unit-tested; it is decision support, not a success prediction. | UI wording and code satisfy this. | inspection | in_progress |
+| CMN-003 | Guide p8 §12 | mandatory | No model may decide or adjust the verdict. | Only M11 writes verdicts. | test | implemented |
 
 ## M12
 

@@ -1,0 +1,33 @@
+{
+  "user_agent": "idea-validator-course-project/0.1 (+https://github.com/Abdullah-SE-bit/SCD_Proj)",
+  "timeout_seconds": 15,
+  "max_bytes": 2000000,
+  "max_redirects": 3,
+  "cache_seconds": 900,
+  "cache_entries": 500,
+  "domains": {
+    "hacker-news.firebaseio.com": {
+      "basis": "Official Hacker News API (github.com/HackerNews/API), free and public",
+      "robots": false,
+      "min_interval": 0.1
+    },
+    "api.github.com": {
+      "basis": "Official GitHub REST API under the GitHub Terms of Service; authenticated when a token is set",
+      "robots": false,
+      "min_interval": 2.0,
+      "token_env": "GITHUB_API_TOKEN"
+    },
+    "api.producthunt.com": {
+      "basis": "Official Product Hunt API v2 with a developer token; non-commercial course use",
+      "robots": false,
+      "min_interval": 1.0,
+      "token_env": "PRODUCT_HUNT_TOKEN",
+      "post": true
+    },
+    "news.ycombinator.com": {
+      "basis": "Public pages allowed by robots.txt",
+      "robots": true,
+      "min_interval": 30.0
+    }
+  }
+}

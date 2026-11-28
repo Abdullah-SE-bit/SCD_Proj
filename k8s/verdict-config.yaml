@@ -1,0 +1,73 @@
+# Verdict rules (M11-003). Edit and apply; the service reads the file on every request, no rebuild needed.
+# tests/unit/test_verdict_contract.py keeps it equal to config/verdict.defaults.json until tuning (P09.02).
+apiVersion: v1
+kind: ConfigMap
+metadata: { name: verdict-config, namespace: idea-validator }
+data:
+  verdict.json: |
+    {
+      "_source": "Description 5.1-5.4 and Figure 4 starting values; tuned in Phase 9",
+      "thresholds": {
+        "T_go": 70,
+        "T_no": 50,
+        "floor": 1.5
+      },
+      "floor_dimensions": [
+        "demand_pain",
+        "competition",
+        "differentiation",
+        "feasibility",
+        "risk"
+      ],
+      "confidence": {
+        "mean_weight": 0.7,
+        "sources_weight": 0.3,
+        "sources_cap": 5,
+        "minimum": 0.5
+      },
+      "evidence_gate": {
+        "min_sources": 3,
+        "min_platforms": 2
+      },
+      "duplicate_gate": {
+        "min_differentiation": 3
+      },
+      "challenge": {
+        "score_step": 0.5,
+        "max_score_reduction": 1.0,
+        "confidence_step": 0.1
+      },
+      "sensitivity": {
+        "weight_change": 0.2,
+        "score_change": 1
+      },
+      "debate": {
+        "max_rounds": 3
+      },
+      "weights": {
+        "startup": {
+          "demand_pain": 25,
+          "competition": 20,
+          "differentiation": 20,
+          "feasibility": 15,
+          "risk": 15,
+          "learning": 5
+        },
+        "portfolio": {
+          "demand_pain": 15,
+          "competition": 15,
+          "differentiation": 15,
+          "feasibility": 25,
+          "risk": 10,
+          "learning": 20
+        },
+        "course_project": {
+          "demand_pain": 10,
+          "competition": 10,
+          "differentiation": 15,
+          "feasibility": 35,
+          "risk": 10,
+          "learning": 20
+        }
+      }
+    }

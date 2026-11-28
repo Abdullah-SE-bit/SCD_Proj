@@ -67,15 +67,15 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| DAT-001 | Desc p1 §1.3 | mandatory | Collect data only through official APIs or pages that allow it; respect robots.txt and rate limits. | Every source has a recorded permission basis; robots.txt and rate limits enforced by M5. | test | unimplemented |
+| DAT-001 | Desc p1 §1.3 | mandatory | Collect data only through official APIs or pages that allow it; respect robots.txt and rate limits. | Every source has a recorded permission basis; robots.txt and rate limits enforced by M5. | test | implemented |
 | SEC-001 | Desc p1 §1.3 | mandatory | Keep no private data. | Stored cards contain only public idea data. | inspection | unimplemented |
-| ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | unimplemented |
-| M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | unimplemented |
-| M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | unimplemented |
-| M05-003 | Desc p3 §4 | mandatory | A NetworkPolicy ensures only M5 reaches the internet. | Non-M5 pod egress fails; M5 egress works. | infra-test | unimplemented |
-| API-007 | Guide p2 §3 | mandatory | M5 POST /fetch applies allow-list, rate limit, robots.txt, cache, sanitiser. | Behaviour tested. | test | unimplemented |
-| ETH-001 | Guide p4 §5 | mandatory | Official APIs first (HN Firebase, GitHub REST, Reddit and Product Hunt with keys); avoid scraping HTML where an API exists; read terms and robots.txt. | Source register with basis. | inspection | unimplemented |
-| ETH-002 | Guide p4 §5 | mandatory | Per-domain rate limits, clear User-Agent, caching, back-off on errors. | Tests for each. | test | unimplemented |
+| ARC-007 | Desc p2 §3 Fig.1 | mandatory | Scouts reach the internet only through M5. | NetworkPolicy test proves only M5 egress. | infra-test | implemented |
+| M05-001 | Desc p3 §4 | mandatory | M5 is the single controlled exit to the internet with connectors, domain allow-list, rate limits, robots.txt handling and cache. | Disallowed domain or robots path refused; cache used. | test | implemented |
+| M05-002 | Desc p3 §4 | mandatory | M5 sanitiser strips instructions aimed at models. | Poisoned page test passes. | security-test | implemented |
+| M05-003 | Desc p3 §4 | mandatory | A NetworkPolicy ensures only M5 reaches the internet. | Non-M5 pod egress fails; M5 egress works. | infra-test | implemented |
+| API-007 | Guide p2 §3 | mandatory | M5 POST /fetch applies allow-list, rate limit, robots.txt, cache, sanitiser. | Behaviour tested. | test | implemented |
+| ETH-001 | Guide p4 §5 | mandatory | Official APIs first (HN Firebase, GitHub REST, Reddit and Product Hunt with keys); avoid scraping HTML where an API exists; read terms and robots.txt. | Source register with basis. | inspection | implemented |
+| ETH-002 | Guide p4 §5 | mandatory | Per-domain rate limits, clear User-Agent, caching, back-off on errors. | Tests for each. | test | implemented |
 
 ## M6
 
@@ -182,36 +182,36 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | USR-011 | Desc p2 §2 | mandatory | The same idea can get different verdicts for different students (profile-dependent). | Test with two profiles yields differing verdicts for a large idea. | test | unimplemented |
 | ARC-004 | Desc p2 §3 Fig.1 | mandatory | M9 sends scores via M10 to M11; M11's verdict goes to M12. | Scores flow to M11; verdict passes critic/guardrail path. | inspection | unimplemented |
 | VAL-006 | Desc p3 §3.2 Fig.3 | mandatory | The language model gives scores with evidence; only the Verdict Engine decides the verdict. | No model output can set a verdict. | test | unimplemented |
-| M11-001 | Desc p4 §4 | mandatory | Verdict Engine turns six scores into a verdict by fixed rules; plain code with no LLM. | No model dependency in M11. | inspection | unimplemented |
-| M11-002 | Desc p4 §4 | mandatory | Same input gives same output. | Determinism test passes. | unit | unimplemented |
-| M11-003 | Desc p4 §4 | mandatory | Rules are in a ConfigMap. | Changing ConfigMap changes thresholds without rebuild. | infra-test | unimplemented |
+| M11-001 | Desc p4 §4 | mandatory | Verdict Engine turns six scores into a verdict by fixed rules; plain code with no LLM. | No model dependency in M11. | inspection | implemented |
+| M11-002 | Desc p4 §4 | mandatory | Same input gives same output. | Determinism test passes. | unit | implemented |
+| M11-003 | Desc p4 §4 | mandatory | Rules are in a ConfigMap. | Changing ConfigMap changes thresholds without rebuild. | infra-test | implemented |
 | M11-004 | Desc p4 §4 | mandatory | Unit tests for every gate, threshold edge, sensitivity check and what-if. | Tests enumerate each case and pass. | ci | unimplemented |
-| VER-001 | Desc p4 §5 | mandatory | The language model never outputs the verdict; M11 is deterministic and unit-tested; it is decision support, not a success prediction. | UI wording and code satisfy this. | inspection | unimplemented |
-| GAT-001 | Desc p5 §5.2 | mandatory | Hard gates are checked first; a failed gate decides the verdict whatever the score. | Gate precedence tests. | unit | unimplemented |
-| GAT-002 | Desc p5 §5.2 | mandatory | Evidence gate: at least 3 independent sources on at least 2 platforms, else INSUFFICIENT EVIDENCE. | Edge tests 2/3 sources and 1/2 platforms. | unit | unimplemented |
-| GAT-003 | Desc p5 §5.2 | mandatory | Feasibility gate: estimated build effort fits available hours, else NO-GO with hours gap stated. | Edge test; gap stated. | unit | unimplemented |
-| GAT-004 | Desc p5 §5.2 | mandatory | Risk gate: no legal or safety blocker, else NO-GO with blocker named. | Blocker named. | unit | unimplemented |
-| GAT-005 | Desc p5 §5.2 | mandatory | Duplicate gate: no existing product with same core features for the same user unless Differentiation is 3 or more, else NO-GO with product named. | Edge tests at differentiation 3. | unit | unimplemented |
-| FLW-001 | Desc p5 §5.2 Fig.4 | mandatory | Decision order: evidence, feasibility, risk, duplicate gates; weighted score; confidence check; threshold and floor check; T_no split; sensitivity check. | Order covered by tests. | unit | unimplemented |
-| SCR-001 | Desc p5 §5.3 | mandatory | Weighted score is sum of weight x score scaled to 0-100; weights come from the goal and add to 100. | Worked example reproduces 70.5. | unit | unimplemented |
-| SCR-002 | Desc p5 §5.3 | mandatory | Starting weight presets for Startup, Portfolio and Course project (changes must be justified). | ConfigMap holds presets; changes have a decision record. | inspection | unimplemented |
-| SCR-003 | Desc p5 §5.3 | mandatory | GO needs score >= T_go and no score below the floor on the first five dimensions. | Floor and threshold edge tests. | unit | unimplemented |
-| SCR-004 | Desc p5 §5.3 | mandatory | Score between T_no and T_go, or a floor breach, gives PIVOT naming the weakest dimension; below T_no is NO-GO. | Edge tests at T_no and T_go. | unit | unimplemented |
-| SCR-005 | Desc p5 §5.3 | mandatory | Starting values T_go 70, T_no 50, floor 1.5, to be tuned. | Defaults in config. | unit | unimplemented |
-| SCR-006 | Desc p5 §5.3 | mandatory | Confidence = 0.7 x mean dimension confidence + 0.3 x min(1, sources/5); below 0.5 gives INSUFFICIENT EVIDENCE (abstain). | Formula and 0.5 edge tested. | unit | unimplemented |
+| VER-001 | Desc p4 §5 | mandatory | The language model never outputs the verdict; M11 is deterministic and unit-tested; it is decision support, not a success prediction. | UI wording and code satisfy this. | inspection | in_progress |
+| GAT-001 | Desc p5 §5.2 | mandatory | Hard gates are checked first; a failed gate decides the verdict whatever the score. | Gate precedence tests. | unit | implemented |
+| GAT-002 | Desc p5 §5.2 | mandatory | Evidence gate: at least 3 independent sources on at least 2 platforms, else INSUFFICIENT EVIDENCE. | Edge tests 2/3 sources and 1/2 platforms. | unit | implemented |
+| GAT-003 | Desc p5 §5.2 | mandatory | Feasibility gate: estimated build effort fits available hours, else NO-GO with hours gap stated. | Edge test; gap stated. | unit | implemented |
+| GAT-004 | Desc p5 §5.2 | mandatory | Risk gate: no legal or safety blocker, else NO-GO with blocker named. | Blocker named. | unit | implemented |
+| GAT-005 | Desc p5 §5.2 | mandatory | Duplicate gate: no existing product with same core features for the same user unless Differentiation is 3 or more, else NO-GO with product named. | Edge tests at differentiation 3. | unit | implemented |
+| FLW-001 | Desc p5 §5.2 Fig.4 | mandatory | Decision order: evidence, feasibility, risk, duplicate gates; weighted score; confidence check; threshold and floor check; T_no split; sensitivity check. | Order covered by tests. | unit | in_progress |
+| SCR-001 | Desc p5 §5.3 | mandatory | Weighted score is sum of weight x score scaled to 0-100; weights come from the goal and add to 100. | Worked example reproduces 70.5. | unit | implemented |
+| SCR-002 | Desc p5 §5.3 | mandatory | Starting weight presets for Startup, Portfolio and Course project (changes must be justified). | ConfigMap holds presets; changes have a decision record. | inspection | implemented |
+| SCR-003 | Desc p5 §5.3 | mandatory | GO needs score >= T_go and no score below the floor on the first five dimensions. | Floor and threshold edge tests. | unit | implemented |
+| SCR-004 | Desc p5 §5.3 | mandatory | Score between T_no and T_go, or a floor breach, gives PIVOT naming the weakest dimension; below T_no is NO-GO. | Edge tests at T_no and T_go. | unit | implemented |
+| SCR-005 | Desc p5 §5.3 | mandatory | Starting values T_go 70, T_no 50, floor 1.5, to be tuned. | Defaults in config. | unit | implemented |
+| SCR-006 | Desc p5 §5.3 | mandatory | Confidence = 0.7 x mean dimension confidence + 0.3 x min(1, sources/5); below 0.5 gives INSUFFICIENT EVIDENCE (abstain). | Formula and 0.5 edge tested. | unit | implemented |
 | SCR-007 | Desc p5 §5.3 | mandatory | Challenge: each accepted evidence-backed objection lowers the matching score by 0.5 (at most 1.0) and its confidence by 0.1; unsupported objections discarded. | Adjustment and cap tests. | unit | unimplemented |
 | SCR-008 | Desc p5 §5.3 | mandatory | Sensitivity: recompute the verdict with each weight moved up and down by 20 percent (the difference shared among the others; the worked example shares it in proportion) and the least confident score moved by one point. | Run enumeration tested. | unit | unimplemented |
 | SCR-009 | Desc p5 §5.3 | mandatory | If any sensitivity run changes the verdict, the card says BORDERLINE and shows what flips it. | Flip listed on card. | unit | unimplemented |
 | SCR-010 | Desc p5 §5.3 | mandatory | What would make this GO: find the smallest change that changes the verdict; applying it re-runs scorers and engine and creates a new version. | New version created after apply. | e2e | unimplemented |
-| SCR-011 | Desc p6 §5.4 | mandatory | Worked example: Portfolio weights 15/15/15/25/10/20 with scores Demand 3.5, Competition 2.0, Differentiation 3.0, Feasibility 4.0, Risk 3.5, Learning 4.5 and all gates passing give 352.5/5 = 70.5 (GO); lowering the Feasibility weight from 25 to 20, sharing 5 points in proportion, gives about 69.9, so the verdict flips to PIVOT and the card says GO, BORDERLINE; raising Competition from 2.0 to 3.0 gives 73.5, and about 73.1 under the same weight change, which the document calls a stable GO (see AMB-24). | Fixtures with the stated inputs reproduce the four numbers and the stated flip. | unit | unimplemented |
-| SCH-005 | Guide p2 §2.3 | mandatory | Verdict schema with idea_id, version, run_id, verdict, stability, score, confidence, gates, weights, thresholds, scores, weakest_dimension, what_would_make_go, sensitivity, versions. | Schema contains all fields. | contract | unimplemented |
-| API-010 | Guide p3 §3 | mandatory | M11 POST /verdict and /whatif take six scores, profile, config and return verdict JSON. | Contract test. | contract | unimplemented |
+| SCR-011 | Desc p6 §5.4 | mandatory | Worked example: Portfolio weights 15/15/15/25/10/20 with scores Demand 3.5, Competition 2.0, Differentiation 3.0, Feasibility 4.0, Risk 3.5, Learning 4.5 and all gates passing give 352.5/5 = 70.5 (GO); lowering the Feasibility weight from 25 to 20, sharing 5 points in proportion, gives about 69.9, so the verdict flips to PIVOT and the card says GO, BORDERLINE; raising Competition from 2.0 to 3.0 gives 73.5, and about 73.1 under the same weight change, which the document calls a stable GO (see AMB-24). | Fixtures with the stated inputs reproduce the four numbers and the stated flip. | unit | in_progress |
+| SCH-005 | Guide p2 §2.3 | mandatory | Verdict schema with idea_id, version, run_id, verdict, stability, score, confidence, gates, weights, thresholds, scores, weakest_dimension, what_would_make_go, sensitivity, versions. | Schema contains all fields. | contract | implemented |
+| API-010 | Guide p3 §3 | mandatory | M11 POST /verdict and /whatif take six scores, profile, config and return verdict JSON. | Contract test. | contract | in_progress |
 | TUN-001 | Guide p7 §10 | mandatory | Human labelled set of ideas with profiles and human verdicts incl. clear GO, clear NO-GO, borderline and thin-evidence cases; note who labelled what (ideally independently then resolved). | Dataset with annotators exists. | inspection | unimplemented |
 | TUN-002 | Guide p7 §10 | mandatory | Labelled set used only for tuning and measuring, never for training the scoring model. | Leakage test passes. | test | unimplemented |
 | TUN-003 | Guide p7 §10 | mandatory | Run system on every labelled idea and build a confusion matrix against human verdicts. | Matrix from real runs. | eval | unimplemented |
 | TUN-004 | Guide p7 §10 | mandatory | Tune T_go, T_no, floors and weights; report GO-on-human-NO-GO error separately. | Separate error reported. | eval | unimplemented |
 | TUN-005 | Guide p7 §10 | mandatory | Final values in ConfigMap; before and after matrices in report; avoid overfitting. | Both matrices; generalisation check described. | inspection | unimplemented |
-| CMN-003 | Guide p8 §12 | mandatory | No model may decide or adjust the verdict. | Only M11 writes verdicts. | test | unimplemented |
+| CMN-003 | Guide p8 §12 | mandatory | No model may decide or adjust the verdict. | Only M11 writes verdicts. | test | implemented |
 
 ## M12
 
@@ -313,7 +313,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | K8S-008 | Guide p6 §9 Fig.3 | mandatory | Every workload: probes, measured requests and limits, non-root, pinned image. | Manifest policy passes. | ci | in_progress |
 | NET-001 | Guide p7 §9.3 | mandatory | Default-deny egress for the namespace; allow DNS, traffic between services, and internet egress only for M5 pods selected by label. | Policies applied and tested. | infra-test | implemented |
 | NET-002 | Guide p7 §9.3 | mandatory | Network plugin enforces NetworkPolicy (e.g. Calico or Cilium). | Enforcement proven. | infra-test | implemented |
-| NET-003 | Guide p7 §9.3 | mandatory | Show external access failing from a non-M5 pod and working from M5. | Recorded test. | evidence | unimplemented |
+| NET-003 | Guide p7 §9.3 | mandatory | Show external access failing from a non-M5 pod and working from M5. | Recorded test. | evidence | implemented |
 | DDR-001 | Guide p8 §11.1 | mandatory | At least 3 design decision records, one page or less, in docs/decisions/, with Title, Status, Context, Options, Decision, Why, Cost, AI use. | >=3 conforming records. | inspection | unimplemented |
 | LOG-001 | Guide p8 §11.2 | mandatory | AI-usage log columns: Date, Tool, What you asked for, What you changed, Why. | Columns present. | ci | unimplemented |
 | LOG-002 | Guide p8 §11.2 | mandatory | Contribution table: modules owned, PRs authored/reviewed, approximate hours, signature, for both members with name and roll number. | Template complete and signed by students. | inspection | unimplemented |

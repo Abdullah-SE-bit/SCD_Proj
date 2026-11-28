@@ -1,0 +1,25 @@
+# P01.01b: policy manifests validated and applied. Real output, 2026-11-28T07:18Z.
+# Cluster: kind-idea-validator, created by scripts/cluster_up.sh (kind 0.33.0, Kubernetes 1.36.4, Calico 3.33.1).
+# kubeconform 0.8.0.
+
+$ kubeconform -strict -summary -verbose k8s/namespace.yaml k8s/networkpolicy.yaml
+k8s/namespace.yaml - Namespace idea-validator is valid
+k8s/networkpolicy.yaml - NetworkPolicy allow-dns is valid
+k8s/networkpolicy.yaml - NetworkPolicy allow-within-namespace is valid
+k8s/networkpolicy.yaml - NetworkPolicy default-deny-egress is valid
+k8s/networkpolicy.yaml - NetworkPolicy allow-tools-internet is valid
+Summary: 5 resources found in 2 files - Valid: 5, Invalid: 0, Errors: 0, Skipped: 0
+
+$ kubectl apply -k k8s
+namespace/idea-validator unchanged
+networkpolicy.networking.k8s.io/allow-dns created
+networkpolicy.networking.k8s.io/allow-tools-internet created
+networkpolicy.networking.k8s.io/allow-within-namespace created
+networkpolicy.networking.k8s.io/default-deny-egress created
+
+$ kubectl -n idea-validator get networkpolicy
+NAME                     POD-SELECTOR   AGE
+allow-dns                <none>         1s
+allow-tools-internet     app=tools      1s
+allow-within-namespace   <none>         1s
+default-deny-egress      <none>         1s

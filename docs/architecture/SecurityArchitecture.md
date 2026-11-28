@@ -23,5 +23,6 @@ flowchart LR
   tools -->|443, 80, public only| net((internet))
   any -. blocked .-x net
 ```
-In-namespace egress is broad; per-service ingress rules (including UI to API only) are added with the workloads.
+In-namespace egress is broad for every pod except the UI, whose egress is limited to DNS and the API
+(`app: gateway`). There are no per-service ingress rules.
 Trust limits of the development harness are in [PermissionPolicy](../agentic/PermissionPolicy.md).

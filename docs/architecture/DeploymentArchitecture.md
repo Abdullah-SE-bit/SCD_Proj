@@ -1,7 +1,7 @@
 # Deployment, Docker and Kubernetes strategy
 
-Status: proposed. Verified today: the namespace and NetworkPolicy manifests pass schema validation. Nothing is
-deployed and policy enforcement is unproven.
+Status: proposed. Verified: the namespace and NetworkPolicy manifests pass schema validation, and Calico enforces
+them on the local kind cluster ([test output](../evidence/phase1/netpol-test.txt)). No workload is deployed.
 
 ## Docker
 - One image per module (AMB-03), multi-stage, non-root, pinned base (`python:3.12-slim` by digest) and
@@ -10,7 +10,8 @@ deployed and policy enforcement is unproven.
 - Model weights go to a release asset or registry, never git.
 
 ## Kubernetes
-Local `kind` with Calico (alternative: minikube `--cni=calico`). Namespace `idea-validator`.
+Local `kind` with Calico, created by `scripts/cluster_up.sh` (alternative: minikube `--cni=calico`). Namespace
+`idea-validator`.
 
 ```mermaid
 flowchart TB

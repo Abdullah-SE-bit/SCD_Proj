@@ -20,7 +20,8 @@
 | `SCH-006` says "tokens"; "reachable" sentence unregistered; `DBS-001/002` do not list fields | open |
 | source checksum cannot be verified in CI; `main` has no policy until promotion | accepted: PDFs are not public |
 | unsalted email hashes in a public repository | open, needs a human decision with D-02 |
-| `critic.json` response description; verdict request lacks gate facts; no ingress rules yet | open (P03.01, P01.01) |
+| `critic.json` response description; verdict request lacks gate facts | open (P03.01) |
+| no ingress rules yet | P01.01 limits UI egress to the API; per-service ingress rules not added |
 | `P05.03` does not depend on `P05.06` | open: `tasks.json` change needs the human label |
 | comment review chained with short flags asks | accepted: fails safe |
 | authorization label persists after new pushes (primary session observation) | open: humans must recheck after a push |

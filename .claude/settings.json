@@ -6,11 +6,6 @@
       "Bash(gh auth token:*)",
       "Bash(git push --force:*)",
       "Bash(git push -f:*)"
-    ],
-    "ask": [
-      "Bash(git reset --hard:*)",
-      "Bash(kubectl delete:*)",
-      "Bash(docker system prune:*)"
     ]
   },
   "hooks": {

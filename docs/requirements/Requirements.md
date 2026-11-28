@@ -266,7 +266,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | SEC-002 | Desc p1 §1.3 | mandatory | Never commit keys or passwords. | Secret scan passes on every PR. | ci | unimplemented |
 | M14-001 | Desc p4 §4 | mandatory | GitHub with protected main and pull requests. | Protection verified through GitHub API. | inspection | implemented |
 | M14-002 | Desc p4 §4 | mandatory | GitHub Actions on every pull request. | Workflow runs on each PR. | ci | unimplemented |
-| M14-003 | Desc p4 §4 | mandatory | Jenkins for delivery. | Jenkins deploys merged code. | demo | unimplemented |
+| M14-003 | Desc p4 §4 | mandatory | Jenkins for delivery. | Jenkins deploys merged code. | demo | in_progress |
 | M14-004 | Desc p4 §4 | mandatory | One Docker image per module. | Image list covers every module. | inspection | implemented |
 | M14-005 | Desc p4 §4 | mandatory | Full Kubernetes deployment with rollout and rollback. | Rollout and rollback demonstrated. | demo | unimplemented |
 | SUB-001 | Desc p6 §6.1 | mandatory | Submit through GCR a GitHub repository link containing code, Dockerfiles, workflows, Jenkinsfile, k8s/, fine-tuning data and scripts, rubrics, evaluation sets and a README that lets someone else start the system. | Checklist complete. | inspection | unimplemented |
@@ -293,16 +293,16 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | SET-004 | Guide p3 §4.3 | mandatory | README lets a new person start the system with a short list of commands. | Fresh-machine walkthrough succeeds. | demo | in_progress |
 | DKR-001 | Guide p3 §4.4 | mandatory | One image per module, at least 6 distinct images. | >=6 distinct images, one per module. | ci | implemented |
 | DKR-002 | Guide p3 §4.4 | mandatory | Images are multi-stage, non-root, with pinned versions and a .dockerignore. | Static checks pass. | ci | in_progress |
-| DKR-003 | Guide p3 §4.4 | mandatory | Images tagged by commit SHA (never only latest) and scanned in CI. | Tags use SHA; scan job passes. | ci | unimplemented |
-| CIC-001 | Guide p5 §8 Fig.2 | mandatory | Feature-branch PR runs GitHub Actions; merge needs all green; Jenkins runs after merge and nightly. | Flow demonstrated. | demo | unimplemented |
+| DKR-003 | Guide p3 §4.4 | mandatory | Images tagged by commit SHA (never only latest) and scanned in CI. | Tags use SHA; scan job passes. | ci | implemented |
+| CIC-001 | Guide p5 §8 Fig.2 | mandatory | Feature-branch PR runs GitHub Actions; merge needs all green; Jenkins runs after merge and nightly. | Flow demonstrated. | demo | in_progress |
 | CIC-002 | Guide p5 §8.1 | mandatory | Every PR: lint and type checks; unit tests including Verdict Engine; UI component tests. | Jobs run. | ci | unimplemented |
 | CIC-004 | Guide p5 §8.1 | mandatory | Docker build and image scan. | Jobs run and block on critical findings. | ci | unimplemented |
 | CIC-005 | Guide p5 §8.1 | mandatory | Kubernetes manifest validation. | Job runs. | ci | unimplemented |
 | CIC-006 | Guide p5 §8.1 | mandatory | All PR checks are required checks on main. | Protection lists them. | inspection | unimplemented |
-| JNK-001 | Guide p5 §8.2 | mandatory | Jenkinsfile stages: checkout, build and tag by commit SHA, push, deploy to test cluster, smoke test, nightly full evaluation compared with stored baseline. | All stages run. | demo | unimplemented |
-| JNK-002 | Guide p5 §8.2 | mandatory | A failure stops the pipeline and nothing is deployed; rollback uses kubectl rollout undo. | Failing run shown; rollback shown. | demo | unimplemented |
-| JNK-003 | Guide p5 §8.2 | mandatory | Jenkins runs in a container with Docker and cluster access; kubeconfig is a Jenkins credential, never in the repository. | No credential in repo. | inspection | unimplemented |
-| JNK-004 | Guide p6 §8.2 | mandatory | Use SCM polling (e.g. every 2 minutes) or a tunnel since webhooks cannot reach a laptop. | Trigger configured. | inspection | unimplemented |
+| JNK-001 | Guide p5 §8.2 | mandatory | Jenkinsfile stages: checkout, build and tag by commit SHA, push, deploy to test cluster, smoke test, nightly full evaluation compared with stored baseline. | All stages run. | demo | in_progress |
+| JNK-002 | Guide p5 §8.2 | mandatory | A failure stops the pipeline and nothing is deployed; rollback uses kubectl rollout undo. | Failing run shown; rollback shown. | demo | implemented |
+| JNK-003 | Guide p5 §8.2 | mandatory | Jenkins runs in a container with Docker and cluster access; kubeconfig is a Jenkins credential, never in the repository. | No credential in repo. | inspection | implemented |
+| JNK-004 | Guide p6 §8.2 | mandatory | Use SCM polling (e.g. every 2 minutes) or a tunnel since webhooks cannot reach a laptop. | Trigger configured. | inspection | implemented |
 | K8S-001 | Guide p6 §9 Fig.3 | mandatory | Namespace idea-validator with Ingress as single entry point; stateless Deployments; postgres and vector-store PVCs and redis. | Objects present. | infra-test | implemented |
 | K8S-002 | Guide p6 §9.1 | mandatory | Deployments and Services for M1, M3, M5, M6, M7, M8 and M9, M10, M11, M12, M13. | Each listed module deployed. | infra-test | implemented |
 | K8S-003 | Guide p6 §9.1 | mandatory | CronJobs for scouts (hourly or daily) and ingestion with freshness check; Job for evaluation; fine-tuned model import job (Fig.3). | Objects run. | infra-test | in_progress |

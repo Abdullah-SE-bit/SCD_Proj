@@ -9,8 +9,8 @@ Each needs a one-line caption. Capture only real results; store under `docs/evid
 | merge-conflict.png | Merge-conflict pull request | P10.02 | no |
 | actions-green.png | Green GitHub Actions run | P00.05 | no |
 | actions-fail.png | Failing GitHub Actions run | P00.05 | no |
-| jenkins-green.png | Green Jenkins run | P01.05 | no |
-| jenkins-fail.png | Failing Jenkins run | P01.05 | no |
+| jenkins-green.png | Green Jenkins run | P01.05 | yes |
+| jenkins-fail.png | Failing Jenkins run | P01.05 | yes |
 | pods.png | All pods running | P10.01 | no |
 | rollout.png | Rollout | P10.01 | no |
 | rollback.png | Rollback | P10.01 | no |

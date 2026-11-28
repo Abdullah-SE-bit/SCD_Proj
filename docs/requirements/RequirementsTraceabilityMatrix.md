@@ -104,7 +104,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M13-006 | Description p4 | M13 | P08 | P08.02 | demo | none yet | unimplemented |
 | M14-001 | Description p4 | M14 | P00 | P00.02 | inspection | docs/evidence/phase0/github-protection.md | implemented |
 | M14-002 | Description p4 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
-| M14-003 | Description p4 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
+| M14-003 | Description p4 | M14 | P01 | P01.05 | demo | none yet | in_progress |
 | M14-004 | Description p4 | M14 | P01 | P01.02 | inspection | tests/unit/test_images.py, docs/evidence/phase1/cluster-state.txt | implemented |
 | M14-005 | Description p4 | M14 | P10 | P10.01 | demo | none yet | unimplemented |
 | VER-001 | Description p4 | M11 | P03 | P03.01 | inspection | none yet | unimplemented |
@@ -174,7 +174,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | SET-004 | Guide p3 | M14 | P01 | P01.04 | demo | none yet | in_progress |
 | DKR-001 | Guide p3 | M14 | P01 | P01.02 | ci | tests/unit/test_images.py, docs/evidence/P01.02-probes.txt | implemented |
 | DKR-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | in_progress |
-| DKR-003 | Guide p3 | M14 | P01 | P01.05 | ci | none yet | unimplemented |
+| DKR-003 | Guide p3 | M14 | P01 | P01.05 | ci | docs/evidence/phase1/jenkins-runs.txt, .github/workflows/pr-checks.yml | implemented |
 | ETH-001 | Guide p4 | M5 | P04 | P04.01 | inspection | none yet | unimplemented |
 | ETH-002 | Guide p4 | M5 | P04 | P04.01 | test | none yet | unimplemented |
 | ETH-003 | Guide p4 | M6 | P04 | P04.03 | inspection | none yet | unimplemented |
@@ -201,16 +201,16 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | OPS-007 | Guide p5 | M13 | P08 | P08.02 | test | none yet | unimplemented |
 | OPS-008 | Guide p5 | M13 | P08 | P08.02 | demo | none yet | unimplemented |
 | OPS-009 | Guide p5 | M13 | P08 | P08.01, P08 | ci | none yet | unimplemented |
-| CIC-001 | Guide p5 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
+| CIC-001 | Guide p5 | M14 | P01 | P01.05 | demo | none yet | in_progress |
 | CIC-002 | Guide p5 | M14 | P03 | P03 | ci | none yet | unimplemented |
 | CIC-003 | Guide p5 | M6 | P04 | P04.05 | ci | none yet | unimplemented |
 | CIC-004 | Guide p5 | M14 | P10 | P10.03 | ci | none yet | unimplemented |
 | CIC-005 | Guide p5 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
 | CIC-006 | Guide p5 | M14 | P00 | P00.02 | inspection | none yet | unimplemented |
-| JNK-001 | Guide p5 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
-| JNK-002 | Guide p5 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
-| JNK-003 | Guide p5 | M14 | P01 | P01.05 | inspection | none yet | unimplemented |
-| JNK-004 | Guide p6 | M14 | P01 | P01.05 | inspection | none yet | unimplemented |
+| JNK-001 | Guide p5 | M14 | P01 | P01.05 | demo | none yet | in_progress |
+| JNK-002 | Guide p5 | M14 | P01 | P01.05 | demo | docs/evidence/phase1/jenkins-runs.txt, docs/evidence/screenshots/jenkins-fail.png | implemented |
+| JNK-003 | Guide p5 | M14 | P01 | P01.05 | inspection | docs/evidence/phase1/jenkins-runs.txt, scripts/jenkins_up.sh | implemented |
+| JNK-004 | Guide p6 | M14 | P01 | P01.05 | inspection | docs/evidence/phase1/jenkins-runs.txt, Jenkinsfile | implemented |
 | K8S-001 | Guide p6 | M14 | P01 | P01.01 | infra-test | docs/evidence/phase1/cluster-state.txt, docs/evidence/phase1/smoke-test.txt | implemented |
 | K8S-002 | Guide p6 | M14 | P01 | P01.04 | infra-test | docs/evidence/phase1/cluster-state.txt, docs/evidence/phase1/smoke-test.txt | implemented |
 | K8S-003 | Guide p6 | M14 | P04 | P04.02 | infra-test | none yet | in_progress |

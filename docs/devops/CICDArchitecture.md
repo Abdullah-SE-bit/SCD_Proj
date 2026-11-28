@@ -28,9 +28,26 @@ condition. Policy checks run with the base branch's checker, policy and task reg
 from the pull request. The workflow file itself comes from the PR, so human review is the final control.
 
 ## Jenkins
-`Jenkinsfile`: SCM polling every 2 minutes, nightly trigger. Without module images the build result is
-`NOT_BUILT` and nothing is deployed. Failure before deployment deploys nothing. A release is applied once; any
-failure after deployment starts (rollout, smoke test or evaluation) runs `rollback.sh`, which undoes only the
-Deployments that run changed. Manifests name images `REGISTRY/<module>:RELEASE`. The scripts were exercised
-against a fake `kubectl` only. Credentials by id only (`registry`, `kubeconfig-test`). Smoke and evaluation scripts exit 1 until
-implemented. Validation status: see the Phase 0 verification report.
+Runs in a container next to the cluster. Start it (after `cluster_up.sh`) from Git Bash:
+
+```sh
+sh scripts/jenkins_up.sh          # polls dev; pass a branch name to poll another
+```
+
+Open <http://127.0.0.1:8085/job/idea-validator-delivery/>. Stop it with `docker stop scd-jenkins scd-registry`.
+
+| Item | How |
+|---|---|
+| Trigger | SCM polling every 2 minutes, nightly timer (`Jenkinsfile`) |
+| Stages | checkout, prerequisites, build, push, deploy, smoke test, nightly evaluation |
+| Tags | `localhost:5001/<area>-<module>:<7-character commit>` |
+| Registry | local `registry:3` container. For GHCR set `REGISTRY_OVERRIDE` and add the `registry` credential (untested) |
+| Cluster access | in-network kubeconfig copied in by `jenkins_up.sh`, held as credential `kubeconfig-test` |
+| Failure | before deployment nothing is deployed; after it, `rollback.sh` runs `rollout undo` on the changed Deployments |
+| Demonstrate | build with parameter `FAIL_SMOKE` on a new commit |
+
+Access: there are no accounts. The port is published on the loopback address only, where anyone may read and start
+the job; containers on the `kind` Docker network can reach it too. Jenkins runs as root with the host Docker
+socket, which gives it control of this machine's Docker. Image scanning stays in GitHub Actions (`image-scan`).
+The nightly evaluation stage fails until `check_eval.sh` is implemented (P08.02). Rollback does not restore
+ConfigMaps, replica counts or the CronJob image.

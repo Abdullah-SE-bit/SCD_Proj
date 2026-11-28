@@ -4,5 +4,5 @@ set -eu
 files=$(find services jobs -name Dockerfile)
 [ -n "$files" ] || { echo "no Dockerfiles: nothing to push" >&2; exit 1; }
 for f in $files; do
-  docker push "$1/$(basename "$(dirname "$f")"):$2"
+  docker push "$1/$(dirname "$f" | tr / -):$2"
 done

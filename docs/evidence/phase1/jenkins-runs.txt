@@ -1,0 +1,142 @@
+# P01.05: Jenkins builds of branch feat/P01.05-jenkins-delivery, read from the local Jenkins API, 2026-11-28T09:11Z.
+# 1: green. 2: started with FAIL_SMOKE=true, fails after deployment and rolls back. 3: started by SCM polling, green.
+# Jenkins marks stages skipped after a failure as FAILED (build 2, Nightly evaluation).
+
+== build 1
+result: SUCCESS
+  stage Declarative: Checkout SCM SUCCESS 3 s
+  stage Checkout SUCCESS 2 s
+  stage Prerequisites SUCCESS 1 s
+  stage Build SUCCESS 110 s
+  stage Push SUCCESS 22 s
+  stage Deploy SUCCESS 30 s
+  stage Smoke test SUCCESS 18 s
+  stage Nightly evaluation NOT_EXECUTED 1 s
+console lines:
+Started by user unknown or anonymous
+Checking out Revision 627cafed966bde806e6a1ddb6038db325beb72db (refs/remotes/origin/feat/P01.05-jenkins-delivery)
+Checking out Revision 627cafed966bde806e6a1ddb6038db325beb72db (refs/remotes/origin/feat/P01.05-jenkins-delivery)
+[2026-11-28T09:01:10.737Z] #13 naming to localhost:5001/services-gateway:627cafe done
+[2026-11-28T09:01:10.737Z] #13 unpacking to localhost:5001/services-gateway:627cafe 0.1s done
+[2026-11-28T09:02:51.391Z] deployment.apps/gateway configured
+[2026-11-28T09:03:22.025Z] OK: every workload is ready
+[2026-11-28T09:03:26.155Z] OK: 14 services answer /health and /ready
+[2026-11-28T09:03:31.357Z] OK: postgres, redis and qdrant answer
+[2026-11-28T09:03:32.704Z] OK: ingress serves the UI
+[2026-11-28T09:03:32.704Z] OK: UI to gateway through the ingress returns the labelled fixture verdict
+[2026-11-28T09:03:32.704Z] PASS: smoke test
+Finished: SUCCESS
+
+== build 2
+result: FAILED
+  stage Declarative: Checkout SCM SUCCESS 2 s
+  stage Checkout SUCCESS 2 s
+  stage Prerequisites SUCCESS 1 s
+  stage Build SUCCESS 39 s
+  stage Push SUCCESS 19 s
+  stage Deploy SUCCESS 25 s
+  stage Smoke test FAILED 24 s
+  stage Nightly evaluation FAILED 0 s
+  stage Declarative: Post Actions SUCCESS 123 s
+console lines:
+Started by user unknown or anonymous
+Checking out Revision 9c0359e5e7d26214a72d10da2cc95612125d42cf (refs/remotes/origin/feat/P01.05-jenkins-delivery)
+Checking out Revision 9c0359e5e7d26214a72d10da2cc95612125d42cf (refs/remotes/origin/feat/P01.05-jenkins-delivery)
+[2026-11-28T09:04:42.959Z] #13 naming to localhost:5001/services-gateway:9c0359e 0.0s done
+[2026-11-28T09:04:42.959Z] #13 unpacking to localhost:5001/services-gateway:9c0359e 0.1s done
+[2026-11-28T09:05:24.806Z] deployment.apps/gateway configured
+[2026-11-28T09:05:53.571Z] OK: every workload is ready
+[2026-11-28T09:06:00.061Z] OK: 14 services answer /health and /ready
+[2026-11-28T09:06:06.525Z] OK: postgres, redis and qdrant answer
+[2026-11-28T09:06:07.872Z] OK: ingress serves the UI
+[2026-11-28T09:06:07.872Z] FAIL: run answer does not contain 'deliberate failure'
+[2026-11-28T09:06:10.161Z] deployment.apps/agentops rolled back
+[2026-11-28T09:06:18.446Z] rolled back agentops
+[2026-11-28T09:06:18.446Z] deployment.apps/analyst rolled back
+[2026-11-28T09:06:28.587Z] rolled back analyst
+[2026-11-28T09:06:28.587Z] deployment.apps/critic rolled back
+[2026-11-28T09:06:43.352Z] rolled back critic
+[2026-11-28T09:06:43.352Z] deployment.apps/gateway rolled back
+[2026-11-28T09:06:49.840Z] rolled back gateway
+[2026-11-28T09:06:49.840Z] deployment.apps/ideation rolled back
+[2026-11-28T09:06:59.721Z] rolled back ideation
+[2026-11-28T09:06:59.722Z] deployment.apps/kb rolled back
+[2026-11-28T09:07:07.750Z] rolled back kb
+[2026-11-28T09:07:07.750Z] deployment.apps/orchestrator rolled back
+[2026-11-28T09:07:16.033Z] rolled back orchestrator
+[2026-11-28T09:07:16.033Z] deployment.apps/profile rolled back
+[2026-11-28T09:07:26.170Z] rolled back profile
+[2026-11-28T09:07:26.170Z] deployment.apps/scorer rolled back
+[2026-11-28T09:07:34.202Z] rolled back scorer
+[2026-11-28T09:07:34.202Z] deployment.apps/scouts rolled back
+[2026-11-28T09:07:44.070Z] rolled back scouts
+[2026-11-28T09:07:44.070Z] deployment.apps/tools rolled back
+[2026-11-28T09:07:52.101Z] rolled back tools
+[2026-11-28T09:07:52.101Z] deployment.apps/ui rolled back
+[2026-11-28T09:07:54.839Z] rolled back ui
+[2026-11-28T09:07:55.091Z] deployment.apps/validators rolled back
+[2026-11-28T09:08:03.377Z] rolled back validators
+[2026-11-28T09:08:03.377Z] deployment.apps/verdict rolled back
+[2026-11-28T09:08:11.395Z] rolled back verdict
+[2026-11-28T09:08:11.632Z] Checks failed after deployment started; changes of this run were rolled back. Nothing promoted.
+Finished: FAILURE
+
+== build 3
+result: SUCCESS
+  stage Declarative: Checkout SCM SUCCESS 2 s
+  stage Checkout SUCCESS 2 s
+  stage Prerequisites SUCCESS 1 s
+  stage Build SUCCESS 38 s
+  stage Push SUCCESS 19 s
+  stage Deploy SUCCESS 28 s
+  stage Smoke test SUCCESS 20 s
+  stage Nightly evaluation NOT_EXECUTED 0 s
+console lines:
+Started by an SCM change
+Checking out Revision 426207b5e968310787acce10a185d2738036316d (refs/remotes/origin/feat/P01.05-jenkins-delivery)
+Checking out Revision 426207b5e968310787acce10a185d2738036316d (refs/remotes/origin/feat/P01.05-jenkins-delivery)
+[2026-11-28T09:09:36.678Z] #13 naming to localhost:5001/services-gateway:426207b
+[2026-11-28T09:09:36.930Z] #13 naming to localhost:5001/services-gateway:426207b done
+[2026-11-28T09:09:36.930Z] #13 unpacking to localhost:5001/services-gateway:426207b 0.0s done
+[2026-11-28T09:10:19.214Z] deployment.apps/gateway configured
+[2026-11-28T09:10:49.232Z] OK: every workload is ready
+[2026-11-28T09:10:54.432Z] OK: 14 services answer /health and /ready
+[2026-11-28T09:11:00.917Z] OK: postgres, redis and qdrant answer
+[2026-11-28T09:11:01.830Z] OK: ingress serves the UI
+[2026-11-28T09:11:01.830Z] OK: UI to gateway through the ingress returns the labelled fixture verdict
+[2026-11-28T09:11:01.830Z] PASS: smoke test
+Finished: SUCCESS
+
+== Deployment images before and after build 2 (kubectl get deploy, container image)
+# before
+agentops  localhost:5001/services-agentops:627cafe
+analyst  localhost:5001/services-analyst:627cafe
+critic  localhost:5001/services-critic:627cafe
+gateway  localhost:5001/services-gateway:627cafe
+ideation  localhost:5001/services-ideation:627cafe
+kb  localhost:5001/services-kb:627cafe
+orchestrator  localhost:5001/services-orchestrator:627cafe
+profile  localhost:5001/services-profile:627cafe
+redis  redis:7-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
+scorer  localhost:5001/services-scorer:627cafe
+scouts  localhost:5001/services-scouts:627cafe
+tools  localhost:5001/services-tools:627cafe
+ui  localhost:5001/services-ui:627cafe
+validators  localhost:5001/services-validators:627cafe
+verdict  localhost:5001/services-verdict:627cafe
+# after the rollback
+agentops  localhost:5001/services-agentops:627cafe
+analyst  localhost:5001/services-analyst:627cafe
+critic  localhost:5001/services-critic:627cafe
+gateway  localhost:5001/services-gateway:627cafe
+ideation  localhost:5001/services-ideation:627cafe
+kb  localhost:5001/services-kb:627cafe
+orchestrator  localhost:5001/services-orchestrator:627cafe
+profile  localhost:5001/services-profile:627cafe
+redis  redis:7-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
+scorer  localhost:5001/services-scorer:627cafe
+scouts  localhost:5001/services-scouts:627cafe
+tools  localhost:5001/services-tools:627cafe
+ui  localhost:5001/services-ui:627cafe
+validators  localhost:5001/services-validators:627cafe
+verdict  localhost:5001/services-verdict:627cafe

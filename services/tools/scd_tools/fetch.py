@@ -8,7 +8,7 @@ from typing import Any
 from urllib.parse import SplitResult, urljoin
 from urllib.robotparser import RobotFileParser
 
-from scd_tools import limits, policy, transport
+from scd_tools import limits, policy, sanitise, transport
 
 TEXT_TYPES = ("application/json", "text/", "application/xml", "application/rss+xml", "application/atom+xml")
 Send = Callable[..., transport.Response]
@@ -110,6 +110,7 @@ class Fetcher:
         content_type = reply.headers.get("content-type", "").split(";")[0].strip().lower()
         if not content_type.startswith(TEXT_TYPES):
             raise Upstream(f"unsupported content type: {content_type or 'none'}")
+        content, removed = sanitise.sanitise(reply.body.decode("utf-8", errors="replace"), content_type)
         return {"url": url, "status": reply.status, "content_type": content_type,
-                "content": reply.body.decode("utf-8", errors="replace"),
+                "content": content, "removed_instructions": removed,
                 "retrieved_at": datetime.datetime.now(datetime.UTC).isoformat(timespec="seconds")}

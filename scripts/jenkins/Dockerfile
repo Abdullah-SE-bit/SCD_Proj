@@ -6,8 +6,8 @@ COPY --from=docker:29-cli@sha256:4e60c31615e83523afbb59773b25d055c0da9edcd5f80a4
 RUN curl -fsSLo /usr/local/bin/kubectl https://dl.k8s.io/release/v1.36.4/bin/linux/amd64/kubectl \
  && echo "8b8f088da2dab964f853b38464033b1be15ede2839eca751482357c45abdd05a  /usr/local/bin/kubectl" | sha256sum -c - \
  && chmod 755 /usr/local/bin/kubectl
-COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
-RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
+COPY plugins.yaml /usr/share/jenkins/ref/plugins.yaml
+RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.yaml
 COPY casc.yaml /usr/share/jenkins/casc.yaml
 ENV CASC_JENKINS_CONFIG=/usr/share/jenkins/casc.yaml \
     JAVA_OPTS="-Xmx768m -Djenkins.install.runSetupWizard=false"

@@ -1533,7 +1533,7 @@
    "acceptance": "Jenkins deploys merged code.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2608,8 +2608,11 @@
    "acceptance": "Tags use SHA; scan job passes.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/jenkins-runs.txt",
+    ".github/workflows/pr-checks.yml"
+   ]
   },
   {
    "id": "ETH-001",
@@ -3023,7 +3026,7 @@
    "acceptance": "Flow demonstrated.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -3115,7 +3118,7 @@
    "acceptance": "All stages run.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -3130,8 +3133,11 @@
    "acceptance": "Failing run shown; rollback shown.",
    "verification": "demo",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/jenkins-runs.txt",
+    "docs/evidence/screenshots/jenkins-fail.png"
+   ]
   },
   {
    "id": "JNK-003",
@@ -3145,8 +3151,11 @@
    "acceptance": "No credential in repo.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/jenkins-runs.txt",
+    "scripts/jenkins_up.sh"
+   ]
   },
   {
    "id": "JNK-004",
@@ -3160,8 +3169,11 @@
    "acceptance": "Trigger configured.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase1/jenkins-runs.txt",
+    "Jenkinsfile"
+   ]
   },
   {
    "id": "K8S-001",

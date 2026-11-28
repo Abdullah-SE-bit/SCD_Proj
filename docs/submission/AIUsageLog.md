@@ -30,5 +30,6 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | P01.01: kind and Calico script, NetworkPolicies, UI-to-API-only rule, egress test, run on the local cluster and record the output | no edits by a human; pending human review | task P01.01; code, documents and evidence capture by AI |
 | 2026-11-28 | Claude Code | P01.03: gateway fixture routes, React UI with runtime API address, fixture verdict card, tests, images run locally, screenshot | no edits by a human; pending human review | task P01.03; code, design, documents and evidence capture by AI |
 | 2026-11-28 | Claude Code | P01.04: deploy the skeleton to the cluster, compose stack, smoke test | no content edits by humans | walking skeleton on Kubernetes |
+| 2026-11-28 | Claude Code | P01.05: Jenkins container and local registry, pipeline stages, rollback, three builds run on the local cluster, evidence and screenshots | no edits by a human; pending human review | task P01.05; code, documents and evidence capture by AI |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

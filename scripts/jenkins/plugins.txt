@@ -1,9 +1,0 @@
-configuration-as-code
-credentials-binding
-git
-job-dsl
-matrix-auth
-pipeline-stage-view
-plain-credentials
-timestamper
-workflow-aggregator

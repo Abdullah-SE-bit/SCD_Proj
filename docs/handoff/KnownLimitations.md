@@ -8,7 +8,8 @@
    sessions run on one PC, so who gave each decision cannot be established from the repository.
 5. NetworkPolicy enforcement is tested with test pods only (P01.01); no workload is deployed. There are no
    ingress rules, so any pod in the namespace except the UI can reach any other.
-6. Jenkinsfile syntax and execution are unverified; delivery scripts were tested only with a fake `kubectl`.
+6. Jenkins ran on the local cluster (P01.05). It has no accounts and runs as root with the Docker socket; the
+   nightly evaluation stage fails until P08.02; the GHCR push path is untested.
 7. docker-compose.yml is an explicit empty placeholder.
 8. Hooks are text-pattern guard rails: interpreters can write files, variable-built subcommands can avoid the
    prompt, and bypass-permissions mode may skip prompts. Both tokens share one OS user (PermissionPolicy).

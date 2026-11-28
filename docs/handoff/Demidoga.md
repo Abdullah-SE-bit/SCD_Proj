@@ -1,27 +1,23 @@
 # Handoff: secondary (Demidoga)
 
-## Current: P01.03 thin UI and gateway path (2026-11-28)
-- [#208](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/208) from `feat/P01.03-gateway-ui`: one commit each for P01.03a to P01.03c and a merge of `dev`.
-  Status: `in_review`.
-- Done: gateway fixture routes, React UI with the verdict card marked `FIXTURE DATA`, component tests.
+## Current: P01.05 Jenkins delivery (2026-11-28)
+- [#210](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/210) from `feat/P01.05-jenkins-delivery`. Status: `in_review`.
+- Start: `sh scripts/jenkins_up.sh` (after `cluster_up.sh`); stop: `docker stop scd-jenkins scd-registry`.
+  See [CI/CD](../devops/CICDArchitecture.md).
+- Evidence: [three builds](../evidence/phase1/jenkins-runs.txt) (green; deliberate failure with rollback; started by
+  polling), [stage view](../evidence/screenshots/jenkins-green.png), [rollback](../evidence/screenshots/jenkins-fail.png).
+- Not done: builds shown are of the task branch, not of merged code; nightly evaluation (P08.02); GHCR (needs the
+  owner's token); rollback leaves ConfigMaps, replica counts and the CronJob image.
+- The cluster now runs images from the local registry, so `scd-registry` must be running when pods are recreated on a
+  node that has not cached them. `scripts/deploy.sh` still works without it.
+- Next: report to the primary session, which runs the P01 gate.
+- Messages: primary session released the cluster for this task (2026-11-28).
+
+## Earlier: P01.03 thin UI and gateway path
+- Merged as [#208](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/208) (`3191a00`), recorded `in_review`.
 - Evidence: [one image, two API addresses](../evidence/phase1/ui-runtime-api.txt),
-  [screenshot](../evidence/screenshots/ui-fixture-card.png).
-- Not done: the gateway does not call the orchestrator (`services/orchestrator/**` is outside this task), so the path
-  is UI to gateway only. No login, rate limits or live progress. Every idea gets the same fixed verdict.
-- For P01.04:
-
-| Image | Port | Reads | Probes | User |
-|---|---|---|---|---|
-| gateway | 8000 | `PORT` (optional) | `/health`, `/ready` | 10001 |
-| ui | 8080 | `API_URL` (required) | `/health`, `/ready` | 101 |
-
-  nginx in the UI forwards `/api/...` to `API_URL` (no trailing slash, for example `http://gateway:8000`), read at
-  start. It exits if the host does not resolve, so create the gateway Service with or before the UI, and restart the
-  UI if that Service gets a new address. It writes `/etc/nginx/conf.d` at start (no read-only root filesystem without
-  a volume there). The NetworkPolicy lets `app: ui` reach `app: gateway` pods only. An Ingress can send everything to
-  the UI. `.env.example` lists `API_PUBLIC_URL`, which nothing reads yet.
-- Next: P01.05, after P01.04 is merged.
-- Messages: primary session messages of 2026-11-28 received (start P01.03 now; merge `dev` after #166).
+  [screenshot](../evidence/screenshots/ui-fixture-card.png). The gateway does not call the orchestrator yet.
+- gateway: port 8000, `PORT` optional. ui: port 8080, `API_URL` required, read at start by nginx.
 
 ## Earlier: P01.01 cluster with enforced NetworkPolicy
 - Merged as [#189](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/189) (`afd1bf8`), recorded `in_review`.

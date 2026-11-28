@@ -54,3 +54,8 @@
 - Done: history, versions, comparison, cache with visible hits.
 - Open: cluster wiring for profile database, Redis, migrations and gateway signing key (no unblocked task covers
   `k8s/`); not run against real Redis or PostgreSQL.
+
+## Cluster wiring fix (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/224)
+- Accounts, profile, history, cache and search work on the cluster (`docs/evidence/P01.04-wiring.txt`).
+- The notes in the profile, kb and ingestion READMEs saying `k8s/` passes no settings are now out of date.
+- The scheduled ingestion CronJob has not been run on its own.

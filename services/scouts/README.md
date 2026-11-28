@@ -1,3 +1,5 @@
 # services/scouts (M4)
 
-**Not implemented.** Planned: source collection. Specification: `docs/architecture/ModuleSpecifications.md`. Code is blocked until the Phase 0 gate passes.
+Skeleton: `/health`, `/ready`, `/info`. Behaviour arrives with P04.02. Specification: `docs/architecture/ModuleSpecifications.md`.
+
+Run from this directory: `python -m scd_scouts.app` (port from `PORT`, default 8000).

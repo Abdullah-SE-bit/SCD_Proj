@@ -1,3 +1,5 @@
 # services/tools (M5)
 
-**Not implemented.** Planned: only internet exit. Specification: `docs/architecture/ModuleSpecifications.md`. Code is blocked until the Phase 0 gate passes.
+Skeleton: `/health`, `/ready`, `/info`. Behaviour arrives with P04.01. Specification: `docs/architecture/ModuleSpecifications.md`.
+
+Run from this directory: `python -m scd_tools.app` (port from `PORT`, default 8000).

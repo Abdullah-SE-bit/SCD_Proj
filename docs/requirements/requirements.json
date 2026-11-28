@@ -1542,7 +1542,7 @@
    "acceptance": "Image list covers every module.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2238,7 +2238,7 @@
    "acceptance": "Both endpoints on every service.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2418,7 +2418,7 @@
    "acceptance": "Dockerfile per module.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -2557,8 +2557,11 @@
    "acceptance": ">=6 distinct images, one per module.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "tests/unit/test_images.py",
+    "docs/evidence/P01.02-probes.txt"
+   ]
   },
   {
    "id": "DKR-002",
@@ -2572,7 +2575,7 @@
    "acceptance": "Static checks pass.",
    "verification": "ci",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {

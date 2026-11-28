@@ -11,3 +11,10 @@
 - Correction: the P00.01 record cited the #16 approval, which did not review that task; it now cites #8.
 - Correction: the P00.04 record now cites the #15 approval of the harness fixes instead of the one-line #17.
 - Owner removed the authorization label requirement.
+
+## P01.02 (https://github.com/Abdullah-SE-bit/SCD_Proj/pull/166)
+- Done: 12 service and 3 job skeletons, one image each; probes and image rules tested.
+- Not done: `gateway` and `ui` (P01.03); readiness has no dependencies yet; module requirements are not audited.
+- Decision: standard-library services (`services/README.md`); decision record due with the P01 gate.
+- The harness replan was dropped: the existing registry stays; issues follow it.
+- Next: P01.04 once P01.01, P01.02 and P01.03 are merged.

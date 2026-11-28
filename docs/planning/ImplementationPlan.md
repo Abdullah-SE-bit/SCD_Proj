@@ -142,7 +142,7 @@ kind plus Calico, namespace, default-deny and M5 egress.
 
 One minimal service per module with /health and /ready, multi-stage non-root Dockerfile, pinned deps.
 
-- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status not done
+- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity L; status done
 - Depends on: P00
 - Requirements: API-002, REP-002, M14-004, DKR-001, DKR-002, GEN-006
 - File scope: `services/**`, `jobs/**`, `tests/**`, `requirements*.txt`, `.dockerignore`

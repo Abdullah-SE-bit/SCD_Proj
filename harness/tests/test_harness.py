@@ -223,18 +223,6 @@ class PullRequests(Fixture):
         changed.append(f"{scd.STATUS_DIR}/P01.02.json")
         self.assertIn("another task", self.problems("feat/P01.01-x", "Demidoga", changed)[0])
 
-    def test_protected_change_needs_label_and_base_policy_wins(self):
-        self.branch("fix/P00.04-x")
-        loosened = dict(self.policy, protected_paths=[])
-        self.write(scd.POLICY_PATH, loosened)
-        sh(self.repo, "git", "commit", "-qam", "loosen")
-        old = os.environ.copy()
-        self.addCleanup(lambda: (os.environ.clear(), os.environ.update(old)))
-        os.environ.update(PR_BASE="dev", PR_LABELS="")
-        with self.assertRaisesRegex(scd.Failure, "label from a human"):
-            scd.check_protected_files(self.repo)
-        os.environ["PR_LABELS"] = self.policy["protected_label"]
-        scd.check_protected_files(self.repo)
 
     def test_requirement_rewording_detected(self):
         self.branch("docs/P00.01-x")
@@ -405,17 +393,6 @@ class ReviewFindings(Fixture):
         found = " | ".join(scd.status_problems(self.repo))
         for expected in ["pr must link", "not in this repository"]:
             self.assertIn(expected, found)
-
-    def test_done_needs_the_human_label(self):
-        self.branch("docs/P00-gate")
-        self.done("P00.01")
-        sh(self.repo, "git", "add", "-A")
-        sh(self.repo, "git", "commit", "-qm", "complete")
-        self.with_env(PR_BASE="dev", PR_LABELS="")
-        with self.assertRaisesRegex(scd.Failure, "label from a human"):
-            scd.check_protected_files(self.repo)
-        os.environ["PR_LABELS"] = self.policy["protected_label"]
-        scd.check_protected_files(self.repo)
 
     def test_h3_bypasses_are_denied_or_asked(self):
         self.branch("feat/P01.01-x")

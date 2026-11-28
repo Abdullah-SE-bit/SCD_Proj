@@ -58,7 +58,7 @@ spec:
       securityContext: { runAsNonRoot: true, runAsUser: 1000, runAsGroup: 1000, fsGroup: 1000, seccompProfile: { type: RuntimeDefault } }
       containers:
         - name: qdrant
-          image: qdrant/qdrant:latest-unprivileged@sha256:f60765106f26981dabc593d88fe4d0c8138893442c7c59d62257390891b65277
+          image: qdrant/qdrant:v1.20.2-unprivileged@sha256:f60765106f26981dabc593d88fe4d0c8138893442c7c59d62257390891b65277
           ports: [{ containerPort: 6333 }]
           env: [{ name: QDRANT__TELEMETRY_DISABLED, value: "true" }]
           volumeMounts: [{ name: storage, mountPath: /qdrant/storage }]

@@ -13,3 +13,4 @@ Only decisions a human actually made. Add a row in the same PR that relies on it
 | A-07 | 2026-11-28 | A session never requests changes on a pull request GitHub can merge without conflicts; it merges it. Into `main` the other account's approval is still required | Abdullah |
 | A-08 | 2026-11-28 | Recording a task `done` needs no label (answer "No label needed") | Abdullah |
 | A-09 | 2026-11-28 | Harness maintenance mode stays off; the existing task registry, owners and blockers apply | Abdullah |
+| A-10 | 2026-11-28 | Record the P02 gate `done` although idea history can only be shown with records written by hand, until the app can save an idea (answer "record it and move on") | account owner, in the Demidoga session |

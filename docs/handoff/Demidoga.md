@@ -1,11 +1,11 @@
 # Handoff: secondary (Demidoga)
 
-## Current: P02 gate demonstrated, not recorded (2026-11-28)
+## Current: P02 gate recorded with a stated limit (2026-11-28)
 - [Demonstration](../evidence/phase2/gate-demo.txt) on the cluster at `dev` `7e42f3e` ([script](../evidence/phase2/gate-demo.py)).
 - Holds as a user action: register, log in (wrong password refused), save and edit the profile, history page answers.
-- **Does not hold as a user action:** history has content only because records were written to the profile service by
-  hand. No public route saves an idea; the Validate flow (P05) will. So no `status/P02.json`.
-- Owner decision needed: record the gate with that limit, or after an idea can be saved.
+- **Limit:** history has content only because records were written to the profile service by hand. No public
+  route saves an idea; the Validate flow (P05) must. Show history again with a user-saved idea then.
+- Recorded `done` on the account owner's decision (A-10).
 - P02.04 merged as #223 (`5091cd7`). The cluster is no longer in use by this session.
 
 ## Earlier: P02.04 profile and history screens (2026-11-28)

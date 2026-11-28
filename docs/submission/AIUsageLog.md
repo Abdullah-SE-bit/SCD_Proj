@@ -34,5 +34,6 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | P01 gate: demonstrate the skeleton, run Jenkins on dev, decision record, mark Phase 1 done | no content edits by humans; owner decided no label is needed | close Phase 1 |
 | 2026-11-28 | Claude Code | P03.03: draft six rubrics with anchors, rules, features and worked examples, and their validation test | none yet; student review open | task P03.03; all content drafted by AI |
 | 2026-11-28 | Claude Code | P03.01: verdict engine core, tests, ConfigMap demonstration | no content edits by humans | deterministic verdicts |
+| 2026-11-28 | Claude Code | P04.01: tool layer, sanitiser, model route, egress proof | no content edits by humans | single controlled exit |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

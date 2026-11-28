@@ -163,8 +163,11 @@
    "acceptance": "Every source has a recorded permission basis; robots.txt and rate limits enforced by M5.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/tools/scd_tools/sources.json",
+    "services/tools/test_tools_politeness.py"
+   ]
   },
   {
    "id": "SEC-001",
@@ -469,8 +472,10 @@
    "acceptance": "NetworkPolicy test proves only M5 egress.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4-egress.txt"
+   ]
   },
   {
    "id": "DSC-001",
@@ -897,8 +902,11 @@
    "acceptance": "Disallowed domain or robots path refused; cache used.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/tools/test_tools_fetch.py",
+    "services/tools/test_tools_politeness.py"
+   ]
   },
   {
    "id": "M05-002",
@@ -912,8 +920,10 @@
    "acceptance": "Poisoned page test passes.",
    "verification": "security-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "tests/security/test_poisoned_page.py"
+   ]
   },
   {
    "id": "M05-003",
@@ -927,8 +937,10 @@
    "acceptance": "Non-M5 pod egress fails; M5 egress works.",
    "verification": "infra-test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4-egress.txt"
+   ]
   },
   {
    "id": "M06-001",
@@ -2365,8 +2377,12 @@
    "acceptance": "Behaviour tested.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/tools/test_tools_fetch.py",
+    "services/tools/test_tools_politeness.py",
+    "tests/security/test_poisoned_page.py"
+   ]
   },
   {
    "id": "API-008",
@@ -2666,8 +2682,10 @@
    "acceptance": "Source register with basis.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/tools/scd_tools/sources.json"
+   ]
   },
   {
    "id": "ETH-002",
@@ -2681,8 +2699,11 @@
    "acceptance": "Tests for each.",
    "verification": "test",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "services/tools/test_tools_politeness.py",
+    "services/tools/test_tools_fetch.py"
+   ]
   },
   {
    "id": "ETH-003",
@@ -3422,8 +3443,10 @@
     "NET-001",
     "NET-002"
    ],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase4-egress.txt"
+   ]
   },
   {
    "id": "TUN-001",

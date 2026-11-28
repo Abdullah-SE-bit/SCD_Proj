@@ -1,3 +1,5 @@
 # services/analyst (M7)
 
-**Not implemented.** Planned: niches and trends. Specification: `docs/architecture/ModuleSpecifications.md`. Code is blocked until the Phase 0 gate passes.
+Skeleton: `/health`, `/ready`, `/info`. Behaviour arrives with P07.01. Specification: `docs/architecture/ModuleSpecifications.md`.
+
+Run from this directory: `python -m scd_analyst.app` (port from `PORT`, default 8000).

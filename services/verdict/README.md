@@ -1,3 +1,5 @@
 # services/verdict (M11)
 
-**Not implemented.** Planned: deterministic verdict engine. Specification: `docs/architecture/ModuleSpecifications.md`. Code is blocked until the Phase 0 gate passes.
+Skeleton: `/health`, `/ready`, `/info`. Behaviour arrives with P03.01. Specification: `docs/architecture/ModuleSpecifications.md`.
+
+Run from this directory: `python -m scd_verdict.app` (port from `PORT`, default 8000).

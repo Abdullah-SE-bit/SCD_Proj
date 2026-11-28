@@ -1,0 +1,19 @@
+P01.02 container probes, 2026-11-28T12:15:24+05:00, images :5bc7859
+Produced by running each locally built image. user = numeric user inside the container.
+jobs-evaluation:5bc7859: user 10001 exit 0 output {"job": "evaluation", "status": "skeleton", "message": "nothing to do yet"}
+jobs-finetune:5bc7859: user 10001 exit 0 output {"job": "finetune", "status": "skeleton", "message": "nothing to do yet"}
+jobs-ingestion:5bc7859: user 10001 exit 0 output {"job": "ingestion", "status": "skeleton", "message": "nothing to do yet"}
+services-agentops:5bc7859: user 10001 health 200 ready 200
+services-analyst:5bc7859: user 10001 health 200 ready 200
+services-critic:5bc7859: user 10001 health 200 ready 200
+services-ideation:5bc7859: user 10001 health 200 ready 200
+services-kb:5bc7859: user 10001 health 200 ready 200
+services-orchestrator:5bc7859: user 10001 health 200 ready 200
+services-profile:5bc7859: user 10001 health 200 ready 200
+services-scorer:5bc7859: user 10001 health 200 ready 200
+services-scouts:5bc7859: user 10001 health 200 ready 200
+services-tools:5bc7859: user 10001 health 200 ready 200
+services-validators:5bc7859: user 10001 health 200 ready 200
+services-verdict:5bc7859: user 10001 health 200 ready 200
+result: all passed
+note: the Dockerfiles were uncommitted when these images were built; they are the ones in the P01.02c commit.

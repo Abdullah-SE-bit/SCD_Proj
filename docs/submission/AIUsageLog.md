@@ -26,6 +26,7 @@ Columns required by Guide 11.2. Record what really happened; humans fill "What y
 | 2026-11-28 | Claude Code | Add the existing reviews to the Phase 0 completion records so the promotion passes the rules on main                                        | no content edits by humans                                                                                | checks on #22 failed                                                                   |
 | 2026-11-28 | Claude Code | Correct the review cited by the P00.01 record                                                                                               | owner asked for the fix before approving; no content edits by humans                                      | the cited approval did not review that task                                            |
 | 2026-11-28 | none (manual edit) | Remove the authorization label requirement and the command prompts | edited the checker, tests and settings myself | fewer interruptions |
+| 2026-11-28 | Claude Code | P01.02: module skeletons, images and tests; open the plan's issues | no content edits by humans | walking skeleton |
 | 2026-11-28 | Claude Code | P01.01: kind and Calico script, NetworkPolicies, UI-to-API-only rule, egress test, run on the local cluster and record the output | no edits by a human; pending human review | task P01.01; code, documents and evidence capture by AI |
 
 Human decisions so far: see `docs/requirements/ApprovedDecisions.md`.

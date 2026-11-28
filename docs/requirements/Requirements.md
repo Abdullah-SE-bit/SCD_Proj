@@ -81,19 +81,19 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 
 | ID | Source | Level | Requirement | Acceptance | Verify by | Status |
 |---|---|---|---|---|---|---|
-| ARC-003 | Desc p2 §3 Fig.1 | mandatory | M7, M8 and M9 read from and write to M6; M6i feeds M6; M4 feeds M6i. | Data paths implemented as drawn. | inspection | unimplemented |
-| M06-001 | Desc p3 §4 | mandatory | Knowledge base is the searchable memory and the source of every piece of evidence. | Every evidence id resolves to a card. | test | unimplemented |
-| M06-002 | Desc p3 §4 | mandatory | Hybrid search with reranking. | Hybrid plus rerank pipeline evaluated. | eval | unimplemented |
-| M06-003 | Desc p3 §4 | mandatory | Filters by date, source and niche. | Each filter tested. | test | unimplemented |
-| M06-004 | Desc p3 §4 | mandatory | Card ids for citations. | Results carry card ids. | test | unimplemented |
-| M06-005 | Desc p3 §4 | mandatory | Freshness and coverage tracking. | Freshness and coverage reported. | test | unimplemented |
+| ARC-003 | Desc p2 §3 Fig.1 | mandatory | M7, M8 and M9 read from and write to M6; M6i feeds M6; M4 feeds M6i. | Data paths implemented as drawn. | inspection | in_progress |
+| M06-001 | Desc p3 §4 | mandatory | Knowledge base is the searchable memory and the source of every piece of evidence. | Every evidence id resolves to a card. | test | implemented |
+| M06-002 | Desc p3 §4 | mandatory | Hybrid search with reranking. | Hybrid plus rerank pipeline evaluated. | eval | in_progress |
+| M06-003 | Desc p3 §4 | mandatory | Filters by date, source and niche. | Each filter tested. | test | implemented |
+| M06-004 | Desc p3 §4 | mandatory | Card ids for citations. | Results carry card ids. | test | implemented |
+| M06-005 | Desc p3 §4 | mandatory | Freshness and coverage tracking. | Freshness and coverage reported. | test | implemented |
 | M06-006 | Desc p3 §4 | mandatory | Retrieval quality measured on at least 20 hand-written queries. | >=20 human-written queries with results. | eval | unimplemented |
 | DBS-002 | Guide p1 §2 Fig.1 | mandatory | Knowledge records: cards, card_sources, niches, vector store chunks, niche_stats, ingestion_runs; cards link to niches, chunks to cards, claims to card ids. | Schema includes entities and links. | integration | in_progress |
 | SCH-001 | Guide p2 §2.1 | mandatory | Idea card schema with id, name, summary, problem, customer, niche_tags, stage, funding_usd, source, url, published_at, fetched_at, text. | Schema contains all fields. | contract | implemented |
-| SCH-003 | Guide p2 §2.2 | mandatory | Evidence item schema with evidence_id, card_id, quote, source, url, retrieved_at. | Schema contains all fields. | contract | unimplemented |
-| API-008 | Guide p3 §3 | mandatory | M6 POST /search with filters returns ranked evidence items with ids. | Contract test. | contract | unimplemented |
+| SCH-003 | Guide p2 §2.2 | mandatory | Evidence item schema with evidence_id, card_id, quote, source, url, retrieved_at. | Schema contains all fields. | contract | implemented |
+| API-008 | Guide p3 §3 | mandatory | M6 POST /search with filters returns ranked evidence items with ids. | Contract test. | contract | implemented |
 | ETH-003 | Guide p4 §5 | mandatory | No logins and no private data; keep only what an idea card needs. | Field review. | inspection | in_progress |
-| ETH-004 | Guide p4 §5 | mandatory | Every card keeps source and URL and the verdict card links to them. | Links present. | e2e | unimplemented |
+| ETH-004 | Guide p4 §5 | mandatory | Every card keeps source and URL and the verdict card links to them. | Links present. | e2e | in_progress |
 | CIC-003 | Guide p5 §8.1 | mandatory | Retrieval quality gate fails if the score drops below the baseline. | Seeded regression fails the job. | ci | unimplemented |
 | CMN-006 | Guide p8 §12 | mandatory | Test retrieval by metrics, not by eye; keep card id when splitting text. | Eval and chunk tests. | test | unimplemented |
 

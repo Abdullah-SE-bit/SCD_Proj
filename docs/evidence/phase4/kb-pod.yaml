@@ -1,0 +1,31 @@
+# A separate pod running the P04.04 search image against the cluster's data, applied by hand with kubectl. Its label
+# differs from the kb Deployment so the Service never routes to it. k8s/ (outside this task's scope) passes the kb
+# Deployment no database settings and too little memory for the two models.
+apiVersion: v1
+kind: Pod
+metadata: { name: kb-p0404, namespace: idea-validator, labels: { app: kb-eval } }
+spec:
+  restartPolicy: Never
+  automountServiceAccountToken: false
+  enableServiceLinks: false
+  securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+  containers:
+    - name: kb
+      image: services-kb:p0404
+      imagePullPolicy: Never
+      env:
+        - { name: POSTGRES_HOST, value: postgres }
+        - { name: POSTGRES_USER, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_USER } } }
+        - { name: POSTGRES_DB, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_DB } } }
+        - { name: POSTGRES_PASSWORD, valueFrom: { secretKeyRef: { name: db-secret, key: POSTGRES_PASSWORD } } }
+        - { name: VECTOR_STORE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: VECTOR_STORE_URL } } }
+      readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
+      volumeMounts: [{ name: tmp, mountPath: /tmp }]
+      resources:
+        requests: { cpu: 100m, memory: 256Mi }
+        limits: { cpu: "2", memory: 1536Mi }
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities: { drop: [ALL] }
+        readOnlyRootFilesystem: true
+  volumes: [{ name: tmp, emptyDir: {} }]

@@ -1,0 +1,56 @@
+# P04.04: searches on the cluster knowledge base, 2026-11-28T13:12Z, code commit aa81177.
+# Pod: docs/evidence/phase4/kb-pod.yaml. Command: kubectl exec -i kb-p0404 -- python - < docs/evidence/phase4/kb-queries.py
+# These show that search and filters work. They are not a quality measurement (P04.05).
+
+GET /coverage -> 200 in 1.2s
+{"cards": 1667, "chunks": 1748, "by_source": {"github": 1000, "hackernews": 667}, "published": {"oldest": "2008-03-10", "newest": "2026-11-28"}, "last_retrieved": "2026-11-28T12:27:46+00:00", "niches": 2980, "cards_without_niche": 667}
+
+POST /search {"query": "tool that helps students plan study time"} -> 200 in 6.1s
+10 items
+  card_ca86dbfa21b24e62#c0  github  https://github.com/ericl574/ai-student-toolkit
+    ericl574/ai-student-toolkit. Free, open-source AI toolkit for students: study-planner script + prompt library 
+  card_8f3b96b989c15d5f#c0  github  https://github.com/abinjoyal/Study-Planner
+    abinjoyal/Study-Planner. A Flutter-based study planning application designed to help students organize their s
+  card_2ff77bb8cf827218#c0  github  https://github.com/MihisaraNet/StudyNova
+    MihisaraNet/StudyNova. A premium smart student study planner app featuring a dark-theme UI, Pomodoro timer, an
+  card_f00022a3b721a225#c0  github  https://github.com/Tusharkapoor-oop/tushar_cse-AI-and-ML-A_AI-STUDY-PLANNER
+    Tusharkapoor-oop/tushar_cse-AI-and-ML-A_AI-STUDY-PLANNER. This project is an AI-based Study Planner designed t
+
+POST /search {"query": "tool that helps students plan study time", "filters": {"source": "hackernews"}} -> 200 in 2.7s
+10 items
+  card_a473640e43d3f5f1#c0  hackernews  https://alexedwards.net/blog/an-overview-of-go-tooling-v2
+    An Overview of Go's Tooling: Version 2
+  card_b93cbaad68379ef9#c3  hackernews  https://news.ycombinator.com/item?id=50647440
+    Well again I don’t see why the school needs to hire so many Mathematicians. Again, I believe LLM is merely the
+  card_0ad55d3915064f0c#c0  hackernews  https://github.com/rronkus/dupfinder
+    Dupfinder – a lightweight Python tool for finding duplicate files
+  card_51d8b4149fbfca35#c0  hackernews  https://github.com/google-research/google-research/tree/4a7bc8ab0bc770e71a259b7966c500496b99010a/cogentic_research_papers/integer_factorization
+    Unconditional Integer Factorization in Subexponential Time
+
+POST /search {"query": "find broken links", "filters": {"date_from": "2025-01-01", "date_to": "2025-12-31"}} -> 200 in 0.5s
+9 items
+  card_716cf9e2237ac9db#c0  github  https://github.com/asgeirtj/system_prompts_leaks
+    asgeirtj/system_prompts_leaks. Leaked system prompts of ChatGPT, Claude, Gemini and more. [removed instruction
+  card_7523c26229679742#c0  github  https://github.com/YishenTu/claudian
+    YishenTu/claudian. [removed instruction]
+  card_7b8c03226078a96e#c0  github  https://github.com/Visual-Studio-Coder/Recap
+    Visual-Studio-Coder/Recap. Recap, an iOS and Android app developed by Vaibhav Satishkumar, enables students to
+  card_0899aa22db04c4b2#c0  github  https://github.com/timbornemann/Total-Task-Tracker
+    timbornemann/Total-Task-Tracker. Lokale Aufgaben- und Lernverwaltung mit React, Node.js und SQLite, inklusive 
+
+POST /search {"query": "habit tracker", "filters": {"niche": "productivity"}} -> 200 in 1.6s
+10 items
+  card_41b79b59b9cae181#c0  github  https://github.com/MohitGupta0123/Study_Tracker
+    MohitGupta0123/Study_Tracker. 📚 A Streamlit-powered Study Tracker Dashboard with secure login, personalized sc
+  card_38d325e71725be01#c0  github  https://github.com/ActivityWatch/activitywatch
+    ActivityWatch/activitywatch. The best free and open-source automated time tracker. Cross-platform, extensible,
+  card_daf01beae9fdb2ce#c0  github  https://github.com/snownico0722/PaperTodo
+    snownico0722/PaperTodo. A minimalist Windows desktop sticky note tool. It puts a few quiet, usable, and unobtr
+  card_c0398a741832011c#c0  github  https://github.com/plait-board/drawnix
+    plait-board/drawnix. 开源白板工具(SaaS),一体化白板,包含思维导图、流程图、自由画等。All in one open-source whiteboard tool with mind, flow
+
+POST /search {"query": "habit tracker", "filters": {"source": "producthunt"}} -> 200 in 0.0s
+0 items
+
+POST /search {"query": "x", "filters": {"date_from": "soon"}} -> 400 in 0.0s
+{"error": "date_from must be YYYY-MM-DD"}

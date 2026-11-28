@@ -1,0 +1,18 @@
+# ${API_URL} is filled in when the container starts, so one image serves any API address (M01-002).
+# No trailing slash. nginx stops at start-up if the variable is missing or its host does not resolve.
+server {
+  listen 8080;
+  root /usr/share/nginx/html;
+
+  location = /health { default_type application/json; return 200 '{"status":"ok","service":"ui"}'; }
+  location = /ready  { default_type application/json; return 200 '{"ready":true,"service":"ui"}'; }
+
+  # The browser talks to this origin only; /api/validate becomes <API_URL>/validate.
+  location /api/ {
+    proxy_pass ${API_URL}/;
+  }
+
+  location / {
+    try_files $uri /index.html;
+  }
+}

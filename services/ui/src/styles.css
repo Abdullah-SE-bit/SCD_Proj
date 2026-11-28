@@ -1,0 +1,31 @@
+:root {
+  color-scheme: light;
+  --ink: #14213d;
+  --page: #f5f7fa;
+  --line: #b9c5d6;
+  --action: #1f4fd1;
+  --pass: #17694a;
+  --fail: #a8231c;
+  --warn: #ffd23f;
+  font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--page);
+}
+body { margin: 0; }
+main { max-width: 44rem; margin: 0 auto; padding: 2rem 1rem 4rem; }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0 0 1.5rem; }
+form { display: grid; gap: 0.5rem; justify-items: start; margin-bottom: 2rem; }
+label { font-weight: 600; }
+textarea {
+  box-sizing: border-box; width: 100%; padding: 0.75rem; font: inherit; color: inherit;
+  background: #fff; border: 1px solid var(--line); border-radius: 4px;
+}
+button {
+  padding: 0.6rem 1.1rem; font: inherit; font-weight: 600; color: #fff;
+  background: var(--action); border: 0; border-radius: 4px; cursor: pointer;
+}
+button:disabled { background: #6b7690; cursor: not-allowed; }
+:focus-visible { outline: 3px solid var(--action); outline-offset: 2px; }
+[role="alert"] { color: var(--fail); font-weight: 600; }
+.fixture { margin: 0 0 1rem; padding: 0.5rem 0.75rem; font-weight: 700; background: var(--warn); }

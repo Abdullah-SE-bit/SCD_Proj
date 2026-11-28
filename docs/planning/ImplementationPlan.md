@@ -274,7 +274,7 @@ Idea versions, compare, Redis cache keyed by profile, rubric, engine and snapsho
 
 Profile editor, history, comparison with component tests.
 
-- Module M1; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status not done
+- Module M1; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status done
 - Depends on: P02.02, P02.03
 - Requirements: M01-001, M01-004
 - File scope: `services/ui/**`, `tests/**`

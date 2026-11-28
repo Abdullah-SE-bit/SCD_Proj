@@ -15,3 +15,13 @@ export type Verdict = {
   what_would_make_go: { change: string; new_score: number; new_verdict: string }[];
   sensitivity: { runs: number; flipped: number };
 };
+
+export const DIMENSIONS: Record<Dimension, string> = {
+  demand_pain: "Demand and pain",
+  competition: "Competition",
+  differentiation: "Differentiation",
+  feasibility: "Feasibility",
+  risk: "Risk",
+  learning: "Learning",
+};
+export const title = (verdict: Verdict["verdict"]) => (verdict === "INSUFFICIENT_EVIDENCE" ? "Insufficient evidence" : verdict);

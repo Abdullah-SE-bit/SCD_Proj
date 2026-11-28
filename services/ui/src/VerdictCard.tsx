@@ -1,14 +1,6 @@
 // Displays one verdict exactly as the API sent it. No verdict logic lives here.
-import type { Dimension, Verdict } from "./verdict";
+import { DIMENSIONS, title, type Verdict } from "./verdict";
 
-const DIMENSIONS: Record<Dimension, string> = {
-  demand_pain: "Demand and pain",
-  competition: "Competition",
-  differentiation: "Differentiation",
-  feasibility: "Feasibility",
-  risk: "Risk",
-  learning: "Learning",
-};
 const GATES = { evidence: "Evidence", feasibility: "Feasibility", risk: "Risk", duplicate: "Duplicate" } as const;
 
 function stability({ stability, sensitivity: { flipped, runs } }: Verdict) {
@@ -44,7 +36,7 @@ export function VerdictCard({ verdict, label }: { verdict: Verdict; label?: stri
           {label}. These are sample values; your idea was not evaluated.
         </p>
       )}
-      <h2 className={verdict.verdict}>{abstained ? "Insufficient evidence" : verdict.verdict}</h2>
+      <h2 className={verdict.verdict}>{title(verdict.verdict)}</h2>
       {abstained ? (
         <p>There was not enough evidence to give a score.</p>
       ) : (

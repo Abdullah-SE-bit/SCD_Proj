@@ -1,10 +1,52 @@
 import { type SubmitEvent, useState } from "react";
 import { checkIdea, type Run } from "./api";
+import { History } from "./History";
+import { ProfileForm } from "./ProfileForm";
+import { SignIn } from "./SignIn";
 import { VerdictCard } from "./VerdictCard";
 
 type State = { step: "empty" } | { step: "loading" } | { step: "error"; message: string } | { step: "done"; run: Run };
 
+const TABS = ["Check an idea", "Profile", "History"] as const;
+
 export function App() {
+  const [tab, setTab] = useState<(typeof TABS)[number]>(TABS[0]);
+  // kept for this browser tab only; the API ends it after a few hours
+  const [token, setToken] = useState(() => sessionStorage.getItem("token") ?? "");
+  const [notice, setNotice] = useState("");
+
+  function keep(value: string, message = "") {
+    if (value) sessionStorage.setItem("token", value);
+    else sessionStorage.removeItem("token");
+    setToken(value);
+    setNotice(message);
+  }
+
+  return (
+    <main>
+      <nav aria-label="Pages">
+        {TABS.map((name) => (
+          <button type="button" key={name} aria-current={tab === name ? "page" : undefined} onClick={() => setTab(name)}>
+            {name}
+          </button>
+        ))}
+        {token && (
+          <button type="button" onClick={() => keep("")}>
+            Sign out
+          </button>
+        )}
+      </nav>
+      <div hidden={tab !== TABS[0]}>
+        <CheckIdea />
+      </div>
+      {tab !== TABS[0] && !token && <SignIn notice={notice} onToken={keep} />}
+      {tab === "Profile" && token && <ProfileForm token={token} onSignedOut={() => keep("", "Your sign-in ended. Sign in again.")} />}
+      {tab === "History" && token && <History token={token} onSignedOut={() => keep("", "Your sign-in ended. Sign in again.")} />}
+    </main>
+  );
+}
+
+function CheckIdea() {
   const [idea, setIdea] = useState("");
   const [state, setState] = useState<State>({ step: "empty" });
 
@@ -19,7 +61,7 @@ export function App() {
   }
 
   return (
-    <main>
+    <>
       <h1>Check a project idea</h1>
       <form onSubmit={submit}>
         <label htmlFor="idea">Your project idea</label>
@@ -32,6 +74,6 @@ export function App() {
       {state.step === "loading" && <p role="status">Checking your idea...</p>}
       {state.step === "error" && <p role="alert">{state.message} Try again.</p>}
       {state.step === "done" && <VerdictCard verdict={state.run.verdict} label={state.run.label} />}
-    </main>
+    </>
   );
 }

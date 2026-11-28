@@ -3,6 +3,8 @@
 ## Current: P01.05 Jenkins delivery (2026-11-28)
 - [#211](https://github.com/Abdullah-SE-bit/SCD_Proj/pull/211) from `feat/P01.05-jenkins-pipeline`. Status: `in_review`. It replaces #210, where
   gitleaks read plugin version pins as API keys (false positives; pins moved to `plugins.yaml`).
+  The scan reads every branch, so it kept failing until the owner deleted the #210 branch (2026-11-28).
+  A fourth build, on that branch's last commit with the final setup script and pinned plugins, passed.
 - Start: `sh scripts/jenkins_up.sh` (after `cluster_up.sh`); stop: `docker stop scd-jenkins scd-registry`.
   See [CI/CD](../devops/CICDArchitecture.md).
 - Evidence: [three builds](../evidence/phase1/jenkins-runs.txt) (green; deliberate failure with rollback; started by

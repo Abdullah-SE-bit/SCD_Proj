@@ -1,0 +1,43 @@
+# Jenkins configuration as code. There are no accounts: Jenkins listens on this machine only
+# (jenkins_up.sh publishes it on 127.0.0.1), where anyone may read and start the one job.
+jenkins:
+  numExecutors: 1
+  securityRealm:
+    local:
+      allowsSignup: false
+  authorizationStrategy:
+    globalMatrix:
+      entries:
+        - user:
+            name: anonymous
+            permissions:
+              - Overall/Read
+              - Job/Read
+              - Job/Build
+              - View/Read
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          # Copied into the container by jenkins_up.sh; never in the repository (JNK-003).
+          - file:
+              id: kubeconfig-test
+              scope: GLOBAL
+              fileName: kubeconfig
+              secretBytes: "${readFileBase64:/var/jenkins_home/kubeconfig-test}"
+jobs:
+  - script: |
+      pipelineJob('idea-validator-delivery') {
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote { url('${REPO_URL}') }
+                branch('${REPO_BRANCH}')
+              }
+            }
+            scriptPath('Jenkinsfile')
+          }
+        }
+      }
+      queue('idea-validator-delivery')

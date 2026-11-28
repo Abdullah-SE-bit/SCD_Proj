@@ -10,8 +10,9 @@ import secrets
 from typing import Any
 
 from scd_gateway import tokens
-from scd_gateway.base import Request, Service, log
+from scd_gateway.base import Request, log
 from scd_gateway.limits import RateLimiter
+from scd_gateway.query import QueryService, parameters
 from scd_gateway.upstream import Client, Unavailable
 
 MAX_IDEA = 2000
@@ -43,7 +44,7 @@ RUN: dict[str, Any] = {
 
 # per minute: logins for one email; all registrations; all validations (a request carries no client address)
 LOGINS, REGISTRATIONS, VALIDATIONS = 5, 20, 60
-service = Service("gateway", "M1")
+service = QueryService("gateway", "M1")
 profile = Client(os.environ.get("PROFILE_URL", "http://profile:8000"))
 limiter = RateLimiter()
 key = os.environ.get("JWT_SIGNING_KEY", "").encode()
@@ -126,6 +127,18 @@ def list_versions(request: Request) -> tuple[int, Any]:
     if not IDEA_ID.fullmatch(idea_id):  # it becomes part of an internal address
         return 404, {"error": "no such idea"}
     return forward("GET", f"/users/{user}/ideas/{idea_id}/versions")
+
+
+@service.route("GET", "/compare")
+def compare(request: Request) -> tuple[int, Any]:
+    user = signed_in(request)
+    if not user:
+        return 401, {"error": "log in first"}
+    query = parameters(request)
+    chosen = [value for name in ("a", "b") for value in query.get(name, [])[:1]]
+    if len(chosen) != 2 or chosen[0] == chosen[1] or not all(IDEA_ID.fullmatch(value) for value in chosen):
+        return 400, {"error": "name two different ideas as a and b"}
+    return forward("POST", f"/users/{user}/compare", {"ideas": chosen})
 
 
 @service.route("POST", "/validate")

@@ -8,7 +8,7 @@ import os
 from collections.abc import Callable
 from typing import Any
 
-from scd_profile import history
+from scd_profile import compare, history
 from scd_profile.base import Request, Service
 from scd_profile.db import Database, url_from_env
 from scd_profile.services import BadCredentials, Exists, Invalid, NotFound, ProfileService
@@ -105,6 +105,11 @@ def add_verdict(records: ProfileService, request: Request) -> Answer:
     params = request["params"]
     return 201, history.save_verdict(records, params["user_id"], params["idea_id"], params["version"],
                                      request["body"])
+
+
+@api("POST", "/users/{user_id}/compare")
+def compare_ideas(records: ProfileService, request: Request) -> Answer:
+    return 200, compare.compare(records, request["params"]["user_id"], request["body"].get("ideas"))
 
 
 if __name__ == "__main__":

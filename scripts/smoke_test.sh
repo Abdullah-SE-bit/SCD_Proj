@@ -63,4 +63,25 @@ result=$(curl -fsS -m 10 "$base/api/runs/fixture-run") || fail "GET /api/runs th
 expect=${SMOKE_EXPECT:-FIXTURE DATA}   # Jenkins sets another text to demonstrate a failing run
 case $result in *"$expect"*) ;; *) fail "run answer does not contain '$expect'" ;; esac
 echo "OK: UI to gateway through the ingress returns the labelled fixture verdict"
+# 5. accounts and profile reach the database; search answers. Uses a throw-away account with a random password.
+mail="smoke-$$-$(date +%s)@example.org"
+secret=$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n')
+login="{\"email\":\"$mail\",\"password\":\"$secret\"}"
+post() { curl -fsS -m 20 -H 'Content-Type: application/json' "$@"; }
+post -d "$login" "$base/api/auth/register" >/dev/null || fail "register"
+token=$(post -d "$login" "$base/api/auth/login" | sed -n 's/.*"token": *"\([^"]*\)".*/\1/p')
+[ -n "$token" ] || fail "login returned no token"
+profile='{"skills":["python"],"hours_per_week":10,"weeks_available":8,"team_size":2,"compute":"laptop","goal":"portfolio","interests":[]}'
+post -X PUT -H "Authorization: Bearer $token" -d "$profile" "$base/api/profile" >/dev/null || fail "save profile"
+saved=$(curl -fsS -m 20 -H "Authorization: Bearer $token" "$base/api/profile") || fail "read profile"
+case $saved in *'"hours_per_week"'*) ;; *) fail "unexpected profile answer" ;; esac
+curl -fsS -m 20 -H "Authorization: Bearer $token" "$base/api/ideas" >/dev/null || fail "history"
+curl -fsS -m 20 "$base/api/metrics" | grep -q '"cache": "redis"' || fail "the cache is not connected"
+echo "OK: register, log in, profile, history and cache metrics through the ingress"
+found=$(k -n "$ns" exec deploy/gateway -- python -c '
+import json, urllib.request
+request = urllib.request.Request("http://kb:8000/search", json.dumps({"query": "study planner"}).encode(),
+                                 {"Content-Type": "application/json"})
+print(urllib.request.urlopen(request, timeout=120).read().decode()[:200])') || fail "knowledge base search"
+echo "OK: knowledge base search answers: $(printf '%s' "$found" | cut -c1-80)"
 echo "PASS: smoke test"

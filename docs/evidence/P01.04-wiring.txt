@@ -1,0 +1,35 @@
+Cluster wiring demonstration, 2026-11-28T18:38:31+05:00, tree 2ff91f0
+--- scripts/deploy.sh
+deployment "traefik" successfully rolled out
+deployed 2ff91f0. Open the app with: kubectl -n ingress port-forward svc/traefik 8080:80
+--- scripts/smoke_test.sh
+OK: every workload is ready
+OK: 14 services answer /health and /ready
+OK: postgres, redis and qdrant answer
+OK: ingress serves the UI
+OK: UI to gateway through the ingress returns the labelled fixture verdict
+OK: register, log in, profile, history and cache metrics through the ingress
+OK: knowledge base search answers: [{"evidence_id": "card_8f3b96b989c15d5f#c0", "card_id": "card_8f3b96b989c15d5f",
+PASS: smoke test
+exit 0
+--- kubectl get pods
+NAME                            READY   STATUS      RESTARTS   AGE
+agentops-74b74cb7c5-47x9z       1/1     Running     0          42s
+analyst-6b45478b96-f6mq8        1/1     Running     0          42s
+critic-5946cf494b-kqpxj         1/1     Running     0          42s
+gateway-6d66484798-b2t42        1/1     Running     0          42s
+ideation-dfcb9548f-grq4z        1/1     Running     0          42s
+ingest-p0403-2hpcn              0/1     Completed   0          45m
+kb-665c84c-dmnkh                1/1     Running     0          42s
+orchestrator-6c9f49d7f4-9djnd   1/1     Running     0          42s
+postgres-0                      1/1     Running     0          5h20m
+profile-7868f57d66-k9njp        1/1     Running     0          42s
+qdrant-0                        1/1     Running     0          5h7m
+redis-5974b6d4df-x5t4s          1/1     Running     0          5h20m
+scorer-78cc97568b-mrgbs         1/1     Running     0          41s
+scouts-171432-79764             0/1     Completed   0          84m
+scouts-6dc895847f-l8zps         1/1     Running     0          41s
+tools-8ff9b444c-tgczz           1/1     Running     0          41s
+ui-5b7b75d7dc-jpn7k             1/1     Running     0          41s
+validators-9fc9b4fb7-kk2s6      1/1     Running     0          41s
+verdict-864d95d5c8-fw768        1/1     Running     0          41s

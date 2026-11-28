@@ -57,6 +57,8 @@ spec:
           image: services-gateway:dev
           imagePullPolicy: IfNotPresent
           ports: [{ containerPort: 8000 }]
+          env:
+            - { name: JWT_SIGNING_KEY, valueFrom: { secretKeyRef: { name: jwt-secret, key: JWT_SIGNING_KEY } } }
           readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
           livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
           resources:
@@ -87,16 +89,39 @@ spec:
       automountServiceAccountToken: false
       enableServiceLinks: false
       securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      initContainers:
+        - name: migrate   # forward-only and safe to repeat; waits for Postgres by being restarted until it succeeds
+          image: services-profile:dev
+          imagePullPolicy: IfNotPresent
+          command: [python, -m, scd_profile.migrate]
+          env:
+            - { name: POSTGRES_HOST, value: postgres }
+            - { name: POSTGRES_USER, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_USER } } }
+            - { name: POSTGRES_DB, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_DB } } }
+            - { name: POSTGRES_PASSWORD, valueFrom: { secretKeyRef: { name: db-secret, key: POSTGRES_PASSWORD } } }
+          resources:
+            requests: { cpu: 10m, memory: 64Mi }
+            limits: { cpu: 500m, memory: 256Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+            readOnlyRootFilesystem: true
       containers:
         - name: profile
           image: services-profile:dev
           imagePullPolicy: IfNotPresent
           ports: [{ containerPort: 8000 }]
+          env:
+            - { name: POSTGRES_HOST, value: postgres }
+            - { name: POSTGRES_USER, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_USER } } }
+            - { name: POSTGRES_DB, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_DB } } }
+            - { name: POSTGRES_PASSWORD, valueFrom: { secretKeyRef: { name: db-secret, key: POSTGRES_PASSWORD } } }
+            - { name: REDIS_URL, valueFrom: { configMapKeyRef: { name: app-config, key: REDIS_URL } } }
           readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
           livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
           resources:
             requests: { cpu: 10m, memory: 32Mi }
-            limits: { cpu: 250m, memory: 128Mi }
+            limits: { cpu: 500m, memory: 256Mi }
           securityContext:
             allowPrivilegeEscalation: false
             capabilities: { drop: [ALL] }
@@ -233,16 +258,25 @@ spec:
       automountServiceAccountToken: false
       enableServiceLinks: false
       securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      volumes: [{ name: tmp, emptyDir: {} }]
       containers:
         - name: kb
           image: services-kb:dev
           imagePullPolicy: IfNotPresent
           ports: [{ containerPort: 8000 }]
+          env:
+            - { name: POSTGRES_HOST, value: postgres }
+            - { name: POSTGRES_USER, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_USER } } }
+            - { name: POSTGRES_DB, valueFrom: { configMapKeyRef: { name: app-config, key: POSTGRES_DB } } }
+            - { name: POSTGRES_PASSWORD, valueFrom: { secretKeyRef: { name: db-secret, key: POSTGRES_PASSWORD } } }
+            - { name: VECTOR_STORE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: VECTOR_STORE_URL } } }
+          volumeMounts: [{ name: tmp, mountPath: /tmp }]
+          startupProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 5, failureThreshold: 60 }
           readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
           livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
           resources:
-            requests: { cpu: 10m, memory: 32Mi }
-            limits: { cpu: 250m, memory: 128Mi }
+            requests: { cpu: 100m, memory: 256Mi }
+            limits: { cpu: "2", memory: 1536Mi }
           securityContext:
             allowPrivilegeEscalation: false
             capabilities: { drop: [ALL] }

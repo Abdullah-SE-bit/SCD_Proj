@@ -1598,7 +1598,7 @@
    "acceptance": "Schema requires both.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -1613,7 +1613,7 @@
    "acceptance": "Schema bounds enforced.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -1628,7 +1628,7 @@
    "acceptance": "All six produced; each rubric's anchor 5 matches the stated meaning.",
    "verification": "inspection",
    "depends_on": [],
-   "status": "unimplemented",
+   "status": "in_progress",
    "evidence": []
   },
   {
@@ -3480,8 +3480,11 @@
    "acceptance": "Six rubric files validate.",
    "verification": "contract",
    "depends_on": [],
-   "status": "unimplemented",
-   "evidence": []
+   "status": "implemented",
+   "evidence": [
+    "docs/evidence/phase3/rubric-tests.txt",
+    "rubrics/test_rubrics.py"
+   ]
   },
   {
    "id": "DDR-001",

@@ -5,6 +5,7 @@ resources:
   - networkpolicy.yaml
   - config.yaml
   - data.yaml
+  - verdict-config.yaml
   - apps.yaml
   - jobs.yaml
   - ingress.yaml

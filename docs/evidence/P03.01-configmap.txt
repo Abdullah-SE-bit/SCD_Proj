@@ -1,0 +1,6 @@
+ConfigMap demonstration (M11-003), 2026-11-28T16:50:30+05:00
+Request: worked example (test inputs), asked from the gateway pod.
+image services-verdict:c24dd97
+before: verdict GO score 70.5 T_go 70 | pod verdict-6c7756b769-b2rcq restarts=0
+after ConfigMap T_go=71: verdict PIVOT score 70.5 T_go 71 | pod verdict-6c7756b769-b2rcq restarts=0
+restored: verdict GO score 70.5 T_go 70 | pod verdict-6c7756b769-b2rcq restarts=0

@@ -402,11 +402,15 @@ spec:
       automountServiceAccountToken: false
       enableServiceLinks: false
       securityContext: { runAsNonRoot: true, runAsUser: 10001, runAsGroup: 10001, seccompProfile: { type: RuntimeDefault } }
+      volumes: [{ name: config, configMap: { name: verdict-config } }]
       containers:
         - name: verdict
           image: services-verdict:dev
           imagePullPolicy: IfNotPresent
           ports: [{ containerPort: 8000 }]
+          env:
+            - { name: VERDICT_CONFIG, value: /config/verdict.json }
+          volumeMounts: [{ name: config, mountPath: /config, readOnly: true }]
           readinessProbe: { httpGet: { path: /ready, port: 8000 }, periodSeconds: 5 }
           livenessProbe: { httpGet: { path: /health, port: 8000 }, periodSeconds: 10, initialDelaySeconds: 5 }
           resources:

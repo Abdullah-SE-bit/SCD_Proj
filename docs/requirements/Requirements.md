@@ -267,7 +267,7 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | M14-001 | Desc p4 §4 | mandatory | GitHub with protected main and pull requests. | Protection verified through GitHub API. | inspection | implemented |
 | M14-002 | Desc p4 §4 | mandatory | GitHub Actions on every pull request. | Workflow runs on each PR. | ci | unimplemented |
 | M14-003 | Desc p4 §4 | mandatory | Jenkins for delivery. | Jenkins deploys merged code. | demo | unimplemented |
-| M14-004 | Desc p4 §4 | mandatory | One Docker image per module. | Image list covers every module. | inspection | unimplemented |
+| M14-004 | Desc p4 §4 | mandatory | One Docker image per module. | Image list covers every module. | inspection | in_progress |
 | M14-005 | Desc p4 §4 | mandatory | Full Kubernetes deployment with rollout and rollback. | Rollout and rollback demonstrated. | demo | unimplemented |
 | SUB-001 | Desc p6 §6.1 | mandatory | Submit through GCR a GitHub repository link containing code, Dockerfiles, workflows, Jenkinsfile, k8s/, fine-tuning data and scripts, rubrics, evaluation sets and a README that lets someone else start the system. | Checklist complete. | inspection | unimplemented |
 | SUB-002 | Desc p6 §6.1 | mandatory | The people marking can open the repository. | Access verified from a signed-out browser or grant. | inspection | unimplemented |
@@ -280,9 +280,9 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | IFC-001 | Guide p1 §1 | mandatory | Guide field lists and numbers are minimums; module names M1 to M14 are shared. | No documented minimum is dropped. | contract | unimplemented |
 | IFC-002 | Guide p1 §2 | mandatory | All modules exchange JSON; define each schema once, validate every input and output, keep schema files in the repository. | Shared schemas validated at every boundary. | contract | unimplemented |
 | API-001 | Guide p2 §3 | mandatory | Names may differ if documented but every capability must exist. | Capability map documented. | inspection | unimplemented |
-| API-002 | Guide p2 §3 | mandatory | Every service exposes /health (process alive) and /ready (can serve now). | Both endpoints on every service. | test | unimplemented |
+| API-002 | Guide p2 §3 | mandatory | Every service exposes /health (process alive) and /ready (can serve now). | Both endpoints on every service. | test | in_progress |
 | REP-001 | Guide p3 §4.1 | recommended | Repository layout: README, docs, services, jobs, rubrics, config, eval, k8s, workflows, Jenkinsfile, docker-compose.yml. | Layout present. | ci | unimplemented |
-| REP-002 | Guide p3 §4.1 | mandatory | Services may be grouped differently but each module is its own deployable unit with its own Dockerfile. | Dockerfile per module. | ci | unimplemented |
+| REP-002 | Guide p3 §4.1 | mandatory | Services may be grouped differently but each module is its own deployable unit with its own Dockerfile. | Dockerfile per module. | ci | in_progress |
 | GIT-001 | Guide p3 §4.2 | mandatory | Create repository on day 1; protect main: no direct pushes, PRs only, required status checks, one review from the other member. | Verified protection settings. | inspection | implemented |
 | GIT-002 | Guide p3 §4.2 | mandatory | One issue per task linked to its PR; small single-purpose branches. | PRs link issues. | git-history | unimplemented |
 | GIT-003 | Guide p3 §4.2 | mandatory | Conventional commits. | Commit messages conform. | ci | unimplemented |
@@ -291,8 +291,8 @@ Generated from `docs/requirements/requirements.json`. Do not edit by hand. 237 r
 | SET-002 | Guide p3 §4.3 | mandatory | docker-compose.yml for development only (Postgres, Redis, vector store, services); deployment target is Kubernetes. | Compose brings up dependencies. | demo | unimplemented |
 | SET-003 | Guide p3 §4.3 | mandatory | Settings in environment variables or ConfigMaps; commit .env.example with names and no secrets. | Example file has no values. | ci | unimplemented |
 | SET-004 | Guide p3 §4.3 | mandatory | README lets a new person start the system with a short list of commands. | Fresh-machine walkthrough succeeds. | demo | unimplemented |
-| DKR-001 | Guide p3 §4.4 | mandatory | One image per module, at least 6 distinct images. | >=6 distinct images, one per module. | ci | unimplemented |
-| DKR-002 | Guide p3 §4.4 | mandatory | Images are multi-stage, non-root, with pinned versions and a .dockerignore. | Static checks pass. | ci | unimplemented |
+| DKR-001 | Guide p3 §4.4 | mandatory | One image per module, at least 6 distinct images. | >=6 distinct images, one per module. | ci | implemented |
+| DKR-002 | Guide p3 §4.4 | mandatory | Images are multi-stage, non-root, with pinned versions and a .dockerignore. | Static checks pass. | ci | in_progress |
 | DKR-003 | Guide p3 §4.4 | mandatory | Images tagged by commit SHA (never only latest) and scanned in CI. | Tags use SHA; scan job passes. | ci | unimplemented |
 | CIC-001 | Guide p5 §8 Fig.2 | mandatory | Feature-branch PR runs GitHub Actions; merge needs all green; Jenkins runs after merge and nightly. | Flow demonstrated. | demo | unimplemented |
 | CIC-002 | Guide p5 §8.1 | mandatory | Every PR: lint and type checks; unit tests including Verdict Engine; UI component tests. | Jobs run. | ci | unimplemented |

@@ -105,7 +105,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | M14-001 | Description p4 | M14 | P00 | P00.02 | inspection | docs/evidence/phase0/github-protection.md | implemented |
 | M14-002 | Description p4 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
 | M14-003 | Description p4 | M14 | P01 | P01.05 | demo | none yet | unimplemented |
-| M14-004 | Description p4 | M14 | P01 | P01.02 | inspection | none yet | unimplemented |
+| M14-004 | Description p4 | M14 | P01 | P01.02 | inspection | none yet | in_progress |
 | M14-005 | Description p4 | M14 | P10 | P10.01 | demo | none yet | unimplemented |
 | VER-001 | Description p4 | M11 | P03 | P03.01 | inspection | none yet | unimplemented |
 | VER-002 | Description p4 | M9 | P03 | P03.03 | contract | none yet | unimplemented |
@@ -151,7 +151,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | SCH-005 | Guide p2 | M11 | P00, P03 | P00.03, P03.01 | contract | none yet | unimplemented |
 | SCH-006 | Guide p2 | M13 | P00, P05 | P00.03, P05.05 | contract | none yet | unimplemented |
 | API-001 | Guide p2 | M14 | P00 | P00.03 | inspection | none yet | unimplemented |
-| API-002 | Guide p2 | M14 | P01 | P01.02 | test | none yet | unimplemented |
+| API-002 | Guide p2 | M14 | P01 | P01.02 | test | none yet | in_progress |
 | API-003 | Guide p2 | M1 | P02 | P02.02 | contract | none yet | unimplemented |
 | API-004 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
 | API-005 | Guide p2 | M1 | P05 | P05.04 | contract | none yet | unimplemented |
@@ -163,7 +163,7 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | API-011 | Guide p3 | M12 | P05 | P05.03 | contract | none yet | unimplemented |
 | API-012 | Guide p3 | M13 | P05 | P05.05 | contract | none yet | unimplemented |
 | REP-001 | Guide p3 | M14 | P00 | P00.05 | ci | none yet | unimplemented |
-| REP-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | unimplemented |
+| REP-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | in_progress |
 | GIT-001 | Guide p3 | M14 | P00 | P00.02, P00 | inspection | docs/evidence/phase0/github-protection.md | implemented |
 | GIT-002 | Guide p3 | M14 | P00 | P00.02 | git-history | none yet | unimplemented |
 | GIT-003 | Guide p3 | M14 | P10 | P10.02 | ci | none yet | unimplemented |
@@ -172,8 +172,8 @@ Generated. Source requirement → module → phase → task → test → evidenc
 | SET-002 | Guide p3 | M14 | P01 | P01.04 | demo | none yet | unimplemented |
 | SET-003 | Guide p3 | M14 | P00, P10 | P00.05, P10.03 | ci | none yet | unimplemented |
 | SET-004 | Guide p3 | M14 | P01 | P01.04 | demo | none yet | unimplemented |
-| DKR-001 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | unimplemented |
-| DKR-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | unimplemented |
+| DKR-001 | Guide p3 | M14 | P01 | P01.02 | ci | tests/unit/test_images.py, docs/evidence/P01.02-probes.txt | implemented |
+| DKR-002 | Guide p3 | M14 | P01 | P01.02 | ci | none yet | in_progress |
 | DKR-003 | Guide p3 | M14 | P01 | P01.05 | ci | none yet | unimplemented |
 | ETH-001 | Guide p4 | M5 | P04 | P04.01 | inspection | none yet | unimplemented |
 | ETH-002 | Guide p4 | M5 | P04 | P04.01 | test | none yet | unimplemented |

@@ -22,3 +22,8 @@
 14. Security-guidance commit review and Serena analysis are unverified.
 
 Open low review findings: [ReviewResponses](ReviewResponses.md).
+
+## Found at the P01 gate
+- After `scripts/jenkins_up.sh` recreates the job, Jenkins does not poll until one build is started by hand.
+- `CLAUDE.md` still says a `done` record needs a label; decision A-08 removes it.
+- The registry `scd-registry` must run for cluster pods to pull Jenkins-built images again.

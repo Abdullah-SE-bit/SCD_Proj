@@ -1,0 +1,28 @@
+Jenkins run of merged dev, 2026-11-28T15:50:27+05:00. Build 5 was started by hand: after jenkins_up.sh recreated the job,
+polling had not started a build (triggers declared in the Jenkinsfile register with the first run).
+Checking out Revision c808e9995ed71ee80f06b523e11d12fa0921eddc (refs/remotes/origin/dev)
+Checking out Revision c808e9995ed71ee80f06b523e11d12fa0921eddc (refs/remotes/origin/dev)
+[Pipeline] { (Checkout)
+[2026-11-28T10:49:06.737Z] Checking out Revision c808e9995ed71ee80f06b523e11d12fa0921eddc (refs/remotes/origin/dev)
+[Pipeline] { (Prerequisites)
+[Pipeline] { (Build)
+[Pipeline] { (Push)
+[Pipeline] { (Deploy)
+[2026-11-28T10:49:56.815Z] deployment "agentops" successfully rolled out
+[2026-11-28T10:49:56.815Z] deployment "analyst" successfully rolled out
+[2026-11-28T10:49:56.815Z] deployment "critic" successfully rolled out
+[2026-11-28T10:49:56.815Z] deployment "gateway" successfully rolled out
+[2026-11-28T10:49:56.815Z] deployment "ideation" successfully rolled out
+[2026-11-28T10:49:57.066Z] deployment "kb" successfully rolled out
+[2026-11-28T10:49:57.067Z] deployment "orchestrator" successfully rolled out
+[2026-11-28T10:49:57.320Z] deployment "profile" successfully rolled out
+[2026-11-28T10:49:57.320Z] deployment "scorer" successfully rolled out
+[2026-11-28T10:49:57.571Z] deployment "scouts" successfully rolled out
+[2026-11-28T10:49:57.571Z] deployment "tools" successfully rolled out
+[2026-11-28T10:49:57.822Z] deployment "ui" successfully rolled out
+[2026-11-28T10:49:57.822Z] deployment "validators" successfully rolled out
+[2026-11-28T10:49:58.073Z] deployment "verdict" successfully rolled out
+[Pipeline] { (Smoke test)
+[2026-11-28T10:50:06.767Z] PASS: smoke test
+[Pipeline] { (Nightly evaluation)
+Finished: SUCCESS

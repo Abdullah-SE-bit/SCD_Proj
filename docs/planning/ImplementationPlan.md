@@ -126,7 +126,7 @@ Demonstrable result: Browser submits an idea and sees a fixture verdict card ser
 
 kind plus Calico, namespace, default-deny and M5 egress.
 
-- Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status not done
+- Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status done
 - Depends on: P00
 - Requirements: SET-001, NET-001, NET-002, K8S-001, K8S-010
 - File scope: `k8s/**`, `scripts/**`, `docs/**`
@@ -158,7 +158,7 @@ One minimal service per module with /health and /ready, multi-stage non-root Doc
 
 UI to gateway to orchestrator to fixture verdict, API address at runtime.
 
-- Module M1; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status not done
+- Module M1; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity M; status done
 - Depends on: P00
 - Requirements: ARC-001, M01-002, CMN-005, CMN-008
 - File scope: `services/ui/**`, `services/gateway/**`, `tests/**`
@@ -174,7 +174,7 @@ UI to gateway to orchestrator to fixture verdict, API address at runtime.
 
 Deployments, Services, Ingress, probes, rolling update, compose for dev.
 
-- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status not done
+- Module M14; owner `Abdullah-SE-bit`; reviewer `Demidoga`; complexity M; status done
 - Depends on: P01.01, P01.02, P01.03
 - Requirements: K8S-002, K8S-007, K8S-008, SET-002, SET-004
 - File scope: `k8s/**`, `docker-compose.yml`, `README.md`, `scripts/**`
@@ -190,7 +190,7 @@ Deployments, Services, Ingress, probes, rolling update, compose for dev.
 
 Jenkins in container, SCM polling, build, push, deploy, smoke, rollback.
 
-- Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity L; status not done
+- Module M14; owner `Demidoga`; reviewer `Abdullah-SE-bit`; complexity L; status done
 - Depends on: P01.04
 - Requirements: M14-003, JNK-001, JNK-002, JNK-003, JNK-004, DKR-003, CIC-001
 - File scope: `Jenkinsfile`, `scripts/**`, `docs/**`

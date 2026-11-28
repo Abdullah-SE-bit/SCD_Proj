@@ -26,3 +26,9 @@
 - Cluster `idea-validator` is running; namespace `ingress` holds Traefik.
 - Open question to the owner: `CLAUDE.md` still asks for a label on `done` records.
 - Next: P01.05 (secondary), then the P01 gate.
+
+## P01 gate
+- Demonstrated on `dev` c808e99: smoke test, network policies, browser card (`docs/evidence/screenshots/p01-gate-verdict-card.png`), Jenkins build 5.
+- P01.01 to P01.05 recorded `done`. The browser showed fixture data only; nothing is evaluated yet.
+- Open: nightly evaluation, measured resources, rollback demonstration on `dev`, second-machine walkthrough.
+- Jenkins is stopped. Next: Phase 2 (P02.01) and Phase 3 (P03.01, P03.03).

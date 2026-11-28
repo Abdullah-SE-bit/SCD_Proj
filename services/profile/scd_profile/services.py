@@ -1,11 +1,16 @@
 """M2 rules: validation, ownership and units of work. Routes call this; only this calls the repositories."""
 
+import re
 from typing import Any
 
+from scd_profile import passwords
 from scd_profile import repositories as repo
 from scd_profile.db import Database
 
 MAX_TITLE, MAX_TEXT, MAX_ITEMS = 200, 2000, 50
+EMAIL = re.compile(r"[^@\s]+@[^@\s]+\.[^@\s]+")
+MIN_PASSWORD, MAX_PASSWORD, MAX_EMAIL = 8, 128, 254
+NO_USER = passwords.hashed("no such user")  # hashed for unknown emails so both answers take as long
 COMPUTE = ("laptop", "free_gpu", "paid")
 GOALS = ("startup", "portfolio", "course_project")
 # contract field (student-profile.schema.json) -> column name (entities.md)
@@ -19,6 +24,14 @@ class Invalid(ValueError):
 
 class NotFound(LookupError):
     """No such record for this user."""
+
+
+class Exists(ValueError):
+    """The record is already there."""
+
+
+class BadCredentials(PermissionError):
+    """Wrong email or password; never says which."""
 
 
 def _text(value: Any, limit: int) -> bool:
@@ -51,6 +64,27 @@ def check_profile(profile: dict[str, Any]) -> None:
 class ProfileService:
     def __init__(self, database: Database) -> None:
         self.database = database
+
+    def register(self, email: Any, password: Any) -> str:
+        address = email.strip().lower() if isinstance(email, str) else ""
+        if len(address) > MAX_EMAIL or not EMAIL.fullmatch(address):
+            raise Invalid("invalid value: email")
+        if not isinstance(password, str) or not MIN_PASSWORD <= len(password) <= MAX_PASSWORD:
+            raise Invalid(f"the password needs {MIN_PASSWORD} to {MAX_PASSWORD} characters")
+        digest = passwords.hashed(password)
+        with self.database.transaction() as tx:
+            if repo.user_by_email(tx, address):
+                raise Exists("this email is already registered")
+            return repo.add_user(tx, address, digest)  # a concurrent duplicate fails on the unique constraint
+
+    def authenticate(self, email: Any, password: Any) -> str:
+        if not isinstance(email, str) or not isinstance(password, str) or len(password) > MAX_PASSWORD:
+            raise BadCredentials
+        with self.database.transaction() as tx:
+            user = repo.user_by_email(tx, email.strip().lower())
+        if not passwords.matches(password, user["hash"] if user else NO_USER) or not user:
+            raise BadCredentials
+        return user["id"]
 
     def save_profile(self, user_id: str, profile: dict[str, Any]) -> dict[str, Any]:
         check_profile(profile)
